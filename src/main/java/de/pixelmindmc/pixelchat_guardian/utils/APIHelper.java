@@ -20,18 +20,18 @@ import java.util.Map;
 
 public class APIHelper {
     private final PixelChat_Guardian plugin;
-    private final String ai_model;
-    private final String api_url;
-    private final String api_key;
-    private final String sys_prompt;
+    private final String aiModel;
+    private final String apiUrl;
+    private final String apiKey;
+    private final String sysPrompt;
 
     // Constructor for the APIHelper
     public APIHelper(PixelChat_Guardian plugin) {
         this.plugin = plugin;
-        ai_model = plugin.getConfig().getString("ai-model");
-        api_key = plugin.getConfig().getString("api-key");
-        sys_prompt = plugin.getConfig().getString("sys-prompt");
-        api_url = plugin.getConfig().getString("api-endpoint");
+        aiModel = plugin.getConfig().getString("ai-model");
+        apiKey = plugin.getConfig().getString("api-key");
+        sysPrompt = plugin.getConfig().getString("sys-prompt");
+        apiUrl = plugin.getConfig().getString("api-endpoint");
     }
 
     public String makeApiCall(String prompt) throws Exception {
@@ -39,20 +39,19 @@ public class APIHelper {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + api_key);
+        connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.setDoOutput(true);
 
         Map<String, Object> json = Map.of(
-                "model", ai_model,
+                "model", aiModel,
                 "messages", new Map[]{
-                        Map.of("role", "system", "content", sys_prompt),
+                        Map.of("role", "system", "content", sysPrompt),
                         Map.of("role", "user", "content", prompt)
                 },
                 "response_format", Map.of("type", "json_object")
         );
 
         String jsonInputString = new Gson().toJson(json);
-
 
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
