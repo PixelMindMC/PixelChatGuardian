@@ -30,7 +30,7 @@ check-for-updates: true
 # Enable or disable specific plugin modules.
 modules:
   # Enable or disable the chat guardian module. [Default: true]
-  chat-guardian: true
+  chatguard: true
   # Enable or disable the emojis module. [Default: true]
   emojis: true
 

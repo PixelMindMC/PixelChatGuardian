@@ -3,12 +3,12 @@
  * Copyright (C) 2024 Gaming12846
  */
 
-package de.pixelmindmc.pixelchat_guardian.utils;
+package de.pixelmindmc.pixelchat.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,14 +19,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class APIHelper {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
     private final String ai_model;
     private final String api_url;
     private final String api_key;
     private final String sys_prompt;
 
     // Constructor for the APIHelper
-    public APIHelper(PixelChat_Guardian plugin) {
+    public APIHelper(PixelChat plugin) {
         this.plugin = plugin;
         ai_model = plugin.getConfig().getString("ai-model");
         api_key = plugin.getConfig().getString("api-key");

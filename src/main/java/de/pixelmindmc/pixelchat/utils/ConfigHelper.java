@@ -3,9 +3,9 @@
  * Copyright (C) 2024 Gaming12846
  */
 
-package de.pixelmindmc.pixelchat_guardian.utils;
+package de.pixelmindmc.pixelchat.utils;
 
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -14,13 +14,13 @@ import java.io.IOException;
 
 // Utility class for managing configuration files
 public class ConfigHelper {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
     private final String path;
     private FileConfiguration fileConfiguration;
     private File file;
 
     // Constructor for the ConfigHelper
-    public ConfigHelper(PixelChat_Guardian plugin, String path) {
+    public ConfigHelper(PixelChat plugin, String path) {
         this.plugin = plugin;
         this.path = path;
         saveDefaultConfig();

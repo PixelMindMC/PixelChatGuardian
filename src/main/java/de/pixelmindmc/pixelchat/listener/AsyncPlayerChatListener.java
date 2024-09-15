@@ -3,9 +3,9 @@
  * Copyright (C) 2024 Gaming12846
  */
 
-package de.pixelmindmc.pixelchat_guardian.listener;
+package de.pixelmindmc.pixelchat.listener;
 
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,9 +17,9 @@ import java.util.Objects;
 
 // Listener for handling player chat events asynchronously
 public class AsyncPlayerChatListener implements Listener {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
 
-    public AsyncPlayerChatListener(PixelChat_Guardian plugin) {
+    public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
     }
 
@@ -29,7 +29,7 @@ public class AsyncPlayerChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        // AI based chat guardian
+        // AI based chat guard
         String apiKey = plugin.getConfigHelper().getString("api-key");
         if (!Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             String action;
@@ -62,7 +62,7 @@ public class AsyncPlayerChatListener implements Listener {
         }
 
         //TODO emoji-ersetzungs-system
-        player.hasPermission("pixelchat_guardian.emojis");
+        player.hasPermission("pixelchat.emojis");
         if (true) {
             switch (message) {
                 case "<3" -> {
