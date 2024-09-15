@@ -42,6 +42,7 @@ public final class PixelChat extends JavaPlugin {
     // Loads the plugin's configuration files and checks their versions
     private void loadConfigs() {
         configHelper = new ConfigHelper(this, "config.yml");
+        configHelperLangCustom = new ConfigHelper(this, "languages/lang_custom.yml");
         configHelperLangEN = new ConfigHelper(this, "languages/lang_en.yml");
 
         // Check config versions

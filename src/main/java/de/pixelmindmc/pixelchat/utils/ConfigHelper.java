@@ -27,14 +27,14 @@ public class ConfigHelper {
         loadConfig();
     }
 
-    // Method to save the default language config if it doesn't exist
+    // Method to save the default config if it doesn't exist
     public void saveDefaultConfig() {
         if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
         file = new File(plugin.getDataFolder(), path);
         if (!file.exists()) plugin.saveResource(path, false);
     }
 
-    // Method to load or reload the language config file
+    // Method to load or reload the config file
     public void loadConfig() {
         file = new File(plugin.getDataFolder(), path);
 
@@ -43,7 +43,7 @@ public class ConfigHelper {
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
-    // Method to save the language config back to the file
+    // Method to save the config back to the file
     public void saveConfig() {
         try {
             fileConfiguration.save(file);
@@ -57,7 +57,7 @@ public class ConfigHelper {
         return fileConfiguration;
     }
 
-    // Retrieve a message from the config
+    // Retrieve a string from the config
     public String getString(String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
