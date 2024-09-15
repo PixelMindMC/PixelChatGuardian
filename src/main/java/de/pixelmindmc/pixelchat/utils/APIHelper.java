@@ -42,24 +42,9 @@ public class APIHelper {
         connection.setRequestProperty("Authorization", "Bearer " + api_key);
         connection.setDoOutput(true);
 
-        /*String jsonInputString = String.format("{" +
-                "\"model\": \"" + ai_model + "\"," +
-                "\"messages\": [" +
-                "{" +
-                "\"role\": \"system\"," +
-                "\"content\": \"%s\"" +
-                "}," +
-                "{" +
-                "\"role\": \"user\"," +
-                "\"content\": \"%s\"" +
-                "}" +
-                "]" +
-                "}", sys_prompt.replace("\"", "\\\""), prompt.replace("\"", "\\\""));
-        */
-
         Map<String, Object> json = Map.of(
                 "model", ai_model,
-                "messages", new Map[] {
+                "messages", new Map[]{
                         Map.of("role", "system", "content", sys_prompt),
                         Map.of("role", "user", "content", prompt)
                 },
@@ -87,14 +72,6 @@ public class APIHelper {
 
             String jsonResponse = response.toString(); //Ganze JSON-Antwort
 
-            /* JSON parsen und Antwort rausziehen
-            JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
-            String content = jsonObject.getAsJsonArray("choices")
-                    .get(0).getAsJsonObject()
-                    .getAsJsonObject("message")
-                    .get("content").getAsString();
-             */
-
             //NEU JSON vernünftig parsen
             // Parse the outer JSON response
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -114,7 +91,7 @@ public class APIHelper {
             // Extract fields from the parsed content
             boolean block = message.has("block") && !message.get("block").isJsonNull() && message.get("block").getAsBoolean();
             String reason = message.has("reason") && !message.get("reason").isJsonNull() ? message.get("reason").getAsString() : "No reason provided";
-            String action = message.has("action") && !message.get("action").isJsonNull() ? message.get("action").getAsString() : "No reason provided";
+            String action = message.has("action") && !message.get("action").isJsonNull() ? message.get("action").getAsString() : "No action provided";
 
             plugin.getLogger().info("block: " + block);
             plugin.getLogger().info("reason: " + reason);
