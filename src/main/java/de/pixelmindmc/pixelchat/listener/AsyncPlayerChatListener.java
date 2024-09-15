@@ -46,7 +46,7 @@ public class AsyncPlayerChatListener implements Listener {
                     event.setCancelled(true);
                     if (player.hasMetadata("STRIKE")) {
                         player.removeMetadata("STRIKE", plugin);
-                        Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + reason));
+                        Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + reason));
                         return;
                     }
                     player.setMetadata("STRIKE", new FixedMetadataValue(plugin, player.getName()));
@@ -73,7 +73,7 @@ public class AsyncPlayerChatListener implements Listener {
                     event.setCancelled(true);
                     event.setMessage("�");
                 }
-                }
+            }
         }
     }
 

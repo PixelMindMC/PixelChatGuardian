@@ -1,0 +1,41 @@
+# This is the custom language config file for PixelChat Guardian.
+# If you want to translate the plugin, use this file.
+# If you want, you can send me your translated language config file and I can add it to the plugin.
+# This language config was generated for version ${project.version}.
+# Language config by:
+
+# Configuration Version
+version: 1.0
+
+########################## Global ###########################
+
+metrics-enabled: ""
+
+checking-updates: ""
+update-available: ""
+no-update-available: ""
+unable-check-updates: "."
+
+config-outdated: ""
+language-config-outdated: ""
+failed-to-save-config: ""
+
+no-api-key-set: ""
+
+no-permission: ""
+no-console: ""
+invalid-syntax:
+invalid-syntax-usage: ""
+
+##################### PixelChat command #####################
+
+pixelchat:
+  version: ""
+  developer: ""
+  plugin-website: ""
+  report-bugs: ""
+  reload: ""
+
+##################### PixelChat Guardian #####################
+
+player-kick: ""

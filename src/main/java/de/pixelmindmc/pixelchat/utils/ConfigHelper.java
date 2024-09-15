@@ -57,7 +57,7 @@ public class ConfigHelper {
         return fileConfiguration;
     }
 
-    // Retrieve a message from the language config
+    // Retrieve a message from the config
     public String getString(String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
@@ -67,15 +67,8 @@ public class ConfigHelper {
             // Load the default config from the plugin's jar
             FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), path));
 
-            // Get the default message from the default config
-            String defaultMessage = defaultConfig.getString(path, "Message not found: " + path);
-
-            // Update the live config with the default message and save the changes
-            fileConfiguration.set(path, defaultMessage);
-            saveConfig(); // Save the updated config
-
             // Return the default message
-            return defaultMessage;
+            return defaultConfig.getString(path, "Message not found: " + path);
         }
 
         return message;
