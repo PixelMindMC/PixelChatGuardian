@@ -1,0 +1,51 @@
+#############################################################
+#*---------------------------------------------------------*#
+#|                     PixelChat Guardian                  |#
+#*---------------------------------------------------------*#
+#############################################################
+
+# This is the configuration file for PixelChat Guardian.
+# This config was generated for version ${project.version}.
+
+# Always create or update your configuration when you update the plugin!
+
+# For support or questions, please reach out on GitHub or Modrinth.
+
+# Configuration Version
+version: 1.0
+
+###################### Global Settings ######################
+
+# Language setting for the plugin. Options are: custom and en. [Default: en]
+language: en
+
+# Enable or disable plugin metrics collection. [Default: true]
+metrics-enabled: true
+
+# Enable or disable the update checker. [Default: true]
+check-for-updates: true
+
+###################### Module Settings ######################
+
+# Enable or disable specific plugin modules.
+modules:
+  # Enable or disable the chat guardian module. [Default: true]
+  chat-guardian: true
+  # Enable or disable the emojis module. [Default: true]
+  emojis: true
+
+#################### AI and API Settings ####################
+
+# Any endpoint that complies with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
+api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
+
+# Any model, such as gpt-4o or llama-3.1-8b-instant for example. [Default: llama-3.1-8b-instant]
+ai-model: "llama-3.1-8b-instant"
+
+# Your API key for the endpoint.
+api-key: "API-KEY"
+
+# System prompt passed as context for the automatic moderation. [Default: You are a chat moderation tool for a Minecraft server. Analyze each message and respond with only 'ALLOW' or 'BLOCK' without the apostrophes. BLOCK for offensive language, high-level swears, slurs, insults, and references to serious crimes. ALLOW minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Only respond with 'ALLOW' or 'BLOCK'.]
+sys-prompt-alt: "You are a chat moderation tool for a Minecraft server. Analyze each message and respond with only 'ALLOW' or 'BLOCK' without the apostrophes. BLOCK for offensive language, high-level swears, slurs, insults, and references to serious crimes. ALLOW minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Only respond with 'ALLOW' or 'BLOCK'."
+sys-prompt: "You are a chat moderation tool for a Minecraft server. Analyze each message and respond using JSON. Fill the following fields: block (boolean), reason (string, this includes the offending parts of the message and the formal reason) if the message was blocked, action (KICK or BAN as string)
+Block and ban for offensive language, high-level swears, slurs, insults, and references to serious crimes. Allow minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Judge yourself whether the message given to you is worthy of a kick or ban."

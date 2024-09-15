@@ -1,0 +1,14 @@
+name: PixelChat_Guardian
+version: '${project.version}'
+main: de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian
+api-version: '1.13'
+prefix: PixelChat
+authors: [ Gaming12846, ToothyDev ]
+description: ${project.description}
+website: ${project.url}
+
+commands:
+  pixelchat:
+    description: Main command for PixelChat Guardian, used for version info and reloading.
+    usage: /<command> [version|reload]
+    aliases: [ pc ]

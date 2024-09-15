@@ -1,0 +1,39 @@
+# This is the english language config file for PixelChat Guardian.
+# This language config was generated for version ${project.version}.
+# Language config by: PixelMindMC
+
+# Configuration Version
+version: 1.0
+
+########################## Global ###########################
+
+metrics-enabled: "Plugin metrics are enabled."
+
+checking-updates: "Checking for updates..."
+update-available: "A new update is available! Download it from GitHub:"
+no-update-available: "No new updates available."
+unable-check-updates: "Unable to check for updates."
+
+config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
+language-config-outdated: "Your language configuration is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
+failed-to-save-config: "Failed to save configuration."
+
+no-api-key-set: "No API key has been set, so the AI-based chat guardian module has been deactivated."
+
+no-permission: "You do not have permission to execute this command."
+no-console: "This command cannot be used from the console."
+invalid-syntax: "Invalid command syntax!"
+invalid-syntax-usage: "Usage: /"
+
+##################### PixelChat command #####################
+
+pixelchat:
+  version: "Version:"
+  developer: "Developer:"
+  plugin-website: "Plugin website:"
+  report-bugs: "Report bugs to:"
+  reload: "Configurations reloaded successfully."
+
+##################### PixelChat Guardian #####################
+
+player-kick: "You got kicked"
