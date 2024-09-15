@@ -62,15 +62,7 @@ public class APIHelper {
         int responseCode = connection.getResponseCode(); //HTTP-Code der Antwort
 
         if (responseCode >= 200 && responseCode < 300) {
-            StringBuilder response = new StringBuilder();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-            }
-
-            String jsonResponse = response.toString(); //Ganze JSON-Antwort
+            String jsonResponse = decodeResponse(connection); //Ganze JSON-Antwort
 
             //NEU JSON vernünftig parsen
             // Parse the outer JSON response
@@ -104,15 +96,20 @@ public class APIHelper {
                 return "ALLOW";
 
         } else {
-            StringBuilder errorResponse = new StringBuilder();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getErrorStream(), StandardCharsets.UTF_8))) {
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    errorResponse.append(responseLine.trim());
-                }
-            }
+            String errorResponse = decodeResponse(connection);
             plugin.getLogger().warning("Error Response: " + errorResponse);
             throw new Exception("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
         }
+    }
+
+    private String decodeResponse(HttpURLConnection connection) throws Exception {
+        StringBuilder response = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+        }
+        return response.toString();
     }
 }
