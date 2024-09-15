@@ -22,7 +22,7 @@ import java.util.Map;
 public class APIHelper {
     private final PixelChat plugin;
     private final String aiModel;
-    private final String apiUurl;
+    private final String apiUrl;
     private final String apiKey;
     private final String sysPrompt;
 
@@ -40,7 +40,7 @@ public class APIHelper {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + api_key);
+        connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.setDoOutput(true);
 
         Map<String, Object> json = Map.of(
