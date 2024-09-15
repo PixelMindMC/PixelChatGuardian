@@ -1,13 +1,13 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian.utils;
+package de.pixelmindmc.pixelchat.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,11 +16,11 @@ import java.net.URL;
 
 // A utility class for checking updates for the plugin by querying the GitHub API
 public class UpdateChecker {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
     private final URL url;
 
     // Constructor for the UpdateChecker
-    public UpdateChecker(PixelChat_Guardian plugin, URL apiUrl) {
+    public UpdateChecker(PixelChat plugin, URL apiUrl) {
         this.plugin = plugin;
         url = apiUrl;
     }
@@ -57,7 +57,7 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && !currentVersion.equals(latestVersion)) {
-                return plugin.getConfigHelperLanguage().getString("update-available") + " https://github.com/Gaming12846/PixelChat_Guardian/releases";
+                return plugin.getConfigHelperLanguage().getString("update-available") + " https://modrinth.com/project/pixelchatguardian";
             } else return plugin.getConfigHelperLanguage().getString("no-update-available");
         } catch (Exception exception) {
             plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString("unable-check-updates") + " " + exception.getMessage());

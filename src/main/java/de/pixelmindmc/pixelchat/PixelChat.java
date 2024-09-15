@@ -1,15 +1,15 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian;
+package de.pixelmindmc.pixelchat;
 
-import de.pixelmindmc.pixelchat_guardian.commands.PixelChat_GuardianCommand;
-import de.pixelmindmc.pixelchat_guardian.listener.AsyncPlayerChatListener;
-import de.pixelmindmc.pixelchat_guardian.utils.APIHelper;
-import de.pixelmindmc.pixelchat_guardian.utils.ConfigHelper;
-import de.pixelmindmc.pixelchat_guardian.utils.UpdateChecker;
+import de.pixelmindmc.pixelchat.commands.PixelChatCommand;
+import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
+import de.pixelmindmc.pixelchat.utils.APIHelper;
+import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 
-public final class PixelChat_Guardian extends JavaPlugin {
+public final class PixelChat extends JavaPlugin {
     public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
     public final String configVersion = "1.0";
     public final String languageConfigVersion = "1.0";
@@ -74,7 +74,8 @@ public final class PixelChat_Guardian extends JavaPlugin {
     // Registers the API helper
     private void registerAPIHelper() {
         String apiKey = getConfigHelper().getString("api-key");
-        if (getConfigHelper().getConfig().getBoolean("modules.chat-guardian") && Objects.equals(apiKey, "API-KEY") || apiKey == null) {
+        if (!getConfigHelper().getConfig().getBoolean("modules.chatguard")) return;
+        if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
             getLogger().warning(getConfigHelperLanguage().getString("no-api-key-set"));
             return;
         }
@@ -93,7 +94,7 @@ public final class PixelChat_Guardian extends JavaPlugin {
 
     // Registers commands with their respective executors
     private void registerCommands() {
-        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(new PixelChat_GuardianCommand(this));
+        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(new PixelChatCommand(this));
     }
 
     // Initializes the bStats metrics for the plugin
@@ -108,7 +109,7 @@ public final class PixelChat_Guardian extends JavaPlugin {
     private void checkForUpdates() throws MalformedURLException {
         if (getConfig().getBoolean("check-for-updates", true)) {
             getLogger().info(getConfigHelperLanguage().getString("checking-updates"));
-            updateCheckerLog = new UpdateChecker(this, new URL("https://api.github.com/repos/Gaming12846/PixelChat_Guardian/releases/latest")).checkForUpdates();
+            updateCheckerLog = new UpdateChecker(this, new URL("https://api.github.com/repos/Gaming12846/PixelChatGuardian/releases/latest")).checkForUpdates();
             getLogger().info(updateCheckerLog);
         }
     }

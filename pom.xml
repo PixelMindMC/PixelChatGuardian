@@ -10,13 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.pixelmindmc</groupId>
-    <artifactId>pixelchat_guardian</artifactId>
+    <artifactId>pixelchat</artifactId>
     <version>0.1</version>
     <packaging>jar</packaging>
 
-    <name>pixelchat_guardian</name>
-    <description>PixelChat_Guardian</description>
-    <url>https://github.com/Gaming12846/PixelChat_Guardian</url>
+    <name>PixelChatGuardian</name>
+    <description>Enhance your Minecraft experience with our AI-powered chat moderation plugin, featuring advanced chat and link filtering, plus emoji support.</description>
+    <url>https://modrinth.com/project/pixelchatguardian</url>
 
     <properties>
         <java.version>21</java.version>
@@ -52,7 +52,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>org.bstats</pattern>
-                                    <shadedPattern>de.gaming12846.trollplus.metrics</shadedPattern>
+                                    <shadedPattern>de.pixelmindmc.pixelchat.metrics</shadedPattern>
                                 </relocation>
                             </relocations>
                             <filters>

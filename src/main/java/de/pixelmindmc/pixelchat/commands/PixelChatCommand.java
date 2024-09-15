@@ -1,12 +1,12 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian.commands;
+package de.pixelmindmc.pixelchat.commands;
 
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
-import de.pixelmindmc.pixelchat_guardian.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,13 +14,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import static de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian.PLUGIN_PREFIX;
+import static de.pixelmindmc.pixelchat.PixelChat.PLUGIN_PREFIX;
 
-public class PixelChat_GuardianCommand implements CommandExecutor {
-    private final PixelChat_Guardian plugin;
+public class PixelChatCommand implements CommandExecutor {
+    private final PixelChat plugin;
 
-    // Constructor for the PixelChat_GuardianCommand
-    public PixelChat_GuardianCommand(PixelChat_Guardian plugin) {
+    // Constructor for the PixelChatCommand
+    public PixelChatCommand(PixelChat plugin) {
         this.plugin = plugin;
     }
 
@@ -48,7 +48,7 @@ public class PixelChat_GuardianCommand implements CommandExecutor {
     // Handles the "version" subcommand to display plugin information
     private void handleVersionSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
-        if (!sender.hasPermission("pixelchat_guardian.version")) {
+        if (!sender.hasPermission("pixelchat.version")) {
             sender.sendMessage(ChatColor.RED + langConfig.getString("no-permission"));
             return;
         }
@@ -81,7 +81,7 @@ public class PixelChat_GuardianCommand implements CommandExecutor {
     // Handles the "reload" subcommand to reload plugin configurations
     private void handleReloadSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
-        if (!sender.hasPermission("pixelchat_guardian.reload")) {
+        if (!sender.hasPermission("pixelchat.reload")) {
             sender.sendMessage(ChatColor.RED + langConfig.getString("no-permission"));
             return;
         }

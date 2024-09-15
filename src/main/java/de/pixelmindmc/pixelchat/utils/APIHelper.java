@@ -1,14 +1,14 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian.utils;
+package de.pixelmindmc.pixelchat.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,14 +20,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 public class APIHelper {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
     private final String aiModel;
-    private final String apiUrl;
+    private final String apiUurl;
     private final String apiKey;
     private final String sysPrompt;
 
     // Constructor for the APIHelper
-    public APIHelper(PixelChat_Guardian plugin) {
+    public APIHelper(PixelChat plugin) {
         this.plugin = plugin;
         aiModel = plugin.getConfig().getString("ai-model");
         apiKey = plugin.getConfig().getString("api-key");
@@ -40,7 +40,7 @@ public class APIHelper {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+        connection.setRequestProperty("Authorization", "Bearer " + api_key);
         connection.setDoOutput(true);
 
         Map<String, Object> json = Map.of(
@@ -53,6 +53,7 @@ public class APIHelper {
         );
 
         String jsonInputString = new Gson().toJson(json);
+
 
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);

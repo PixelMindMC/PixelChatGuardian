@@ -1,11 +1,11 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian.listener;
+package de.pixelmindmc.pixelchat.listener;
 
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,9 +17,9 @@ import java.util.Objects;
 
 // Listener for handling player chat events asynchronously
 public class AsyncPlayerChatListener implements Listener {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
 
-    public AsyncPlayerChatListener(PixelChat_Guardian plugin) {
+    public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
     }
 
@@ -29,9 +29,9 @@ public class AsyncPlayerChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        // AI based chat guardian
+        // AI based chat guard
         String apiKey = plugin.getConfigHelper().getString("api-key");
-        if (!Objects.equals(apiKey, "API-KEY") && apiKey != null) {
+        if (plugin.getConfigHelper().getConfig().getBoolean("modules.chatguard") && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             String action;
             try {
                 action = plugin.getAPIHelper().makeApiCall(message);
@@ -46,7 +46,7 @@ public class AsyncPlayerChatListener implements Listener {
                     event.setCancelled(true);
                     if (player.hasMetadata("STRIKE")) {
                         player.removeMetadata("STRIKE", plugin);
-                        Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + reason));
+                        Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + reason));
                         return;
                     }
                     player.setMetadata("STRIKE", new FixedMetadataValue(plugin, player.getName()));
@@ -61,9 +61,8 @@ public class AsyncPlayerChatListener implements Listener {
             }
         }
 
-        //TODO emoji-ersetzungs-system
-        player.hasPermission("pixelchat_guardian.emojis");
-        if (true) {
+        if (plugin.getConfigHelper().getConfig().getBoolean("modules.emojis")) {
+            //TODO emoji-ersetzungs-system
             switch (message) {
                 case "<3" -> {
                     event.setCancelled(true);

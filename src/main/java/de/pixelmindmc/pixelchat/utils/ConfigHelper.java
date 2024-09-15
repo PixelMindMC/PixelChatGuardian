@@ -1,11 +1,11 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 Gaming12846
+ * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat_guardian.utils;
+package de.pixelmindmc.pixelchat.utils;
 
-import de.pixelmindmc.pixelchat_guardian.PixelChat_Guardian;
+import de.pixelmindmc.pixelchat.PixelChat;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -14,13 +14,13 @@ import java.io.IOException;
 
 // Utility class for managing configuration files
 public class ConfigHelper {
-    private final PixelChat_Guardian plugin;
+    private final PixelChat plugin;
     private final String path;
     private FileConfiguration fileConfiguration;
     private File file;
 
     // Constructor for the ConfigHelper
-    public ConfigHelper(PixelChat_Guardian plugin, String path) {
+    public ConfigHelper(PixelChat plugin, String path) {
         this.plugin = plugin;
         this.path = path;
         saveDefaultConfig();
@@ -57,7 +57,7 @@ public class ConfigHelper {
         return fileConfiguration;
     }
 
-    // Retrieve a message from the language config
+    // Retrieve a message from the config
     public String getString(String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
@@ -67,15 +67,8 @@ public class ConfigHelper {
             // Load the default config from the plugin's jar
             FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), path));
 
-            // Get the default message from the default config
-            String defaultMessage = defaultConfig.getString(path, "Message not found: " + path);
-
-            // Update the live config with the default message and save the changes
-            fileConfiguration.set(path, defaultMessage);
-            saveConfig(); // Save the updated config
-
             // Return the default message
-            return defaultMessage;
+            return defaultConfig.getString(path, "Message not found: " + path);
         }
 
         return message;
