@@ -35,7 +35,7 @@ public class APIHelper {
         apiUrl = plugin.getConfig().getString("api-endpoint");
     }
 
-    public String makeApiCall(String prompt) throws Exception {
+    public MessageClassification makeApiCall(String prompt) throws Exception {
         URL url = new URI(apiUrl).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -79,7 +79,6 @@ public class APIHelper {
             JsonObject message = JsonParser.parseString(contentString).getAsJsonObject();
 
             plugin.getLogger().info("Ganze API Response: " + contentString);
-            plugin.getLogger().info("Block?: " + message.get("block"));
 
             // Extract fields from the parsed content
             boolean block = message.has("block") && !message.get("block").isJsonNull() && message.get("block").getAsBoolean();
@@ -90,11 +89,13 @@ public class APIHelper {
             plugin.getLogger().info("reason: " + reason);
             plugin.getLogger().info("action: " + action);
 
+            MessageClassification.Action cleanAction = switch(action) {
+                case "KICK" -> MessageClassification.Action.KICK;
+                case "BAN" -> MessageClassification.Action.BAN;
+                default -> MessageClassification.Action.NONE;
+            };
 
-            if (block)
-                return "BLOCK";
-            else
-                return "ALLOW";
+            return new MessageClassification(block, reason, cleanAction);
 
         } else {
             String errorResponse = decodeResponse(connection);
