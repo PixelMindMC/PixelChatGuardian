@@ -31,7 +31,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         // AI based chat guard
         String apiKey = plugin.getConfigHelper().getString("api-key");
-        if (!Objects.equals(apiKey, "API-KEY") && apiKey != null) {
+        if (plugin.getConfigHelper().getConfig().getBoolean("modules.chatguard") && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             String action;
             try {
                 action = plugin.getAPIHelper().makeApiCall(message);
@@ -61,9 +61,8 @@ public class AsyncPlayerChatListener implements Listener {
             }
         }
 
-        //TODO emoji-ersetzungs-system
-        player.hasPermission("pixelchat.emojis");
-        if (true) {
+        if (plugin.getConfigHelper().getConfig().getBoolean("modules.emojis")) {
+            //TODO emoji-ersetzungs-system
             switch (message) {
                 case "<3" -> {
                     event.setCancelled(true);
@@ -74,7 +73,7 @@ public class AsyncPlayerChatListener implements Listener {
                     event.setCancelled(true);
                     event.setMessage("�");
                 }
-            }
+                }
         }
     }
 
