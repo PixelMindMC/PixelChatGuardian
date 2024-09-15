@@ -13,11 +13,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 // Listener for handling player chat events asynchronously
 public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
+    // Map to store emoji translations
+    private final Map<String, String> emojiMap = new HashMap<>();
 
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
@@ -61,23 +65,30 @@ public class AsyncPlayerChatListener implements Listener {
             }
         }
 
+
         if (plugin.getConfigHelper().getConfig().getBoolean("modules.emojis")) {
-            //TODO emoji-ersetzungs-system
-            switch (message) {
-                case "<3" -> {
-                    event.setCancelled(true);
-                    event.setMessage("<" + player.getDisplayName() + "> " + "❤");
-                    player.sendMessage("Ich lieb dich auch Schatzi ❤");
-                }
-                case ":D" -> {
-                    event.setCancelled(true);
-                    event.setMessage("�");
-                }
-            }
+            // Initialize emoji map
+            initializeEmojiMap();
+
+            message = convertAsciiToEmojis(message);
+            event.setMessage(message);
         }
     }
 
     private void kickPlayer(Player player, String reason) {
         player.kickPlayer(reason);
+    }
+
+    private void initializeEmojiMap() {
+        emojiMap.put(":-)", "😊");
+        emojiMap.put(":-(", "😢");
+        emojiMap.put("<3", "❤️");
+    }
+
+    private String convertAsciiToEmojis(String message) {
+        for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
+            message = message.replace(entry.getKey(), entry.getValue());
+        }
+        return message;
     }
 }
