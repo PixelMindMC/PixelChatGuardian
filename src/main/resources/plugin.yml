@@ -1,4 +1,4 @@
-name: PixelChat
+name: PixelChatGuardian
 version: '${project.version}'
 main: de.pixelmindmc.pixelchat.PixelChat
 api-version: '1.13'

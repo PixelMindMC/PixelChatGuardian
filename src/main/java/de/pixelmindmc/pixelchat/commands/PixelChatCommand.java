@@ -66,11 +66,11 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(PLUGIN_PREFIX + headerFooter);
         sender.sendMessage(PLUGIN_PREFIX);
         sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString("pixelchat.version") + " " + ChatColor.WHITE + description.getVersion());
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString("pixelchat.developer") + " " + ChatColor.WHITE + description.getAuthors().get(0));
+        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString("pixelchat.developer") + " " + ChatColor.WHITE + description.getAuthors());
         sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString("pixelchat.plugin-website"));
         sender.sendMessage(PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
         sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString("pixelchat.report-bugs"));
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/Gaming12846/PixelChat_Guardian/issues");
+        sender.sendMessage(PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues");
         sender.sendMessage(PLUGIN_PREFIX);
         sender.sendMessage(PLUGIN_PREFIX + headerFooter);
 
