@@ -36,4 +36,4 @@ pixelchat:
 
 ##################### PixelChat Guardian #####################
 
-player-kick: "You got kicked from this server. Reason:"
+player-kick: "You have been kicked from this server. Reason: "
