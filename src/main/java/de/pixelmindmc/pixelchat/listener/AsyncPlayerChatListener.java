@@ -6,6 +6,8 @@
 package de.pixelmindmc.pixelchat.listener;
 
 import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.model.ConfigConstants;
+import de.pixelmindmc.pixelchat.model.LangConstants;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 import org.bukkit.Bukkit;
@@ -37,8 +39,8 @@ public class AsyncPlayerChatListener implements Listener {
         String message = event.getMessage();
 
         // AI based chat guard
-        String apiKey = plugin.getConfigHelper().getString("api-key");
-        if (plugin.getConfigHelper().getConfig().getBoolean("modules.chatguard") && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
+        String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
+        if (plugin.getConfigHelper().getConfig().getBoolean(ConfigConstants.CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             MessageClassification classification;
             try {
                 classification = plugin.getAPIHelper().classifyMessage(message);
@@ -63,15 +65,14 @@ public class AsyncPlayerChatListener implements Listener {
                             return;
                         }
                         player.setMetadata("STRIKE", new FixedMetadataValue(plugin, player.getName()));
-                        player.sendMessage(plugin.getConfigHelperLanguage().getString(PLAYER_KICK_KEY) + classification.reason());
+                        player.sendMessage(plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
                     }
                 }
                 return;
             }
         }
 
-
-        if (plugin.getConfigHelper().getConfig().getBoolean("modules.emojis")) {
+        if (plugin.getConfigHelper().getConfig().getBoolean(ConfigConstants.EMOJIS)) {
             // Initialize emoji map
             initializeEmojiMap();
 
