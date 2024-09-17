@@ -78,7 +78,7 @@ public class APIHelper {
                     .get("content").getAsString();
 
             // Parse the content string as a JSON object
-            JsonObject message = JsonParser.parseString(contentString).getAsJsonObject();
+            JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
             plugin.getLogger().info("Ganze API Response: " + contentString);
 
