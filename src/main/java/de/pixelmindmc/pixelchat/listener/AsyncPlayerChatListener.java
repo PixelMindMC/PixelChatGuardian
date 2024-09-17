@@ -6,7 +6,8 @@
 package de.pixelmindmc.pixelchat.listener;
 
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.utils.MessageClassification;
+import de.pixelmindmc.pixelchat.model.MessageClassification;
+import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,13 +49,13 @@ public class AsyncPlayerChatListener implements Listener {
             if (classification.block()) {
                 event.setCancelled(true);
                 switch (classification.action()) {
-                    case MessageClassification.Action.KICK ->
+                    case Action.KICK ->
                             Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + classification.reason()));
-                    case MessageClassification.Action.BAN -> {
+                    case Action.BAN -> {
                         //TODO ban-funktion
                         player.sendMessage("BANNED");
                     }
-                    case MessageClassification.Action.NONE -> {
+                    case Action.NONE -> {
                         if (player.hasMetadata("STRIKE")) {
                             player.removeMetadata("STRIKE", plugin);
                             Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + classification.reason()));

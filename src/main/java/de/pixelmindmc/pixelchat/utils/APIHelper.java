@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.model.MessageClassification;
+import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -89,10 +91,10 @@ public class APIHelper {
             plugin.getLogger().info("reason: " + reason);
             plugin.getLogger().info("action: " + action);
 
-            MessageClassification.Action cleanAction = switch(action) {
-                case "KICK" -> MessageClassification.Action.KICK;
-                case "BAN" -> MessageClassification.Action.BAN;
-                default -> MessageClassification.Action.NONE;
+            Action cleanAction = switch(action) {
+                case "KICK" -> Action.KICK;
+                case "BAN" -> Action.BAN;
+                default -> Action.NONE;
             };
 
             return new MessageClassification(block, reason, cleanAction);

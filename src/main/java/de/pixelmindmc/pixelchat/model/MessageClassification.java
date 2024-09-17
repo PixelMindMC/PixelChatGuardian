@@ -1,4 +1,4 @@
-package de.pixelmindmc.pixelchat.utils;
+package de.pixelmindmc.pixelchat.model;
 
 public record MessageClassification(boolean block, String reason, Action action) {
 
