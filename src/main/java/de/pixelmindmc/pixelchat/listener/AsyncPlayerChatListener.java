@@ -24,6 +24,7 @@ public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     // Map to store emoji translations
     private final Map<String, String> emojiMap = new HashMap<>();
+    private final static String PLAYER_KICK_KEY = "player-kick";
 
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
@@ -40,7 +41,7 @@ public class AsyncPlayerChatListener implements Listener {
         if (plugin.getConfigHelper().getConfig().getBoolean("modules.chatguard") && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             MessageClassification classification;
             try {
-                classification = plugin.getAPIHelper().makeApiCall(message);
+                classification = plugin.getAPIHelper().classifyMessage(message);
             } catch (Exception exception) {
                 plugin.getLogger().warning(exception.toString());
                 return;
@@ -50,7 +51,7 @@ public class AsyncPlayerChatListener implements Listener {
                 event.setCancelled(true);
                 switch (classification.action()) {
                     case Action.KICK ->
-                            Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + classification.reason()));
+                            Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString(PLAYER_KICK_KEY) + " " + classification.reason()));
                     case Action.BAN -> {
                         //TODO ban-funktion
                         player.sendMessage("BANNED");
@@ -58,11 +59,11 @@ public class AsyncPlayerChatListener implements Listener {
                     case Action.NONE -> {
                         if (player.hasMetadata("STRIKE")) {
                             player.removeMetadata("STRIKE", plugin);
-                            Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString("player-kick") + " " + classification.reason()));
+                            Bukkit.getScheduler().runTask(plugin, () -> kickPlayer(player, plugin.getConfigHelperLanguage().getString(PLAYER_KICK_KEY) + " " + classification.reason()));
                             return;
                         }
                         player.setMetadata("STRIKE", new FixedMetadataValue(plugin, player.getName()));
-                        player.sendMessage(plugin.getConfigHelperLanguage().getString("player-kick") + classification.reason());
+                        player.sendMessage(plugin.getConfigHelperLanguage().getString(PLAYER_KICK_KEY) + classification.reason());
                     }
                 }
                 return;
