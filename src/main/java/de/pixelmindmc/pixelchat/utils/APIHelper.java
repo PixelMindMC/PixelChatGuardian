@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.model.APIConstants;
+import de.pixelmindmc.pixelchat.model.ConfigConstants;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 
@@ -34,10 +35,10 @@ public class APIHelper {
     // Constructor for the APIHelper
     public APIHelper(PixelChat plugin) {
         this.plugin = plugin;
-        aiModel = plugin.getConfig().getString("ai-model");
-        apiKey = plugin.getConfig().getString("api-key");
-        sysPrompt = plugin.getConfig().getString("sys-prompt");
-        apiUrl = plugin.getConfig().getString("api-endpoint");
+        aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
+        apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
+        sysPrompt = plugin.getConfig().getString(ConfigConstants.SYSTEM_PROMPT);
+        apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
     }
 
     public MessageClassification classifyMessage(String prompt) throws Exception {

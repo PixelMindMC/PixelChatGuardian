@@ -8,6 +8,7 @@ package de.pixelmindmc.pixelchat.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.model.LangConstants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,7 +44,7 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString("unable-check-updates") + " " + responseCode);
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_UPDATES) + " " + responseCode);
         return null;
     }
 
@@ -57,10 +58,10 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && !currentVersion.equals(latestVersion)) {
-                return plugin.getConfigHelperLanguage().getString("update-available") + " https://modrinth.com/project/pixelchatguardian";
-            } else return plugin.getConfigHelperLanguage().getString("no-update-available");
+                return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/project/pixelchatguardian";
+            } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
         } catch (Exception exception) {
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString("unable-check-updates") + " " + exception.getMessage());
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_UPDATES) + " " + exception.getMessage());
         }
         return null;
     }

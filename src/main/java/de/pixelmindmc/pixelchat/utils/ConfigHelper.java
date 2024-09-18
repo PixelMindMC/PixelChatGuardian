@@ -6,6 +6,7 @@
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.model.LangConstants;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -48,7 +49,7 @@ public class ConfigHelper {
         try {
             fileConfiguration.save(file);
         } catch (IOException e) {
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString("failed-to-save-config") + " " + e);
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
     }
 
