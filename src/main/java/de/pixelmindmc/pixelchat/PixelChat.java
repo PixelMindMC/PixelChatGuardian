@@ -7,6 +7,8 @@ package de.pixelmindmc.pixelchat;
 
 import de.pixelmindmc.pixelchat.commands.PixelChatCommand;
 import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
+import de.pixelmindmc.pixelchat.model.ConfigConstants;
+import de.pixelmindmc.pixelchat.model.LangConstants;
 import de.pixelmindmc.pixelchat.utils.APIHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import de.pixelmindmc.pixelchat.utils.UpdateChecker;
@@ -46,11 +48,11 @@ public final class PixelChat extends JavaPlugin {
         configHelperLangEN = new ConfigHelper(this, "languages/lang_en.yml");
 
         // Check config versions
-        if (!configVersion.equalsIgnoreCase(getConfigHelper().getString("version")))
-            getLogger().warning(getConfigHelperLanguage().getConfig().getString("config-outdated"));
+        if (!configVersion.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.VERSION)))
+            getLogger().warning(getConfigHelperLanguage().getConfig().getString(LangConstants.CONFIG_OUTDATED));
 
-        if (!languageConfigVersion.equalsIgnoreCase(getConfigHelperLanguage().getString("version")))
-            getLogger().warning(getConfigHelperLanguage().getConfig().getString("language-config-outdated"));
+        if (!languageConfigVersion.equalsIgnoreCase(getConfigHelperLanguage().getString(ConfigConstants.VERSION)))
+            getLogger().warning(getConfigHelperLanguage().getConfig().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
     }
 
     // Retrieves the plugin configuration
@@ -60,7 +62,7 @@ public final class PixelChat extends JavaPlugin {
 
     // Retrieves the appropriate language configuration based on the plugin's config setting
     public ConfigHelper getConfigHelperLanguage() {
-        String language = getConfigHelper().getString("language");
+        String language = getConfigHelper().getString(ConfigConstants.LANGUAGE);
 
         switch (language.toLowerCase()) {
             case "custom" -> {
@@ -74,10 +76,10 @@ public final class PixelChat extends JavaPlugin {
 
     // Registers the API helper
     private void registerAPIHelper() {
-        String apiKey = getConfigHelper().getString("api-key");
-        if (!getConfigHelper().getConfig().getBoolean("modules.chatguard")) return;
+        String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
+        if (!getConfigHelper().getConfig().getBoolean(ConfigConstants.CHATGUARD)) return;
         if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
-            getLogger().warning(getConfigHelperLanguage().getString("no-api-key-set"));
+            getLogger().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
         }
         apiHelper = new APIHelper(this);
@@ -100,16 +102,16 @@ public final class PixelChat extends JavaPlugin {
 
     // Initializes the bStats metrics for the plugin
     private void initializeMetrics() {
-        if (getConfig().getBoolean("metrics-enabled", true)) {
-            getLogger().info(getConfigHelperLanguage().getString("metrics-enabled"));
+        if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED, true)) {
+            getLogger().info(getConfigHelperLanguage().getString(LangConstants.METRICS_ENABLED));
             new Metrics(this, 23371);
         }
     }
 
     // Checks for updates to the plugin and logs the result
     private void checkForUpdates() throws MalformedURLException {
-        if (getConfig().getBoolean("check-for-updates", true)) {
-            getLogger().info(getConfigHelperLanguage().getString("checking-updates"));
+        if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
+            getLogger().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_UPDATES));
             updateCheckerLog = new UpdateChecker(this, new URL("https://api.github.com/repos/Gaming12846/PixelChatGuardian/releases/latest")).checkForUpdates();
             getLogger().info(updateCheckerLog);
         }
