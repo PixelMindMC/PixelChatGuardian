@@ -18,7 +18,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public final class PixelChat extends JavaPlugin {
@@ -109,10 +110,10 @@ public final class PixelChat extends JavaPlugin {
     }
 
     // Checks for updates to the plugin and logs the result
-    private void checkForUpdates() throws MalformedURLException {
+    private void checkForUpdates() throws URISyntaxException, MalformedURLException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
             getLogger().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_UPDATES));
-            updateCheckerLog = new UpdateChecker(this, new URL("https://api.github.com/repos/Gaming12846/PixelChatGuardian/releases/latest")).checkForUpdates();
+            updateCheckerLog = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
             getLogger().info(updateCheckerLog);
         }
     }
