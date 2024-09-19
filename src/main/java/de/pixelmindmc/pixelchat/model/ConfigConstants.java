@@ -20,6 +20,8 @@ public class ConfigConstants {
     public static final String AI_MODEL = "ai-model";
     public static final String API_KEY = "api-key";
     public static final String SYSTEM_PROMPT = "sys-prompt";
+    // Emoji settings
+    public static final String EMOJI_LIST = "emoji-list";
 
     // Prevent instantiation
     private ConfigConstants() {

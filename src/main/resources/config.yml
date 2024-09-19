@@ -12,7 +12,7 @@
 # For support or questions, please reach out on GitHub or Modrinth.
 
 # Configuration Version
-version: 1.0
+version: 0.1
 
 ###################### Global Settings ######################
 
@@ -52,3 +52,11 @@ api-key: "API-KEY"
 sys-prompt-alt: "You are a chat moderation tool for a Minecraft server. Analyze each message and respond with only 'ALLOW' or 'BLOCK' without the apostrophes. BLOCK for offensive language, high-level swears, slurs, insults, and references to serious crimes. ALLOW minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Only respond with 'ALLOW' or 'BLOCK'."
 sys-prompt: "You are a chat moderation tool for a Minecraft server. Analyze each message and respond using JSON. Fill the following fields: block (boolean), reason (string, this includes the offending parts of the message and the formal reason) if the message was blocked, action (KICK or BAN as string)
 Block and ban for offensive language, high-level swears, slurs, insults, and references to serious crimes. Allow minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Judge yourself whether the message given to you is worthy of a kick or ban."
+
+###################### Emoji settings #######################
+
+# Sets the emoji list used to replace ASCII characters with corresponding emojis.
+emoji-list:
+  <3: "❤"
+  :): "☺"
+  :(: "☹"

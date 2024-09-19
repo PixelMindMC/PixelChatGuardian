@@ -25,7 +25,7 @@ import java.util.Objects;
 public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     // Map to store emoji translations
-    private final Map<String, String> emojiMap = new HashMap<>();
+    private Map<String, String> emojiMap = new HashMap<>();
 
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
@@ -70,7 +70,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
             // Initialize emoji map
-            initializeEmojiMap();
+            emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
 
             message = convertAsciiToEmojis(message);
             event.setMessage(message);
@@ -78,22 +78,17 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
 
-    //Helper method to allow for kicks in async contexts
+    // Helper method to allow for kicks in async contexts
     private void kickPlayer(Player player, String reason) {
         player.kickPlayer(reason);
     }
 
-    //Helper method to allow for bans in async contexts
+    // Helper method to allow for bans in async contexts
     private void banPlayer(Player player, String reason) {
         player.ban(reason, (Date) null, null, true); //s1 is source, b is kickPlayer
     }
 
-    private void initializeEmojiMap() {
-        emojiMap.put(":-)", "😊");
-        emojiMap.put(":-(", "😢");
-        emojiMap.put("<3", "❤️");
-    }
-
+    // Helper method to convert ascii to emojis
     private String convertAsciiToEmojis(String message) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());

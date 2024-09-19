@@ -7,11 +7,14 @@ package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.model.LangConstants;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 // Utility class for managing configuration files
 public class ConfigHelper {
@@ -72,5 +75,37 @@ public class ConfigHelper {
     // Retrieve a boolean from the config
     public boolean getBoolean(String path) {
         return fileConfiguration.getBoolean(path);
+    }
+
+    // Retrieve a string map from the config
+    public Map<String, String> getStringMap(String path) {
+        Map<String, String> resultMap = new HashMap<>();
+        ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
+
+        // If the section is not null, iterate over its keys and add them to the map
+        if (section == null) {
+            // Load the default config from the plugin's jar
+            FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), path));
+            section = defaultConfig.getConfigurationSection(path);
+
+            assert section != null;
+            for (String key : section.getKeys(false)) {
+                // Get the value associated with the key
+                String value = section.getString(key);
+                // Put the key-value pair in the resultMap
+                resultMap.put(key, value);
+            }
+
+            // Return the default message
+            return resultMap;
+        }
+
+        for (String key : section.getKeys(false)) {
+            // Get the value associated with the key
+            String value = section.getString(key);
+            // Put the key-value pair in the resultMap
+            resultMap.put(key, value);
+        }
+        return resultMap;
     }
 }
