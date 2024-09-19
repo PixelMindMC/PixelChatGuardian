@@ -15,8 +15,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
-import static de.pixelmindmc.pixelchat.PixelChat.PLUGIN_PREFIX;
-
 public class PixelChatCommand implements CommandExecutor {
     private final PixelChat plugin;
 
@@ -31,7 +29,7 @@ public class PixelChatCommand implements CommandExecutor {
 
         // Display usage information if no arguments are provided
         if (args.length == 0) {
-            sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload>");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload>");
             return true;
         }
 
@@ -40,7 +38,7 @@ public class PixelChatCommand implements CommandExecutor {
             case "version" -> handleVersionSubcommand(sender, label, args, configHelperLanguage);
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
             default ->
-                    sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload>");
+                    sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload>");
         }
 
         return true;
@@ -56,7 +54,7 @@ public class PixelChatCommand implements CommandExecutor {
 
         // Check if the command syntax is correct
         if (args.length != 1) {
-            sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + langConfig.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " version");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + langConfig.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " version");
             return;
         }
 
@@ -64,16 +62,16 @@ public class PixelChatCommand implements CommandExecutor {
         String headerFooter = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + StringUtils.repeat("-", 36);
 
         // Display plugin information
-        sender.sendMessage(PLUGIN_PREFIX + headerFooter);
-        sender.sendMessage(PLUGIN_PREFIX);
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.VERSION) + " " + ChatColor.WHITE + description.getVersion());
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.DEVELOPER) + " " + ChatColor.WHITE + description.getAuthors());
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PLUGIN_WEBSITE));
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.REPORT_BUGS));
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues");
-        sender.sendMessage(PLUGIN_PREFIX);
-        sender.sendMessage(PLUGIN_PREFIX + headerFooter);
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX);
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_VERSION) + " " + ChatColor.WHITE + description.getVersion());
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_DEVELOPER) + " " + ChatColor.WHITE + description.getAuthors());
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_PLUGIN_WEBSITE));
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_REPORT_BUGS));
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues");
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX);
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
 
         // Send a message when an update is available
         sender.sendMessage(plugin.updateCheckerLog);
@@ -89,7 +87,7 @@ public class PixelChatCommand implements CommandExecutor {
 
         // Check if the command syntax is correct
         if (args.length != 1) {
-            sender.sendMessage(PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + langConfig.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " reload");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + langConfig.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " reload");
             return;
         }
 
@@ -98,6 +96,6 @@ public class PixelChatCommand implements CommandExecutor {
         plugin.getConfigHelperLanguage().loadConfig();
 
         // Send a message after successfully reloading the configurations
-        sender.sendMessage(PLUGIN_PREFIX + ChatColor.GREEN + langConfig.getString(LangConstants.PIXELCHAT_RELOAD));
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.GREEN + langConfig.getString(LangConstants.PIXELCHAT_RELOAD));
     }
 }

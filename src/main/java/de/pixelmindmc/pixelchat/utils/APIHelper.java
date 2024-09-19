@@ -97,16 +97,16 @@ public class APIHelper {
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
-        plugin.getLogger().info("Ganze API Response: " + contentString);
+        plugin.getLogger().fine("Ganze API Response: " + contentString);
 
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY).isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
         String action = message.has(APIConstants.ACTION_KEY) && !message.get(APIConstants.ACTION_KEY).isJsonNull() ? message.get(APIConstants.ACTION_KEY).getAsString() : "No action provided";
 
-        plugin.getLogger().info("block: " + block);
-        plugin.getLogger().info("reason: " + reason);
-        plugin.getLogger().info("action: " + action);
+        plugin.getLogger().fine("block: " + block);
+        plugin.getLogger().fine("reason: " + reason);
+        plugin.getLogger().fine("action: " + action);
 
         Action cleanAction = switch (action) {
             case "KICK" -> Action.KICK;

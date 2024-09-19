@@ -5,7 +5,7 @@
 # Language config by:
 
 # Configuration Version
-version: 1.0
+version: 0.1
 
 ########################## Global ###########################
 
@@ -14,7 +14,7 @@ metrics-enabled: ""
 checking-updates: ""
 update-available: ""
 no-update-available: ""
-unable-check-updates: "."
+unable-check-for-updates: "."
 
 config-outdated: ""
 language-config-outdated: ""
@@ -23,11 +23,10 @@ failed-to-save-config: ""
 no-api-key-set: ""
 
 no-permission: ""
-no-console: ""
 invalid-syntax:
 invalid-syntax-usage: ""
 
-##################### PixelChat command #####################
+##################### PixelChat Command #####################
 
 pixelchat:
   version: ""
@@ -39,3 +38,5 @@ pixelchat:
 ##################### PixelChat Guardian #####################
 
 player-kick: ""
+player-ban-permanent: ""
+player-ban-temporary: ""

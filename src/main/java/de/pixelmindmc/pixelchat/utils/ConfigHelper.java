@@ -30,7 +30,6 @@ public class ConfigHelper {
 
     // Method to save the default config if it doesn't exist
     public void saveDefaultConfig() {
-        if (!plugin.getDataFolder().exists()) plugin.getDataFolder().mkdirs();
         file = new File(plugin.getDataFolder(), path);
         if (!file.exists()) plugin.saveResource(path, false);
     }
@@ -53,11 +52,6 @@ public class ConfigHelper {
         }
     }
 
-    // Retrieves the FileConfiguration
-    public FileConfiguration getConfig() {
-        return fileConfiguration;
-    }
-
     // Retrieve a string from the config
     public String getString(String path) {
         // Get the value from the current language config
@@ -73,5 +67,10 @@ public class ConfigHelper {
         }
 
         return message;
+    }
+
+    // Retrieve a boolean from the config
+    public boolean getBoolean(String path) {
+        return fileConfiguration.getBoolean(path);
     }
 }

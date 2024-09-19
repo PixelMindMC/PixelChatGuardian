@@ -13,7 +13,6 @@ import de.pixelmindmc.pixelchat.utils.APIHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import de.pixelmindmc.pixelchat.utils.UpdateChecker;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.ChatColor;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,11 +20,9 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.logging.Level;
 
 public final class PixelChat extends JavaPlugin {
-    public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
-    public final String configVersion = "1.0";
-    public final String languageConfigVersion = "1.0";
     public String updateCheckerLog;
     private ConfigHelper configHelper;
     private ConfigHelper configHelperLangCustom;
@@ -35,6 +32,8 @@ public final class PixelChat extends JavaPlugin {
     @Override
     public void onEnable() {
         loadConfigs();
+        // Set log level from config
+        getLogger().setLevel(Level.parse(getConfigHelper().getString(ConfigConstants.LOG_LEVEL)));
         registerAPIHelper();
         registerListeners(getServer().getPluginManager());
         registerCommands();
@@ -49,11 +48,12 @@ public final class PixelChat extends JavaPlugin {
         configHelperLangEN = new ConfigHelper(this, "languages/lang_en.yml");
 
         // Check config versions
-        if (!configVersion.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.VERSION)))
-            getLogger().warning(getConfigHelperLanguage().getConfig().getString(LangConstants.CONFIG_OUTDATED));
+        String version = getDescription().getVersion();
+        if (!version.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.CONFIG_VERSION)))
+            getLogger().warning(getConfigHelperLanguage().getString(LangConstants.CONFIG_OUTDATED));
 
-        if (!languageConfigVersion.equalsIgnoreCase(getConfigHelperLanguage().getString(ConfigConstants.VERSION)))
-            getLogger().warning(getConfigHelperLanguage().getConfig().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
+        if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
+            getLogger().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
     }
 
     // Retrieves the plugin configuration
@@ -78,7 +78,7 @@ public final class PixelChat extends JavaPlugin {
     // Registers the API helper
     private void registerAPIHelper() {
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
-        if (!getConfigHelper().getConfig().getBoolean(ConfigConstants.CHATGUARD)) return;
+        if (!getConfigHelper().getBoolean(ConfigConstants.CHATGUARD)) return;
         if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
             getLogger().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;

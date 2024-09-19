@@ -11,5 +11,7 @@ public class APIConstants {
     public static final String ACTION_KEY = "action";
     public static final String CONTENT_KEY = "content";
 
-    private APIConstants() {} // Prevent instantiation
+    // Prevent instantiation
+    private APIConstants() {
+    }
 }

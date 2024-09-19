@@ -39,7 +39,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         // AI based chat guard
         String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-        if (plugin.getConfigHelper().getConfig().getBoolean(ConfigConstants.CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
             MessageClassification classification;
             try {
                 classification = plugin.getAPIHelper().classifyMessage(message);
@@ -68,7 +68,7 @@ public class AsyncPlayerChatListener implements Listener {
             }
         }
 
-        if (plugin.getConfigHelper().getConfig().getBoolean(ConfigConstants.EMOJIS)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.EMOJIS)) {
             // Initialize emoji map
             initializeEmojiMap();
 

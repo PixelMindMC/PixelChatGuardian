@@ -44,7 +44,7 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_UPDATES) + " " + responseCode);
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
         return null;
     }
 
@@ -60,8 +60,8 @@ public class UpdateChecker {
             if (!isPreRelease && !currentVersion.equals(latestVersion)) {
                 return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/project/pixelchatguardian";
             } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
-        } catch (Exception exception) {
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_UPDATES) + " " + exception.getMessage());
+        } catch (Exception e) {
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
         }
         return null;
     }
