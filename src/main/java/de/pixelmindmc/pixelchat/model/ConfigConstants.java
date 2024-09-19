@@ -13,8 +13,8 @@ public class ConfigConstants {
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String LOG_LEVEL = "log-level";
     // Module settings
-    public static final String CHATGUARD = "modules.chatguard";
-    public static final String EMOJIS = "modules.emojis";
+    public static final String MODULE_CHATGUARD = "modules.chatguard";
+    public static final String MODULE_EMOJIS = "modules.emojis";
     // AI and API settings
     public static final String API_ENDPOINT = "api-endpoint";
     public static final String AI_MODEL = "ai-model";

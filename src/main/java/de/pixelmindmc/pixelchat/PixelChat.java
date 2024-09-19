@@ -78,7 +78,7 @@ public final class PixelChat extends JavaPlugin {
     // Registers the API helper
     private void registerAPIHelper() {
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
-        if (!getConfigHelper().getBoolean(ConfigConstants.CHATGUARD)) return;
+        if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
         if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
             getLogger().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
