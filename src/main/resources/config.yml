@@ -25,7 +25,7 @@ metrics-enabled: true
 # Enable or disable the update checker. [Default: true]
 check-for-updates: true
 
-# sets the log level for the plugin. Available options are FINEST, FINER, FINE, CONFIG, INFO, WARNING and SEVERE. [Default: CONFIG]
+# Sets the plugin's log level. Available options include: FINEST, FINER, FINE, CONFIG, INFO, WARNING, and SEVERE. [Default: CONFIG]
 log-level: CONFIG
 
 ###################### Module Settings ######################
