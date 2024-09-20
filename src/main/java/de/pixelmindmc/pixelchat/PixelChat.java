@@ -52,7 +52,11 @@ public final class PixelChat extends JavaPlugin {
         registerListeners(getServer().getPluginManager());
         registerCommands();
         initializeMetrics();
-        //checkForUpdates();
+        /*try {
+            checkForUpdates();
+        } catch (URISyntaxException | MalformedURLException e) {
+            throw new RuntimeException(e);
+        }*/
     }
 
     // Loads the plugin's configuration files and checks their versions
