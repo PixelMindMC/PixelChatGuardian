@@ -6,7 +6,7 @@
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.model.LangConstants;
+import de.pixelmindmc.pixelchat.constants.LangConstants;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

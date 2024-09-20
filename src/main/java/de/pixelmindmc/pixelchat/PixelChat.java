@@ -20,8 +20,8 @@ package de.pixelmindmc.pixelchat;
 
 import de.pixelmindmc.pixelchat.commands.PixelChatCommand;
 import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
-import de.pixelmindmc.pixelchat.model.ConfigConstants;
-import de.pixelmindmc.pixelchat.model.LangConstants;
+import de.pixelmindmc.pixelchat.constants.ConfigConstants;
+import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.utils.APIHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import de.pixelmindmc.pixelchat.utils.UpdateChecker;

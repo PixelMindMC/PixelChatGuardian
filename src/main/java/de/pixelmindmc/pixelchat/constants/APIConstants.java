@@ -3,7 +3,7 @@
  * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat.model;
+package de.pixelmindmc.pixelchat.constants;
 
 public class APIConstants {
     public static final String BLOCK_KEY = "block";

@@ -3,7 +3,7 @@
  * Copyright (C) 2024 PixelMindMC
  */
 
-package de.pixelmindmc.pixelchat.model;
+package de.pixelmindmc.pixelchat.constants;
 
 public class ConfigConstants {
     public static final String CONFIG_VERSION = "version";

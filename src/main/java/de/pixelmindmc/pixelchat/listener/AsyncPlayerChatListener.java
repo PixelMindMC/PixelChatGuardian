@@ -6,8 +6,8 @@
 package de.pixelmindmc.pixelchat.listener;
 
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.model.ConfigConstants;
-import de.pixelmindmc.pixelchat.model.LangConstants;
+import de.pixelmindmc.pixelchat.constants.ConfigConstants;
+import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

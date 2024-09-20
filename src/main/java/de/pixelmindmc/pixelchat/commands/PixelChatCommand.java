@@ -6,7 +6,7 @@
 package de.pixelmindmc.pixelchat.commands;
 
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.model.LangConstants;
+import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;

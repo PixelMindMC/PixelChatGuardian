@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.model.APIConstants;
-import de.pixelmindmc.pixelchat.model.ConfigConstants;
+import de.pixelmindmc.pixelchat.constants.APIConstants;
+import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 

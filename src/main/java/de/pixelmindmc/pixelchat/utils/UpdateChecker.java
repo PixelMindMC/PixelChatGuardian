@@ -8,7 +8,7 @@ package de.pixelmindmc.pixelchat.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.model.LangConstants;
+import de.pixelmindmc.pixelchat.constants.LangConstants;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
