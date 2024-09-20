@@ -35,6 +35,7 @@ pixelchat:
 
 ##################### PixelChat Guardian #####################
 
+message-blocked: "Your message has been blocked. Reason: "
 player-kick: "You have been kicked from this server. Reason: "
 player-ban-permanent: "You have been banned from this server. Reason: "
 player-ban-temporary: "You have been temporarily banned from this server. Reason: "

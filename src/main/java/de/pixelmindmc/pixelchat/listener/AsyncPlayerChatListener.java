@@ -11,6 +11,7 @@ import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -61,9 +62,15 @@ public class AsyncPlayerChatListener implements Listener {
                         if (player.hasMetadata(STRIKE_KEY)) {
                             player.removeMetadata(STRIKE_KEY, plugin);
                             kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + classification.reason());
+                            return;
                         }
                         player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, player.getName()));
-                        player.sendMessage(plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
+                        player.sendMessage(
+                                LangConstants.PLUGIN_PREFIX +
+                                        ChatColor.RED +
+                                        plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
+                                        ChatColor.RESET +
+                                        classification.reason());
                     }
                 }
                 return;
