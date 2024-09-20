@@ -10,6 +10,7 @@ import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -80,12 +81,12 @@ public class AsyncPlayerChatListener implements Listener {
 
     // Helper method to allow for kicks in async contexts
     private void kickPlayer(Player player, String reason) {
-        player.kickPlayer(reason);
+        Bukkit.getScheduler().runTask(plugin, e -> player.kickPlayer(reason));
     }
 
     // Helper method to allow for bans in async contexts
     private void banPlayer(Player player, String reason) {
-        player.ban(reason, (Date) null, null, true); //s1 is source, b is kickPlayer
+        Bukkit.getScheduler().runTask(plugin, () -> player.ban(reason, (Date) null, null, true)); //s1 is source, b is kickPlayer
     }
 
     // Helper method to convert ascii to emojis
