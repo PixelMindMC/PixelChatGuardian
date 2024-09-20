@@ -93,7 +93,7 @@ public class AsyncPlayerChatListener implements Listener {
 
     // Helper method to allow for bans in async contexts
     private void banPlayer(Player player, String reason) {
-        Bukkit.getScheduler().runTask(plugin, () -> player.ban(reason, (Date) null, null, true)); //s1 is source, b is kickPlayer
+        Bukkit.getScheduler().runTask(plugin, e -> player.ban(reason, (Date) null, null, true)); //s1 is source, b is kickPlayer
     }
 
     // Helper method to convert ascii to emojis
