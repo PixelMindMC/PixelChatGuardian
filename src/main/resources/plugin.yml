@@ -1,11 +1,11 @@
 name: PixelChatGuardian
-version: '${project.version}'
+version: '${version}'
 main: de.pixelmindmc.pixelchat.PixelChat
-api-version: '1.13'
+api-version: '1.17'
 prefix: PixelChat
 authors: [ Gaming12846, ToothyDev ]
-description: ${project.description}
-website: ${project.url}
+description: ${description}
+website: 'https://modrinth.com/project/pixelchatguardian'
 
 commands:
   pixelchat:

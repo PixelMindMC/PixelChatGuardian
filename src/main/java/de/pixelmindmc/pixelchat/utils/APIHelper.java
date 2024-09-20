@@ -1,5 +1,5 @@
 /*
- * This file is part of PixelChat Guardian.
+ * This file is part of PixelChatGuardian.
  * Copyright (C) 2024 PixelMindMC
  */
 
