@@ -10,7 +10,6 @@ plugins {
 
 group = 'de.pixelmindmc'
 version = '0.1.0'
-description= 'Enhance your Minecraft experience with our AI-powered chat moderation plugin, featuring advanced chat and link filtering, plus emoji support.'
 
 repositories {
     mavenCentral()
@@ -60,8 +59,8 @@ tasks.named('shadowJar') {
     // Define the manifest attributes for the final JAR
     manifest {
         attributes(
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version,
+                'Implementation-Title': name,
+                'Implementation-Version': version,
                 'Main-Class': 'de.pixelmindmc.pixelchat'
         )
     }
@@ -74,7 +73,7 @@ tasks.build {
 
 // Configure the process resources
 processResources {
-    def props = [version: version, description: description]
+    def props = [version: version]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {

@@ -4,7 +4,7 @@ main: de.pixelmindmc.pixelchat.PixelChat
 api-version: '1.17'
 prefix: PixelChat
 authors: [ Gaming12846, ToothyDev ]
-description: ${description}
+description: Enhance your Minecraft experience with our AI-powered chat moderation plugin, featuring advanced chat and link filtering, plus emoji support.
 website: 'https://modrinth.com/project/pixelchatguardian'
 
 commands:
