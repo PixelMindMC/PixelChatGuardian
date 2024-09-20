@@ -1,28 +1,35 @@
 /*
- * This file is part of PixelChatGuardian.
+ * This file is part of PixelChat Guardian.
  * Copyright (C) 2024 PixelMindMC
  */
 
+// Apply plugins
 plugins {
     id 'java'
     id 'com.gradleup.shadow' version '8.3.2'
 }
 
+// Define project group and version
 group = 'de.pixelmindmc'
 version = '0.1.0'
 
+// Configure repositories for dependencies
 repositories {
+    // Use Maven Central repository
     mavenCentral()
+    // Add SpigotMC repository for Spigot API dependencies
     maven {
         name = "spigotmc-repo"
         url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
+    // Add Sonatype repository for other dependencies
     maven {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
 }
 
+// Declare project dependencies
 dependencies {
     // Spigot API dependency
     compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
@@ -34,8 +41,10 @@ dependencies {
     compileOnly 'org.apache.commons:commons-lang3:3.15.0'
 }
 
+// Configure Java version compatibility
 def targetJavaVersion = 17
 java {
+    // Set source and target compatibility to the specified Java version
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
@@ -44,17 +53,20 @@ java {
     }
 }
 
+// Configure Java compilation tasks
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
+// Configure the shadow JAR task
 tasks.named('shadowJar') {
     archiveClassifier.set('shadowJar')
 
     // Relocate package to avoid conflicts, if needed
     relocate('org.bstats', 'de.pixelmindmc.pixelchat.metrics')
 
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF' // Exclude unwanted META-INF files
+    // Exclude unnecessary META-INF files from the final JAR
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF'
 
     // Define the manifest attributes for the final JAR
     manifest {
@@ -71,7 +83,7 @@ tasks.build {
     dependsOn tasks.shadowJar
 }
 
-// Configure the process resources
+// Configure the processResources task
 processResources {
     def props = [version: version]
     inputs.properties props
