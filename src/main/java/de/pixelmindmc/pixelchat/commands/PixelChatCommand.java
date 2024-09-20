@@ -7,6 +7,7 @@ package de.pixelmindmc.pixelchat.commands;
 
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
+import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.ChatColor;
@@ -47,7 +48,7 @@ public class PixelChatCommand implements CommandExecutor {
     // Handles the "version" subcommand to display plugin information
     private void handleVersionSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
-        if (!sender.hasPermission("pixelchat.version")) {
+        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) {
             sender.sendMessage(ChatColor.RED + langConfig.getString(LangConstants.NO_PERMISSION));
             return;
         }
@@ -80,7 +81,7 @@ public class PixelChatCommand implements CommandExecutor {
     // Handles the "reload" subcommand to reload plugin configurations
     private void handleReloadSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
-        if (!sender.hasPermission("pixelchat.reload")) {
+        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) {
             sender.sendMessage(ChatColor.RED + langConfig.getString(LangConstants.NO_PERMISSION));
             return;
         }

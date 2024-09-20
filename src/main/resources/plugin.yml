@@ -5,10 +5,26 @@ api-version: '1.17'
 prefix: PixelChat
 authors: [ Gaming12846, ToothyDev ]
 description: Enhance your Minecraft experience with our AI-powered chat moderation plugin, featuring advanced chat and link filtering, plus emoji support.
-website: 'https://modrinth.com/project/pixelchatguardian'
+website: https://modrinth.com/project/pixelchatguardian
 
 commands:
   pixelchat:
     description: Main command for PixelChat Guardian, used for version info and reloading.
     usage: /<command> [version|reload]
     aliases: [ pc, pixelchatguardian, pcg ]
+
+permissions:
+  pixelchat.*:
+    description: Grants access to all PixelChat commands.
+    default: op
+    children:
+      pixelchat.version: true
+      pixelchat.reload: true
+
+  pixelchat.version:
+    description: Grants access to the /pixelchat version subcommand.
+    default: true
+
+  pixelchat.reload:
+    description: Grants access to the /pixelchat reload subcommand.
+    default: op
