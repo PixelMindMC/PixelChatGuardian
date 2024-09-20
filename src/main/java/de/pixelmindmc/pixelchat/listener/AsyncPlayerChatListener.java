@@ -55,13 +55,13 @@ public class AsyncPlayerChatListener implements Listener {
                 event.setCancelled(true);
                 switch (classification.action()) {
                     case KICK ->
-                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + classification.reason());
+                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
                     case BAN ->
-                            banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + classification.reason());
+                            banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
                     case NONE -> {
                         if (player.hasMetadata(STRIKE_KEY)) {
                             player.removeMetadata(STRIKE_KEY, plugin);
-                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + classification.reason());
+                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
                             return;
                         }
                         player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, player.getName()));
