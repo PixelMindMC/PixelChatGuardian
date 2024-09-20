@@ -35,6 +35,8 @@ import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.logging.Level;
 
+import static de.pixelmindmc.pixelchat.constants.APIConstants.GITHUB_RELEASES_URL;
+
 public final class PixelChat extends JavaPlugin {
     public String updateCheckerLog;
     private ConfigHelper configHelper;
@@ -62,10 +64,10 @@ public final class PixelChat extends JavaPlugin {
 
         // Check config versions
         String version = getDescription().getVersion();
-        if (!version.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.CONFIG_VERSION)))
+        if (!version.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.CONFIG_VERSION)) && getLogger().isLoggable(Level.WARNING))
             getLogger().warning(getConfigHelperLanguage().getString(LangConstants.CONFIG_OUTDATED));
 
-        if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
+        if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)) && getLogger().isLoggable(Level.WARNING))
             getLogger().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
     }
 
@@ -93,7 +95,8 @@ public final class PixelChat extends JavaPlugin {
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
         if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
         if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
-            getLogger().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
+            if (getLogger().isLoggable(Level.INFO))
+                getLogger().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
         }
         apiHelper = new APIHelper(this);
@@ -117,7 +120,8 @@ public final class PixelChat extends JavaPlugin {
     // Initializes the bStats metrics for the plugin
     private void initializeMetrics() {
         if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED, true)) {
-            getLogger().info(getConfigHelperLanguage().getString(LangConstants.METRICS_ENABLED));
+            if (getLogger().isLoggable(Level.INFO))
+                getLogger().info(getConfigHelperLanguage().getString(LangConstants.METRICS_ENABLED));
             new Metrics(this, 23371);
         }
     }
@@ -125,8 +129,9 @@ public final class PixelChat extends JavaPlugin {
     // Checks for updates to the plugin and logs the result
     private void checkForUpdates() throws URISyntaxException, MalformedURLException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
-            getLogger().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_UPDATES));
-            updateCheckerLog = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
+            if (getLogger().isLoggable(Level.INFO))
+                getLogger().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_UPDATES));
+            updateCheckerLog = new UpdateChecker(this, new URI(GITHUB_RELEASES_URL).toURL()).checkForUpdates();
             getLogger().info(updateCheckerLog);
         }
     }

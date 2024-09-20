@@ -22,6 +22,7 @@ import java.util.Objects;
 
 // Listener for handling player chat events asynchronously
 public class AsyncPlayerChatListener implements Listener {
+    private static final String STRIKE_KEY = "STRIKE";
     private final PixelChat plugin;
     // Map to store emoji translations
     private Map<String, String> emojiMap = new HashMap<>();
@@ -55,11 +56,11 @@ public class AsyncPlayerChatListener implements Listener {
                     case BAN ->
                             banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + classification.reason());
                     case NONE -> {
-                        if (player.hasMetadata("STRIKE")) {
-                            player.removeMetadata("STRIKE", plugin);
+                        if (player.hasMetadata(STRIKE_KEY)) {
+                            player.removeMetadata(STRIKE_KEY, plugin);
                             kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + classification.reason());
                         }
-                        player.setMetadata("STRIKE", new FixedMetadataValue(plugin, player.getName()));
+                        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, player.getName()));
                         player.sendMessage(plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
                     }
                 }

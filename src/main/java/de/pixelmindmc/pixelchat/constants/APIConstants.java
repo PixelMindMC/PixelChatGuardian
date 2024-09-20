@@ -11,6 +11,8 @@ public class APIConstants {
     public static final String ACTION_KEY = "action";
     public static final String CONTENT_KEY = "content";
 
+    public static final String GITHUB_RELEASES_URL = "https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest";
+
     // Prevent instantiation
     private APIConstants() {
     }

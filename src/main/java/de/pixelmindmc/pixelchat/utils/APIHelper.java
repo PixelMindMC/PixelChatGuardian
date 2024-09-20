@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class APIHelper {
     private final PixelChat plugin;
@@ -51,7 +52,8 @@ public class APIHelper {
             return processResponse(jsonResponse);
         } else {
             String errorResponse = decodeResponse(connection);
-            plugin.getLogger().warning("Error Response: " + errorResponse);
+            if(plugin.getLogger().isLoggable(Level.WARNING))
+                plugin.getLogger().warning("Error Response: " + errorResponse);
             throw new Exception("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
         }
     }
@@ -97,16 +99,19 @@ public class APIHelper {
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
-        plugin.getLogger().fine("Ganze API Response: " + contentString);
+        if (plugin.getLogger().isLoggable(Level.FINE))
+            plugin.getLogger().fine("Ganze API Response: " + contentString);
 
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY).isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
         String action = message.has(APIConstants.ACTION_KEY) && !message.get(APIConstants.ACTION_KEY).isJsonNull() ? message.get(APIConstants.ACTION_KEY).getAsString() : "No action provided";
 
-        plugin.getLogger().fine("block: " + block);
-        plugin.getLogger().fine("reason: " + reason);
-        plugin.getLogger().fine("action: " + action);
+        if (plugin.getLogger().isLoggable(Level.FINE)) {
+            plugin.getLogger().fine("block: " + block);
+            plugin.getLogger().fine("reason: " + reason);
+            plugin.getLogger().fine("action: " + action);
+        }
 
         Action cleanAction = switch (action) {
             case "KICK" -> Action.KICK;

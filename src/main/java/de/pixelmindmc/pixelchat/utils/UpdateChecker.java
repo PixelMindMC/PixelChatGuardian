@@ -11,9 +11,11 @@ import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
 
 // A utility class for checking updates for the plugin by querying the GitHub API
 public class UpdateChecker {
@@ -27,7 +29,7 @@ public class UpdateChecker {
     }
 
     // Fetches the latest release version from the GitHub API
-    public JsonObject getLatestReleaseFromGitHub() throws Exception {
+    public JsonObject getLatestReleaseFromGitHub() throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
@@ -44,7 +46,8 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+            if (plugin.getLogger().isLoggable(Level.WARNING))
+                plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
         return null;
     }
 
