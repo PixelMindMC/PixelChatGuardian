@@ -19,9 +19,10 @@
 package de.pixelmindmc.pixelchat;
 
 import de.pixelmindmc.pixelchat.commands.PixelChatCommand;
-import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
+import de.pixelmindmc.pixelchat.constants.APIConstants;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
+import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
 import de.pixelmindmc.pixelchat.utils.APIHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import de.pixelmindmc.pixelchat.utils.UpdateChecker;
@@ -34,8 +35,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.logging.Level;
-
-import static de.pixelmindmc.pixelchat.constants.APIConstants.GITHUB_RELEASES_URL;
 
 public final class PixelChat extends JavaPlugin {
     public String updateCheckerLog;
@@ -131,7 +130,7 @@ public final class PixelChat extends JavaPlugin {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
             if (getLogger().isLoggable(Level.INFO))
                 getLogger().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_UPDATES));
-            updateCheckerLog = new UpdateChecker(this, new URI(GITHUB_RELEASES_URL).toURL()).checkForUpdates();
+            updateCheckerLog = new UpdateChecker(this, new URI(APIConstants.GITHUB_RELEASES_URL).toURL()).checkForUpdates();
             getLogger().info(updateCheckerLog);
         }
     }
