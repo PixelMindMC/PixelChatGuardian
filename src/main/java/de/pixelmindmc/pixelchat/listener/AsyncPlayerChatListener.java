@@ -8,6 +8,7 @@ package de.pixelmindmc.pixelchat.listener;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
+import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -43,7 +44,7 @@ public class AsyncPlayerChatListener implements Listener {
             MessageClassification classification;
             try {
                 classification = plugin.getAPIHelper().classifyMessage(message);
-            } catch (Exception exception) {
+            } catch (MessageClassificationException exception) {
                 plugin.getLogger().warning(exception.toString());
                 return;
             }
@@ -76,7 +77,6 @@ public class AsyncPlayerChatListener implements Listener {
             event.setMessage(message);
         }
     }
-
 
     // Helper method to allow for kicks in async contexts
     private void kickPlayer(Player player, String reason) {

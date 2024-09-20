@@ -11,6 +11,7 @@ import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.APIConstants;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
+import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 
@@ -42,19 +43,23 @@ public class APIHelper {
         apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
     }
 
-    public MessageClassification classifyMessage(String prompt) throws Exception {
-        HttpURLConnection connection = createConnection();
-        sendRequest(connection, prompt);
-        int responseCode = connection.getResponseCode(); //HTTP-Code der Antwort
+    public MessageClassification classifyMessage(String prompt) throws MessageClassificationException {
+        try {
+            HttpURLConnection connection = createConnection();
+            sendRequest(connection, prompt);
+            int responseCode = connection.getResponseCode(); // HTTP code of the response
 
-        if (responseCode >= 200 && responseCode < 300) {
-            String jsonResponse = decodeResponse(connection); //Ganze JSON-Antwort
-            return processResponse(jsonResponse);
-        } else {
-            String errorResponse = decodeResponse(connection);
-            if(plugin.getLogger().isLoggable(Level.WARNING))
-                plugin.getLogger().warning("Error Response: " + errorResponse);
-            throw new Exception("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
+            if (responseCode >= 200 && responseCode < 300) {
+                String jsonResponse = decodeResponse(connection); // Entire JSON response
+                return processResponse(jsonResponse);
+            } else {
+                String errorResponse = decodeResponse(connection);
+                throw new MessageClassificationException("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
+            }
+        } catch (IOException e) {
+            throw new MessageClassificationException("Failed to classify message due to an IO issue.", e);
+        } catch (Exception e) {
+            throw new MessageClassificationException("Failed to classify message due to a URL syntax issue.", e);
         }
     }
 
