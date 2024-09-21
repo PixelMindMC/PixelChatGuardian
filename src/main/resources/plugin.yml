@@ -20,6 +20,7 @@ permissions:
     children:
       pixelchat.version: true
       pixelchat.reload: true
+      pixelchat.emojis: true
 
   pixelchat.version:
     description: Grants access to the /pixelchat version subcommand.
@@ -28,3 +29,7 @@ permissions:
   pixelchat.reload:
     description: Grants access to the /pixelchat reload subcommand.
     default: op
+
+  pixelchat.emojis:
+    description: Grants access to the use of emojis.
+    default: true

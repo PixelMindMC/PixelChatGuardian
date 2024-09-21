@@ -77,7 +77,8 @@ public class AsyncPlayerChatListener implements Listener {
             }
         }
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
+        // Emoji module
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS) && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
             // Initialize emoji map
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
 
