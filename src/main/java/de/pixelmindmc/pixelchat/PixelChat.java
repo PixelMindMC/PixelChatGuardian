@@ -25,6 +25,7 @@ import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
 import de.pixelmindmc.pixelchat.utils.APIHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.TabCompleter;
 import de.pixelmindmc.pixelchat.utils.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
@@ -51,6 +52,7 @@ public final class PixelChat extends JavaPlugin {
         registerAPIHelper();
         registerListeners(getServer().getPluginManager());
         registerCommands();
+        registerTabCompleters(new TabCompleter());
         initializeMetrics();
         /*try {
             checkForUpdates();
@@ -118,6 +120,11 @@ public final class PixelChat extends JavaPlugin {
     // Registers commands with their respective executors
     private void registerCommands() {
         Objects.requireNonNull(getCommand("pixelchat")).setExecutor(new PixelChatCommand(this));
+    }
+
+    // Registers tab completers for the plugin's commands
+    private void registerTabCompleters(TabCompleter tabCompleter) {
+        Objects.requireNonNull(getCommand("pixelchat")).setTabCompleter(tabCompleter);
     }
 
     // Initializes the bStats metrics for the plugin
