@@ -31,9 +31,21 @@ public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     // Map to store emoji translations
     private Map<String, String> emojiMap = new HashMap<>();
+    private boolean chatGuardEnabled = false;
+    private boolean emojiEnabled = false;
 
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
+
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
+            String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
+            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
+        }
+
+        if(plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
+            emojiEnabled = true;
+            emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
+        }
     }
 
     // Event handler for the AsyncPlayerChatEvent
@@ -43,16 +55,11 @@ public class AsyncPlayerChatListener implements Listener {
         String message = event.getMessage();
 
         // AI based chat guard
-        String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-        boolean moduleEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
-        if (moduleEnabled && isMessageBlocked(event, message, player))
+        if (chatGuardEnabled && isMessageBlocked(event, message, player))
             return;
 
         // Emoji module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS) && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
-            // Initialize emoji map
-            emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
-
+        if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
             message = convertAsciiToEmojis(message);
             event.setMessage(message);
         }
