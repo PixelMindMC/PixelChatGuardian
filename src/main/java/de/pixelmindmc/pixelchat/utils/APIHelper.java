@@ -24,10 +24,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.logging.Level;
 
 public class APIHelper {
-    private final PixelChat plugin;
     private final String aiModel;
     private final String apiUrl;
     private final String apiKey;
@@ -35,7 +33,6 @@ public class APIHelper {
 
     // Constructor for the APIHelper
     public APIHelper(PixelChat plugin) {
-        this.plugin = plugin;
         aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
         apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
         sysPrompt = plugin.getConfig().getString(ConfigConstants.SYSTEM_PROMPT);
@@ -103,16 +100,9 @@ public class APIHelper {
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
-        if (plugin.getLogger().isLoggable(Level.FINE))
-            plugin.getLogger().fine("Ganze API Response: " + contentString);
-
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY).isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
-        if (plugin.getLogger().isLoggable(Level.FINE)) {
-            plugin.getLogger().fine("block: " + block);
-            plugin.getLogger().fine("reason: " + reason);
-        }
 
         return new MessageClassification(block, reason);
     }

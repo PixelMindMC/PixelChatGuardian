@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
 
 // Listener for handling player chat events asynchronously
 
@@ -86,6 +87,8 @@ public class AsyncPlayerChatListener implements Listener {
             return false;
 
         event.setCancelled(true);
+        if (plugin.getLogger().isLoggable(Level.INFO))
+            plugin.getLogger().info("Message by " + player.getName() + " has been blocked: " + message);
 
         if (!player.hasMetadata(STRIKE_KEY))
             player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
