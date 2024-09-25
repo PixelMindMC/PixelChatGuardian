@@ -61,7 +61,9 @@ public final class PixelChat extends JavaPlugin {
         }*/
     }
 
-    // Loads the plugin's configuration files and checks their versions
+    /**
+     * Loads the plugin's configuration files and checks their versions
+     */
     private void loadConfigs() {
         configHelper = new ConfigHelper(this, "config.yml");
         configHelperLangCustom = new ConfigHelper(this, "languages/lang_custom.yml");
@@ -76,12 +78,20 @@ public final class PixelChat extends JavaPlugin {
             getLogger().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
     }
 
-    // Retrieves the plugin configuration
+    /**
+     * Retrieves the plugin configuration
+     *
+     * @return The {@code ConfigHelper}
+     */
     public ConfigHelper getConfigHelper() {
         return configHelper;
     }
 
-    // Retrieves the appropriate language configuration based on the plugin's config setting
+    /**
+     * Retrieves the appropriate language configuration based on the plugin's config setting
+     *
+     * @return The config helper for the language set in the configuation
+     */
     public ConfigHelper getConfigHelperLanguage() {
         String language = getConfigHelper().getString(ConfigConstants.LANGUAGE);
 
@@ -95,7 +105,9 @@ public final class PixelChat extends JavaPlugin {
         }
     }
 
-    // Registers the API helper
+    /**
+     * Configures and registers the {@link APIHelper}
+     */
     private void registerAPIHelper() {
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
         if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
@@ -107,27 +119,44 @@ public final class PixelChat extends JavaPlugin {
         apiHelper = new APIHelper(this);
     }
 
-    // Retries the API helper
+    /**
+     * Retries the API helper
+     *
+     * @return The plugin's APIHelper
+     */
     public APIHelper getAPIHelper() {
         return apiHelper;
     }
 
-    // Registers events with the Bukkit plugin manager
+    /**
+     * Registers events with the Bukkit plugin manager
+     *
+     * @param pluginManager The plugin manager to register the events to
+     */
     private void registerListeners(PluginManager pluginManager) {
         pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
     }
 
-    // Registers commands with their respective executors
+
+    /**
+     * Registers commands with their respective executors
+     */
     private void registerCommands() {
         Objects.requireNonNull(getCommand("pixelchat")).setExecutor(new PixelChatCommand(this));
     }
 
-    // Registers tab completers for the plugin's commands
+    /**
+     * Registers tab completers for the plugin's commands
+     *
+     * @param tabCompleter The {@code TabCompleter}
+     */
     private void registerTabCompleters(TabCompleter tabCompleter) {
         Objects.requireNonNull(getCommand("pixelchat")).setTabCompleter(tabCompleter);
     }
 
-    // Initializes the bStats metrics for the plugin
+    /**
+     * Initializes the bStats metrics for the plugin
+     */
     private void initializeMetrics() {
         if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED, true)) {
             if (getLogger().isLoggable(Level.INFO))
@@ -136,7 +165,12 @@ public final class PixelChat extends JavaPlugin {
         }
     }
 
-    // Checks for updates to the plugin and logs the result
+    /**
+     * Checks for updates to the plugin and logs the result
+     *
+     * @throws URISyntaxException    If the set URL is invalid
+     * @throws MalformedURLException If the set URL is invalid
+     */
     private void checkForUpdates() throws URISyntaxException, MalformedURLException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
             if (getLogger().isLoggable(Level.INFO))

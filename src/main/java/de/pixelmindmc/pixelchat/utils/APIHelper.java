@@ -25,13 +25,15 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+/**
+ * A collection of methods to aid with the AI requests to the AI API
+ */
 public class APIHelper {
     private final String aiModel;
     private final String apiUrl;
     private final String apiKey;
     private final String sysPrompt;
 
-    // Constructor for the APIHelper
     public APIHelper(PixelChat plugin) {
         aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
         apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
@@ -39,6 +41,13 @@ public class APIHelper {
         apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
     }
 
+    /**
+     * Classifies player messages using AI
+     *
+     * @param prompt The message to classify
+     * @return A {@link MessageClassification} object filled with the results of the AI-classification
+     * @throws MessageClassificationException If the classification failed in any way
+     */
     public MessageClassification classifyMessage(String prompt) throws MessageClassificationException {
         try {
             HttpURLConnection connection = createConnection();
@@ -59,6 +68,13 @@ public class APIHelper {
         }
     }
 
+    /**
+     * Sets up a connection to the API server and configures it
+     *
+     * @return The configured connection
+     * @throws IOException        If any issue happens, an exception is thrown
+     * @throws URISyntaxException Thrown if the set API URL isn't valid
+     */
     private HttpURLConnection createConnection() throws IOException, URISyntaxException {
         URL url = new URI(apiUrl).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -69,6 +85,13 @@ public class APIHelper {
         return connection;
     }
 
+    /**
+     * Sends an OpenAI-API-compliant API request to the given connection, pre-filled with the given user prompt
+     *
+     * @param connection The connection to send the request to
+     * @param prompt     The user message / prompt
+     * @throws IOException If any issue happens, an exception is thrown
+     */
     private void sendRequest(HttpURLConnection connection, String prompt) throws IOException {
         Map<String, Object> json = Map.of(
                 "model", aiModel,
@@ -87,6 +110,12 @@ public class APIHelper {
         }
     }
 
+    /**
+     * Processes a JSON string and maps it to a {@link MessageClassification} object
+     *
+     * @param jsonResponse The raw JSON string to decode
+     * @return The filled {@code} MessageClassification object
+     */
     private MessageClassification processResponse(String jsonResponse) {
         // Parse the outer JSON response
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
@@ -107,6 +136,13 @@ public class APIHelper {
         return new MessageClassification(block, reason);
     }
 
+    /**
+     * Decodes an incoming response from the API into a JSON string
+     *
+     * @param connection The connection to read the response from
+     * @return The final JSON string
+     * @throws IOException If any issue appears, an exception is thrown
+     */
     private String decodeResponse(HttpURLConnection connection) throws IOException {
         StringBuilder response = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {

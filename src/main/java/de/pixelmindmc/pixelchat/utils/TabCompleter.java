@@ -12,11 +12,12 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-// A class to provide tab completion for commands
+/**
+ * A class to provide tab completion for commands
+ */
 public class TabCompleter implements org.bukkit.command.TabCompleter {
     private final List<String> results = new ArrayList<>();
 
-    // Provides a list of possible completions
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         // Clear previous results to avoid stale completions

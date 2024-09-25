@@ -25,8 +25,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 
-// Listener for handling player chat events asynchronously
 
+/**
+ * Listener for handling player chat events asynchronously
+ */
 public class AsyncPlayerChatListener implements Listener {
     private static final String STRIKE_KEY = "STRIKE";
     private final PixelChat plugin;
@@ -43,13 +45,17 @@ public class AsyncPlayerChatListener implements Listener {
             this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
         }
 
-        if(plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
             emojiEnabled = true;
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
         }
     }
 
-    // Event handler for the AsyncPlayerChatEvent
+    /**
+     * Event handler for the AsyncPlayerChatEvent
+     *
+     * @param event The AsyncPlayerChatEvent
+     */
     @EventHandler
     private void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
@@ -114,17 +120,32 @@ public class AsyncPlayerChatListener implements Listener {
         return true;
     }
 
-    // Helper method to allow for kicks in async contexts
+    /**
+     * Helper method to allow for kicks in async contexts
+     *
+     * @param player The player to kick
+     * @param reason The kick reason
+     */
     private void kickPlayer(Player player, String reason) {
         Bukkit.getScheduler().runTask(plugin, e -> player.kickPlayer(reason));
     }
 
-    // Helper method to allow for bans in async contexts
+    /**
+     * Helper method to allow for bans in async contexts, performs a permanent ban
+     *
+     * @param player The player to ban
+     * @param reason The ban reason
+     */
     private void banPlayer(Player player, String reason) {
-        Bukkit.getScheduler().runTask(plugin, e -> player.ban(reason, (Date) null, null, true)); //s1 is source, b is kickPlayer
+        Bukkit.getScheduler().runTask(plugin, e -> player.ban(reason, (Date) null, null, true));
     }
 
-    // Helper method to convert ascii to emojis
+    /**
+     * Helper method to convert ascii to emojis
+     *
+     * @param message The original message
+     * @return The message with replaced emojis
+     */
     private String convertAsciiToEmojis(String message) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());

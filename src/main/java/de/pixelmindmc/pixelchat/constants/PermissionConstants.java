@@ -10,7 +10,6 @@ public class PermissionConstants {
     public static final String PIXELCHAT_RELOAD = "pixelchat.reload";
     public static final String PIXELCHAT_EMOJIS = "pixelchat.emojis";
 
-    // Prevent instantiation
     private PermissionConstants() {
     }
 }

@@ -17,18 +17,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Level;
 
-// A utility class for checking updates for the plugin by querying the GitHub API
+/**
+ * A utility class for checking updates for the plugin by querying the GitHub API
+ */
 public class UpdateChecker {
     private final PixelChat plugin;
     private final URL url;
 
-    // Constructor for the UpdateChecker
     public UpdateChecker(PixelChat plugin, URL apiUrl) {
         this.plugin = plugin;
         url = apiUrl;
     }
 
-    // Fetches the latest release version from the GitHub API
+    /**
+     * Fetches the latest release version from the GitHub API
+     *
+     * @return The JSON response of the request
+     * @throws IOException If any issue happens, an exception is thrown
+     */
     public JsonObject getLatestReleaseFromGitHub() throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -45,13 +51,16 @@ public class UpdateChecker {
             in.close();
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
-        } else
-            if (plugin.getLogger().isLoggable(Level.WARNING))
-                plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+        } else if (plugin.getLogger().isLoggable(Level.WARNING))
+            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
         return null;
     }
 
-    // Checks for updates to the plugin
+    /**
+     * Checks for updates to the plugin
+     *
+     * @return A string denoting whether the plugin has an update available or not
+     */
     public String checkForUpdates() {
         String currentVersion = plugin.getDescription().getVersion();
 

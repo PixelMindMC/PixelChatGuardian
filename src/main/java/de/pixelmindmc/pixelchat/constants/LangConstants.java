@@ -35,7 +35,6 @@ public class LangConstants {
     public static final String PLAYER_BAN_PERMANENT = "player-ban-permanent";
     public static final String PLAYER_BAN_TEMPORARY = "player-ban-temporary";
 
-    // Prevent instantiation
     private LangConstants() {
     }
 }

@@ -19,7 +19,6 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class PixelChatCommand implements CommandExecutor {
     private final PixelChat plugin;
 
-    // Constructor for the PixelChatCommand
     public PixelChatCommand(PixelChat plugin) {
         this.plugin = plugin;
     }
@@ -45,7 +44,14 @@ public class PixelChatCommand implements CommandExecutor {
         return true;
     }
 
-    // Handles the "version" subcommand to display plugin information
+    /**
+     * Handles the "version" subcommand to display plugin information
+     *
+     * @param sender     The command sender
+     * @param label      The label
+     * @param args       The arguments
+     * @param langConfig The ConfigHelper for the languageConfig
+     */
     private void handleVersionSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) {
@@ -78,7 +84,14 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(plugin.updateCheckerLog);
     }
 
-    // Handles the "reload" subcommand to reload plugin configurations
+    /**
+     * Handles the "reload" subcommand to reload plugin configurations
+     *
+     * @param sender     The command sender
+     * @param label      The label
+     * @param args       The arguments
+     * @param langConfig The ConfigHelper for the languageConfig
+     */
     private void handleReloadSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) {

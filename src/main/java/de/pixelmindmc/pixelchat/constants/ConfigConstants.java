@@ -23,7 +23,6 @@ public class ConfigConstants {
     // Emoji settings
     public static final String EMOJI_LIST = "emoji-list";
 
-    // Prevent instantiation
     private ConfigConstants() {
     }
 }

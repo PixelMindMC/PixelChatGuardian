@@ -18,14 +18,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-// Utility class for managing configuration files
+/**
+ * Utility class for managing configuration files
+ */
 public class ConfigHelper {
     private final PixelChat plugin;
     private final String path;
     private FileConfiguration fileConfiguration;
     private File file;
 
-    // Constructor for the ConfigHelper
     public ConfigHelper(PixelChat plugin, String path) {
         this.plugin = plugin;
         this.path = path;
@@ -33,13 +34,17 @@ public class ConfigHelper {
         loadConfig();
     }
 
-    // Method to save the default config if it doesn't exist
+    /**
+     * Method to save the default config if it doesn't exist
+     */
     public void saveDefaultConfig() {
         file = new File(plugin.getDataFolder(), path);
         if (!file.exists()) plugin.saveResource(path, false);
     }
 
-    // Method to load or reload the config file
+    /**
+     * Method to load or reload the config file
+     */
     public void loadConfig() {
         file = new File(plugin.getDataFolder(), path);
 
@@ -53,12 +58,14 @@ public class ConfigHelper {
             logLevel = String.valueOf(Level.INFO);
         }
         if (logLevel.equals(Level.FINEST.toString()) || logLevel.equals(Level.FINER.toString()) || logLevel.equals(Level.FINE.toString()) || logLevel.equals(Level.CONFIG.toString())) {
-         logLevel = String.valueOf(Level.INFO);
+            logLevel = String.valueOf(Level.INFO);
         }
         plugin.getLogger().setLevel(Level.parse(logLevel));
     }
 
-    // Method to save the config back to the file
+    /**
+     * Method to save the config back to the file
+     */
     public void saveConfig() {
         try {
             fileConfiguration.save(file);
@@ -67,7 +74,12 @@ public class ConfigHelper {
         }
     }
 
-    // Retrieve a string from the config
+    /**
+     * Retrieve a string from the config
+     *
+     * @param path The path of the value
+     * @return The value, or a "Message not found" message
+     */
     public String getString(String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
@@ -84,12 +96,22 @@ public class ConfigHelper {
         return message;
     }
 
-    // Retrieve a boolean from the config
+    /**
+     * Retrieve a boolean from the config
+     *
+     * @param path The path of the value
+     * @return The value
+     */
     public boolean getBoolean(String path) {
         return fileConfiguration.getBoolean(path);
     }
 
-    // Retrieve a string map from the config
+    /**
+     * Retrieve a string map from the config
+     *
+     * @param path The path of the value
+     * @return The string map
+     */
     public Map<String, String> getStringMap(String path) {
         Map<String, String> resultMap = new HashMap<>();
         ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
