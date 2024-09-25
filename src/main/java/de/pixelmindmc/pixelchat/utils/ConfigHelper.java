@@ -52,6 +52,9 @@ public class ConfigHelper {
         if (logLevel == null) {
             logLevel = String.valueOf(Level.INFO);
         }
+        if (logLevel.equals(Level.FINEST.toString()) || logLevel.equals(Level.FINER.toString()) || logLevel.equals(Level.FINE.toString()) || logLevel.equals(Level.CONFIG.toString())) {
+         logLevel = String.valueOf(Level.INFO);
+        }
         plugin.getLogger().setLevel(Level.parse(logLevel));
     }
 
