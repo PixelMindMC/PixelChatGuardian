@@ -13,7 +13,6 @@ import de.pixelmindmc.pixelchat.constants.APIConstants;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
-import de.pixelmindmc.pixelchat.model.MessageClassification.Action;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -110,21 +109,12 @@ public class APIHelper {
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY).isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
-        String action = message.has(APIConstants.ACTION_KEY) && !message.get(APIConstants.ACTION_KEY).isJsonNull() ? message.get(APIConstants.ACTION_KEY).getAsString() : "No action provided";
-
         if (plugin.getLogger().isLoggable(Level.FINE)) {
             plugin.getLogger().fine("block: " + block);
             plugin.getLogger().fine("reason: " + reason);
-            plugin.getLogger().fine("action: " + action);
         }
 
-        Action cleanAction = switch (action) {
-            case "KICK" -> Action.KICK;
-            case "BAN" -> Action.BAN;
-            default -> Action.NONE;
-        };
-
-        return new MessageClassification(block, reason, cleanAction);
+        return new MessageClassification(block, reason);
     }
 
     private String decodeResponse(HttpURLConnection connection) throws IOException {

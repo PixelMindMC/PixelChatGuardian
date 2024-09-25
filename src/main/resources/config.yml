@@ -48,17 +48,13 @@ ai-model: "llama3-70b-8192"
 # Your API key for the endpoint.
 api-key: "API-KEY"
 
-# System prompt passed as context for the automatic moderation. [Default: You are a chat moderation tool for a Minecraft server. Analyze each message and respond with only 'ALLOW' or 'BLOCK' without the apostrophes. BLOCK for offensive language, high-level swears, slurs, insults, and references to serious crimes. ALLOW minor expressions like 'this sucks.' Do not provide any additional words, punctuation, or explanations. Only respond with 'ALLOW' or 'BLOCK'.]
+# System prompt passed as context for the automatic moderation. [Default: You are a chat moderation tool for a Minecraft server. Analyze each message and respond in JSON with fields: block (boolean, whether to block the message or not) and reason (string, detailing the offense, shown to the user). Block messages that use offensive language, severe insults, slurs, and serious real-life crime references. Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries can include stuff like 'kill the villager' and 'kill all the zombies'. Do not give extra words or explanations.]
 sys-prompt: > 
   "You are a chat moderation tool for a Minecraft server.
-  Analyze each message and respond in JSON with fields: block (boolean, whether to block the message or not), reason (string, detailing the offense, shown to the user), and action (KICK, BAN or NONE).
-  Block for offensive language, severe insults, slurs, and serious real-life crime references.
-  Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries include stuff like 'kill the villager' and 'kill all the zombies'.
-  Do not give extra words or explanations.
-  Judgement help: Block any message that you find violates these rules.
-  Only KICK for messages that are above an average blockable amount.
-  There is an automatic kick system that will kick users who have two blocked messages, so you are free to let users run into that.
-  Only BAN for the worst of offenses."
+  Analyze each message and respond in JSON with fields: block (boolean, whether to block the message or not) and reason (string, detailing the offense, shown to the user).
+  Block messages that use offensive language, severe insults, slurs, and serious real-life crime references.
+  Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries can include stuff like 'kill the villager' and 'kill all the zombies'.
+  Do not give extra words or explanations."
 
 ###################### Emoji settings #######################
 

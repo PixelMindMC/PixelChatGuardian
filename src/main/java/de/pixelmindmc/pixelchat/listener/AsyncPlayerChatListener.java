@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 // Listener for handling player chat events asynchronously
+
 public class AsyncPlayerChatListener implements Listener {
     private static final String STRIKE_KEY = "STRIKE";
     private final PixelChat plugin;
@@ -54,25 +55,27 @@ public class AsyncPlayerChatListener implements Listener {
 
             if (classification.block()) {
                 event.setCancelled(true);
-                switch (classification.action()) {
-                    case KICK ->
-                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
-                    case BAN ->
-                            banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
-                    case NONE -> {
-                        if (player.hasMetadata(STRIKE_KEY)) {
-                            player.removeMetadata(STRIKE_KEY, plugin);
-                            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
-                            return;
-                        }
-                        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, player.getName()));
-                        player.sendMessage(
-                                LangConstants.PLUGIN_PREFIX +
-                                        ChatColor.RED +
-                                        plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
-                                        ChatColor.RESET +
-                                        classification.reason());
-                    }
+
+                if (!player.hasMetadata(STRIKE_KEY))
+                    player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
+
+                int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
+                player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
+
+                int strikesToKick = 2; //TODO In config-wert ändern
+                int strikesToBan = 4; //TODO In config-wert ändern
+
+                if (strikes >= strikesToKick && strikes < strikesToBan) {
+                    kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
+                } else if (strikes >= strikesToBan) {
+                    banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
+                } else {
+                    player.sendMessage(
+                            LangConstants.PLUGIN_PREFIX +
+                                    ChatColor.RED +
+                                    plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
+                                    ChatColor.RESET +
+                                    classification.reason());
                 }
                 return;
             }
