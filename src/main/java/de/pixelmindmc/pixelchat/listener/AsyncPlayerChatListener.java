@@ -44,42 +44,9 @@ public class AsyncPlayerChatListener implements Listener {
 
         // AI based chat guard
         String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null) {
-            MessageClassification classification;
-            try {
-                classification = plugin.getAPIHelper().classifyMessage(message);
-            } catch (MessageClassificationException exception) {
-                plugin.getLogger().warning(exception.toString());
-                return;
-            }
-
-            if (classification.block()) {
-                event.setCancelled(true);
-
-                if (!player.hasMetadata(STRIKE_KEY))
-                    player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
-
-                int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
-                player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
-
-                int strikesToKick = 2; //TODO In config-wert ändern
-                int strikesToBan = 4; //TODO In config-wert ändern
-
-                if (strikes >= strikesToKick && strikes < strikesToBan) {
-                    kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
-                } else if (strikes >= strikesToBan) {
-                    banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
-                } else {
-                    player.sendMessage(
-                            LangConstants.PLUGIN_PREFIX +
-                                    ChatColor.RED +
-                                    plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
-                                    ChatColor.RESET +
-                                    classification.reason());
-                }
-                return;
-            }
-        }
+        boolean moduleEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
+        if (moduleEnabled && isMessageBlocked(event, message, player))
+            return;
 
         // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS) && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
@@ -89,6 +56,52 @@ public class AsyncPlayerChatListener implements Listener {
             message = convertAsciiToEmojis(message);
             event.setMessage(message);
         }
+    }
+
+    /**
+     * Checks whether a message should be blocked or allowed through into the chat, and takes appropriate actions
+     *
+     * @param event   The message event
+     * @param message The message to check
+     * @param player  The player that sent the mesage
+     * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
+     */
+    private boolean isMessageBlocked(AsyncPlayerChatEvent event, String message, Player player) {
+        MessageClassification classification;
+        try {
+            classification = plugin.getAPIHelper().classifyMessage(message);
+        } catch (MessageClassificationException exception) {
+            plugin.getLogger().warning(exception.toString());
+            return false; //Don't block message if there was an error while classifying it
+        }
+
+        if (!classification.block())
+            return false;
+
+        event.setCancelled(true);
+
+        if (!player.hasMetadata(STRIKE_KEY))
+            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
+
+        int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
+        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
+
+        int strikesToKick = 2; //TODO In config-wert ändern
+        int strikesToBan = 4; //TODO In config-wert ändern
+
+        if (strikes >= strikesToKick && strikes < strikesToBan) {
+            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
+        } else if (strikes >= strikesToBan) {
+            banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
+        } else {
+            player.sendMessage(
+                    LangConstants.PLUGIN_PREFIX +
+                            ChatColor.RED +
+                            plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
+                            ChatColor.RESET +
+                            classification.reason());
+        }
+        return true;
     }
 
     // Helper method to allow for kicks in async contexts
