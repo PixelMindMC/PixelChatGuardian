@@ -6,6 +6,7 @@
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
+import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -17,7 +18,7 @@ public class LoggingHelper {
     // Constructor that takes the plugin instance for getting the logger
     public LoggingHelper(PixelChat plugin) {
         this.logger = plugin.getLogger();
-        setLogLevel(Objects.requireNonNull(plugin.getConfig().getString("log-level")));
+        setLogLevel(Objects.requireNonNull(plugin.getConfig().getString(ConfigConstants.LOG_LEVEL)));
     }
 
     // Info level logging
