@@ -23,7 +23,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
 
 
 /**
@@ -85,7 +84,7 @@ public class AsyncPlayerChatListener implements Listener {
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException exception) {
-            plugin.getLogger().warning(exception.toString());
+            plugin.getLoggingHelper().error(exception.toString());
             return false; //Don't block message if there was an error while classifying it
         }
 
@@ -93,8 +92,9 @@ public class AsyncPlayerChatListener implements Listener {
             return false;
 
         event.setCancelled(true);
-        if (plugin.getLogger().isLoggable(Level.INFO))
-            plugin.getLogger().info("Message by " + player.getName() + " has been blocked: " + message);
+
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Message by " + player.getName() + " has been blocked: " + message);
 
         if (!player.hasMetadata(STRIKE_KEY))
             player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));

@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.logging.Level;
 
 /**
  * A utility class for checking updates for the plugin by querying the GitHub API
@@ -51,8 +50,8 @@ public class UpdateChecker {
             in.close();
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
-        } else if (plugin.getLogger().isLoggable(Level.WARNING))
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+        } else
+            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
         return null;
     }
 
@@ -73,7 +72,7 @@ public class UpdateChecker {
                 return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/project/pixelchatguardian";
             } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
         } catch (Exception e) {
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
+            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
         }
         return null;
     }

@@ -9,7 +9,7 @@ version: 0.1.0
 
 metrics-enabled: "Plugin metrics are enabled."
 
-checking-updates: "Checking for updates..."
+checking-for-updates: "Checking for updates..."
 update-available: "A new update is available! Download it from GitHub:"
 no-update-available: "No new updates available."
 unable-check-for-updates: "Unable to check for updates."

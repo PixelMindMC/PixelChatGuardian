@@ -6,7 +6,6 @@
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
-import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * Utility class for managing configuration files
@@ -51,16 +49,6 @@ public class ConfigHelper {
         if (!file.exists()) saveDefaultConfig();
 
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
-        String logLevel = fileConfiguration.getString(ConfigConstants.LOG_LEVEL);
-        if (!"config.yml".equals(path))
-            return;
-        if (logLevel == null) {
-            logLevel = String.valueOf(Level.INFO);
-        }
-        if (logLevel.equals(Level.FINEST.toString()) || logLevel.equals(Level.FINER.toString()) || logLevel.equals(Level.FINE.toString()) || logLevel.equals(Level.CONFIG.toString())) {
-            logLevel = String.valueOf(Level.INFO);
-        }
-        plugin.getLogger().setLevel(Level.parse(logLevel));
     }
 
     /**
@@ -70,7 +58,7 @@ public class ConfigHelper {
         try {
             fileConfiguration.save(file);
         } catch (IOException e) {
-            plugin.getLogger().warning(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
+            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
     }
 

@@ -11,7 +11,7 @@ version: 0.1.0
 
 metrics-enabled: ""
 
-checking-updates: ""
+checking-for-updates: ""
 update-available: ""
 no-update-available: ""
 unable-check-for-updates: "."

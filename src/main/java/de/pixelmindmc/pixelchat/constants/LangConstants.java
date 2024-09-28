@@ -12,7 +12,7 @@ public class LangConstants {
     public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
     // Global
     public static final String METRICS_ENABLED = "metrics-enabled";
-    public static final String CHECKING_UPDATES = "checking-updates";
+    public static final String CHECKING_FOR_UPDATES = "checking-for-updates";
     public static final String UPDATE_AVAILABLE = "update-available";
     public static final String NO_UPDATE_AVAILABLE = "no-update-available";
     public static final String UNABLE_CHECK_FOR_UPDATES = "unable-check-for-updates";
