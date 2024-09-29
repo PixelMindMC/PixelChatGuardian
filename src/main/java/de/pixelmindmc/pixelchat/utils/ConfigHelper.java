@@ -95,6 +95,16 @@ public class ConfigHelper {
     }
 
     /**
+     * Retrieve an int from the config
+     *
+     * @param path The path of the value
+     * @return The value
+     */
+    public int getInt(String path) {
+        return fileConfiguration.getInt(path);
+    }
+
+    /**
      * Retrieve a string map from the config
      *
      * @param path The path of the value

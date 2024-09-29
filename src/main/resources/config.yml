@@ -56,6 +56,32 @@ sys-prompt: >
   Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries can include stuff like 'kill the villager' and 'kill all the zombies'.
   Do not give extra words or explanations."
 
+#################### Chatguard settings #####################
+
+# Message handling strategy. Options: CENSOREMESSAGE and BLOCKMESSAGE. [Default: CENSOREMESSAGE]
+message-handling: CENSOREMESSAGE
+
+# Use the built-in strike system to manage player strikes.[Default: true]
+use-built-in-strike-system: true
+
+# Custom command to issue a strike to a player. This requires an external plugin to function. [Default: /strike <player>]
+custom-strike-command: "strike <player>"
+
+# Number of strikes a player receives before being kicked. [Default: 3]
+strikes-before-kick: 3
+# Command to kick a player after reaching the strike threshold. [Default: /kick <player> <reason>]
+kick-command: "kick <player> <reason>"
+
+# Number of strikes a player receives before a temporary ban. [Default: 5]
+strikes-before-temp-ban: 5
+# Command to temporarily ban a player. Since Minecraft does not have a built-in temp ban command, you can use an external plugin or an alternative method. [Default: /kick <player> <reason>]
+temp-ban-command: "kick <player> <reason>"
+
+# Number of strikes a player receives before being permanently banned. [Default: 6]
+strikes-before-ban: 6
+# Command to permanently ban a player after reaching the strike threshold. [Default: /ban <player> <reason>]
+ban-command: "ban <player> <reason>"
+
 ###################### Emoji settings #######################
 
 # Sets the emoji list used to replace ASCII characters with corresponding emojis.

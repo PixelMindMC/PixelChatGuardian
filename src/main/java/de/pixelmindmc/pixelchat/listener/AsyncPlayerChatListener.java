@@ -12,14 +12,12 @@ import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -91,53 +89,50 @@ public class AsyncPlayerChatListener implements Listener {
         if (!classification.block())
             return false;
 
-        event.setCancelled(true);
+        String eventMessage = event.getMessage();
+        if (plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCKMESSAGE")) {
+            event.setCancelled(true);
+        } else event.setMessage("*".repeat(eventMessage.length()));
 
-        // Debug logger message
         plugin.getLoggingHelper().debug("Message by " + player.getName() + " has been blocked: " + message);
 
-        if (!player.hasMetadata(STRIKE_KEY))
-            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
+            if (!player.hasMetadata(STRIKE_KEY)) player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
 
-        int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
-        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
+            int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
+            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
 
-        int strikesToKick = 2; //TODO In config-wert ändern
-        int strikesToBan = 4; //TODO In config-wert ändern
+            plugin.getLoggingHelper().debug(player.getName() + " has " + strikes + " strikes.");
 
-        if (strikes >= strikesToKick && strikes < strikesToBan) {
-            kickPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
-        } else if (strikes >= strikesToBan) {
-            banPlayer(player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
-        } else {
-            player.sendMessage(
-                    LangConstants.PLUGIN_PREFIX +
-                            ChatColor.RED +
-                            plugin.getConfigHelperLanguage().getString(LangConstants.MESSAGE_BLOCKED) +
-                            ChatColor.RESET +
-                            classification.reason());
-        }
+            int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);
+            int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_TEMP_BAN);
+            int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_BAN);
+
+            if (strikes >= strikesToKick && strikes <= strikesToTempBan) {
+                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
+            } else if (strikes >= strikesToTempBan && strikes <= strikesToBan) {
+                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + classification.reason());
+            } else if (strikes >= strikesToBan)
+                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
+        } else
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player, "");
+
         return true;
     }
 
     /**
      * Helper method to allow for kicks in async contexts
      *
+     * @param command The command to execute
      * @param player The player to kick
      * @param reason The kick reason
      */
-    private void kickPlayer(Player player, String reason) {
-        Bukkit.getScheduler().runTask(plugin, e -> player.kickPlayer(reason));
-    }
+    private void executeCommand(String command, Player player, String reason) {
+        // Replace placeholders with actual values
+        String processedCommand = command.replace("<player>", player.getName()).replace("<reason>", reason);
 
-    /**
-     * Helper method to allow for bans in async contexts, performs a permanent ban
-     *
-     * @param player The player to ban
-     * @param reason The ban reason
-     */
-    private void banPlayer(Player player, String reason) {
-        Bukkit.getScheduler().runTask(plugin, e -> player.ban(reason, (Date) null, null, true));
+        // Execute the command asynchronously to avoid blocking the main thread
+        Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));
     }
 
     /**

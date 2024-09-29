@@ -20,6 +20,16 @@ public class ConfigConstants {
     public static final String AI_MODEL = "ai-model";
     public static final String API_KEY = "api-key";
     public static final String SYSTEM_PROMPT = "sys-prompt";
+    // Chatguard settings
+    public static final String CHATGUARD_MESSAGE_HANDLING = "message-handling";
+    public static final String CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM = "use-built-in-strike-system";
+    public static final String CHATGUARD_CUSTOM_STRIKE_COMMAND = "custom-strike-command";
+    public static final String CHATGUARD_STRIKES_BEFORE_KICK = "strikes-before-kick";
+    public static final String CHATGUARD_KICK_COMMAND = "kick-command";
+    public static final String CHATGUARD_STRIKES_BEFORE_TEMP_BAN = "strikes-before-temp-ban";
+    public static final String CHATGUARD_TEMP_BAN_COMMAND = "temp-ban-command";
+    public static final String CHATGUARD_STRIKES_BEFORE_BAN = "strikes-before-ban";
+    public static final String CHATGUARD_BAN_COMMAND = "ban-command";
     // Emoji settings
     public static final String EMOJI_LIST = "emoji-list";
 
