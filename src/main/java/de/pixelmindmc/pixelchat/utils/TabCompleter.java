@@ -18,6 +18,15 @@ import java.util.List;
 public class TabCompleter implements org.bukkit.command.TabCompleter {
     private final List<String> results = new ArrayList<>();
 
+    /**
+     * Handles tab completion for the "pixelchat" command
+     *
+     * @param sender The source of the command (player/console)
+     * @param cmd    The command being executed
+     * @param label  The alias used
+     * @param args   The command arguments
+     * @return A list of possible completions based on input and permissions
+     */
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         // Clear previous results to avoid stale completions

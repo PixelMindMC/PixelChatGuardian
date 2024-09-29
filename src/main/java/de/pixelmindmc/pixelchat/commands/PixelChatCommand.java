@@ -23,8 +23,17 @@ public class PixelChatCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
+    /**
+     * Handles the execution of the "pixelchat" command
+     *
+     * @param sender The source of the command (player or console)
+     * @param cmd    The command being executed
+     * @param label  The alias used to invoke the command
+     * @param args   The arguments provided with the command
+     * @return true to indicate the command was processed
+     */
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
 
         // Display usage information if no arguments are provided

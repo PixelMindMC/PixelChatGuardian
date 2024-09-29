@@ -54,7 +54,7 @@ public final class PixelChat extends JavaPlugin {
         initializeMetrics();
         /*try {
             checkForUpdates();
-        } catch (URISyntaxException | MalformedURLException e) {
+        } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
         }*/
     }

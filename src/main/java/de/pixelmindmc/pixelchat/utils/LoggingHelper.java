@@ -13,16 +13,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * A utility class for handling logging.
+ * A utility class for handling logging
  */
 public class LoggingHelper {
     final Logger logger;
 
     /**
-     * Constructs a LoggingHelper object.
+     * Constructs a LoggingHelper object
      *
-     * @param plugin The plugin instance used to fetch the logger and configuration.
-     * @throws NullPointerException if the log level in the configuration is null.
+     * @param plugin The plugin instance used to fetch the logger and configuration
+     * @throws NullPointerException if the log level in the configuration is null
      */
     public LoggingHelper(PixelChat plugin) {
         this.logger = plugin.getLogger();
@@ -30,9 +30,9 @@ public class LoggingHelper {
     }
 
     /**
-     * Logs a message at the INFO level, if the current log level allows INFO logging.
+     * Logs a message at the INFO level, if the current log level allows INFO logging
      *
-     * @param message The message to log.
+     * @param message The message to log
      */
     public void info(String message) {
         if (isLogLevel(Level.INFO)) {
@@ -41,9 +41,9 @@ public class LoggingHelper {
     }
 
     /**
-     * Logs a message at the WARNING level, if the current log level allows WARNING logging.
+     * Logs a message at the WARNING level, if the current log level allows WARNING logging
      *
-     * @param message The message to log.
+     * @param message The message to log
      */
     public void warning(String message) {
         if (isLogLevel(Level.WARNING)) {
@@ -52,9 +52,9 @@ public class LoggingHelper {
     }
 
     /**
-     * Logs a message at the ERROR (SEVERE) level, if the current log level allows SEVERE logging.
+     * Logs a message at the ERROR (SEVERE) level, if the current log level allows SEVERE logging
      *
-     * @param message The message to log.
+     * @param message The message to log
      */
     public void error(String message) {
         if (isLogLevel(Level.SEVERE)) {
@@ -63,10 +63,10 @@ public class LoggingHelper {
     }
 
     /**
-     * Logs a message at the DEBUG (CONFIG) level, if the current log level allows DEBUG logging.
-     * Debug messages are prefixed with "[DEBUG]" to distinguish them.
+     * Logs a message at the DEBUG (CONFIG) level, if the current log level allows DEBUG logging
+     * Debug messages are prefixed with "[DEBUG]" to distinguish them
      *
-     * @param message The message to log.
+     * @param message The message to log
      */
     public void debug(String message) {
         if (isLogLevel(Level.CONFIG)) {
@@ -75,10 +75,10 @@ public class LoggingHelper {
     }
 
     /**
-     * Sets the log level for the logger based on a string value.
-     * Supported values: DEBUG, ERROR, WARNING, and INFO.
+     * Sets the log level for the logger based on a string value
+     * Supported values: DEBUG, ERROR, WARNING, and INFO
      *
-     * @param level The log level as a string.
+     * @param level The log level as a string
      */
     public void setLogLevel(String level) {
         Level logLevel = switch (level.toUpperCase()) {
@@ -91,20 +91,20 @@ public class LoggingHelper {
     }
 
     /**
-     * Logs a message with the specified log level.
+     * Logs a message with the specified log level
      *
-     * @param level   The log level at which to log the message.
-     * @param message The message to log.
+     * @param level   The log level at which to log the message
+     * @param message The message to log
      */
     private void log(Level level, String message) {
         logger.log(level, message);
     }
 
     /**
-     * Checks whether the given log level is enabled in the current logger configuration.
+     * Checks whether the given log level is enabled in the current logger configuration
      *
-     * @param level The log level to check.
-     * @return True if the given log level is enabled, false otherwise.
+     * @param level The log level to check
+     * @return True if the given log level is enabled, false otherwise
      */
     private boolean isLogLevel(Level level) {
         return logger.isLoggable(level);
