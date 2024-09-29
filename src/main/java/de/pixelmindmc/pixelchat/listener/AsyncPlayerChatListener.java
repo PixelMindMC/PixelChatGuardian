@@ -121,17 +121,17 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Helper method to allow for kicks in async contexts
+     * Helper method to allow for command execution in async contexts
      *
      * @param command The command to execute
-     * @param player The player to kick
-     * @param reason The kick reason
+     * @param player  The player to execute the command on
+     * @param reason  The reason for the command
      */
     private void executeCommand(String command, Player player, String reason) {
         // Replace placeholders with actual values
         String processedCommand = command.replace("<player>", player.getName()).replace("<reason>", reason);
 
-        // Execute the command asynchronously to avoid blocking the main thread
+        // Schedule to execute the task on the next server tick, as it cannot run from an async context (where we are now)
         Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));
     }
 
