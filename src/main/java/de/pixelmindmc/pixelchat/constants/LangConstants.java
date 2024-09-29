@@ -30,6 +30,8 @@ public class LangConstants {
     public static final String PIXELCHAT_REPORT_BUGS = "pixelchat.report-bugs";
     public static final String PIXELCHAT_RELOAD = "pixelchat.reload";
     // Pixelchat Guardian
+    public static final String MESSAGE_BLOCKED = "message-blocked";
+    public static final String MESSAGE_CENSORED = "message-censored";
     public static final String PLAYER_KICK = "player.kick";
     public static final String PLAYER_BAN_TEMPORARY = "player.ban-temporary";
     public static final String PLAYER_BAN_PERMANENT = "player.ban-permanent";

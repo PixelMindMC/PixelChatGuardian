@@ -61,7 +61,10 @@ sys-prompt: >
 # Message handling strategy. Options: CENSOR and BLOCK. [Default: CENSOR]
 message-handling: CENSOR
 
-# Use the built-in strike system to manage player strikes.[Default: true]
+# Whether to notify the user about their message being blocked. [Default: true]
+notify-user: true
+
+# Use the built-in strike system to manage player strikes. [Default: true]
 use-built-in-strike-system: true
 
 # Custom command to issue a strike to a player. This requires an external plugin to function. [Default: /strike <player>]

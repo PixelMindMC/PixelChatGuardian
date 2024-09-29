@@ -12,6 +12,7 @@ import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -90,11 +91,22 @@ public class AsyncPlayerChatListener implements Listener {
             return false;
 
         String eventMessage = event.getMessage();
-        if (plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK")) {
+        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals(ConfigConstants.MESSAGE_HANDLING_BLOCK);
+        if (blockMessage)
             event.setCancelled(true);
-        } else event.setMessage("*".repeat(eventMessage.length()));
+        else
+            event.setMessage("*".repeat(eventMessage.length()));
 
-        plugin.getLoggingHelper().debug("Message by " + player.getName() + " has been blocked: " + message);
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
+            player.sendMessage(
+                    LangConstants.PLUGIN_PREFIX + ChatColor.YELLOW +
+                            plugin.getConfigHelperLanguage().getString(
+                                    blockMessage ? LangConstants.MESSAGE_BLOCKED : LangConstants.MESSAGE_CENSORED
+                            ) + ChatColor.RESET + classification.reason()
+            );
+
+        plugin.getLoggingHelper().info("Message by " + player.getName() +
+                (blockMessage ? " has been blocked: " : " has been censored: ") + message);
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             if (!player.hasMetadata(STRIKE_KEY)) player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
