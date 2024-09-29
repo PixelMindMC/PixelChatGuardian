@@ -50,7 +50,7 @@ public final class PixelChat extends JavaPlugin {
         registerAPIHelper();
         registerListeners(getServer().getPluginManager());
         registerCommands();
-        registerTabCompleters(new TabCompleter());
+        registerTabCompleter(new TabCompleter());
         initializeMetrics();
         /*try {
             checkForUpdates();
@@ -91,7 +91,7 @@ public final class PixelChat extends JavaPlugin {
     /**
      * Retrieves the appropriate language configuration based on the plugin's config setting
      *
-     * @return The config helper for the language set in the configuation
+     * @return The config helper for the language set in the configuration
      */
     public ConfigHelper getConfigHelperLanguage() {
         String language = getConfigHelper().getString(ConfigConstants.LANGUAGE);
@@ -155,13 +155,13 @@ public final class PixelChat extends JavaPlugin {
     }
 
     /**
-     * Registers tab completers for the plugin's commands
+     * Registers tabcompleter for the plugin's commands
      *
      * @param tabCompleter The {@code TabCompleter}
      */
-    private void registerTabCompleters(TabCompleter tabCompleter) {
+    private void registerTabCompleter(TabCompleter tabCompleter) {
         // Debug logger message
-        getLoggingHelper().debug("Register tabcompleters");
+        getLoggingHelper().debug("Register tabcompleter");
 
         Objects.requireNonNull(getCommand("pixelchat")).setTabCompleter(tabCompleter);
     }

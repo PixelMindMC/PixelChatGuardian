@@ -75,7 +75,7 @@ public class AsyncPlayerChatListener implements Listener {
      *
      * @param event   The message event
      * @param message The message to check
-     * @param player  The player that sent the mesage
+     * @param player  The player that sent the message
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
     private boolean isMessageBlocked(AsyncPlayerChatEvent event, String message, Player player) {
