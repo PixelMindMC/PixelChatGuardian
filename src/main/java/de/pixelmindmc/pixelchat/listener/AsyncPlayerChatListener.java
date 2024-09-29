@@ -109,27 +109,39 @@ public class AsyncPlayerChatListener implements Listener {
                 (blockMessage ? " has been blocked: " : " has been censored: ") + message);
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
-            if (!player.hasMetadata(STRIKE_KEY)) player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
-
-            int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
-            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
-
-            plugin.getLoggingHelper().debug(player.getName() + " has " + strikes + " strikes.");
-
-            int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);
-            int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_TEMP_BAN);
-            int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_BAN);
-
-            if (strikes >= strikesToKick && strikes <= strikesToTempBan) {
-                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + classification.reason());
-            } else if (strikes >= strikesToTempBan && strikes <= strikesToBan) {
-                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + classification.reason());
-            } else if (strikes >= strikesToBan)
-                executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + classification.reason());
+            runStrikeSystem(player, classification.reason());
         } else
             executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player, "");
 
         return true;
+    }
+
+    /**
+     * Runs the built-in strike system on the given player.
+     * This is executed whenever a message has been blocked and the built-in strike system is enabled.
+     *
+     * @param player The player to run the strike system on
+     * @param reason The reason why the player's message has been blocked or censored
+     */
+    private void runStrikeSystem(Player player, String reason) {
+        if (!player.hasMetadata(STRIKE_KEY))
+            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
+
+        int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
+        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
+
+        plugin.getLoggingHelper().debug(player.getName() + " has " + strikes + " strikes.");
+
+        int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);
+        int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_TEMP_BAN);
+        int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_BAN);
+
+        if (strikes >= strikesToKick && strikes <= strikesToTempBan) { //Enough strikes to kick, but not (temp)ban
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + reason);
+        } else if (strikes >= strikesToTempBan && strikes <= strikesToBan) { //Enough strikes to tempban but not ban
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + reason);
+        } else if (strikes >= strikesToBan) //Enough strikes to permaban
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + reason);
     }
 
     /**
