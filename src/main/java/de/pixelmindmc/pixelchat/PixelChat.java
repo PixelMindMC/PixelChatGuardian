@@ -27,6 +27,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -181,7 +182,7 @@ public final class PixelChat extends JavaPlugin {
      * @throws URISyntaxException    If the set URL is invalid
      * @throws MalformedURLException If the set URL is invalid
      */
-    private void checkForUpdates() throws URISyntaxException, MalformedURLException {
+    private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_FOR_UPDATES));
             String updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();

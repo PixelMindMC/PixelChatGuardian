@@ -51,8 +51,7 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
-        return null;
+            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
     }
 
     /**
@@ -60,7 +59,7 @@ public class UpdateChecker {
      *
      * @return A string denoting whether the plugin has an update available or not
      */
-    public String checkForUpdates() {
+    public String checkForUpdates() throws IOException {
         String currentVersion = plugin.getDescription().getVersion();
 
         try {
@@ -72,8 +71,7 @@ public class UpdateChecker {
                 return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/project/pixelchatguardian";
             } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
         } catch (Exception e) {
-            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
+        throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
         }
-        return null;
     }
 }
