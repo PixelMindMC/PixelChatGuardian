@@ -58,8 +58,8 @@ sys-prompt: >
 
 #################### Chatguard settings #####################
 
-# Message handling strategy. Options: CENSOREMESSAGE and BLOCKMESSAGE. [Default: CENSOREMESSAGE]
-message-handling: CENSOREMESSAGE
+# Message handling strategy. Options: CENSOR and BLOCK. [Default: CENSOR]
+message-handling: CENSOR
 
 # Use the built-in strike system to manage player strikes.[Default: true]
 use-built-in-strike-system: true

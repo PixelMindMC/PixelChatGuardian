@@ -90,7 +90,7 @@ public class AsyncPlayerChatListener implements Listener {
             return false;
 
         String eventMessage = event.getMessage();
-        if (plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCKMESSAGE")) {
+        if (plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK")) {
             event.setCancelled(true);
         } else event.setMessage("*".repeat(eventMessage.length()));
 
