@@ -15,7 +15,7 @@
 # Configuration version
 version: 0.1.0
 
-# Plugin language options: "custom" or "en". [Default: en]
+# Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
 language: en
 
 # Enable or disable metrics collection. [Default: true]

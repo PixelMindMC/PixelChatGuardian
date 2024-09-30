@@ -1,0 +1,46 @@
+# Nederlandse taalspecificatie voor PixelChat Guardian.
+# Genereerd voor versie ${project.version}.
+# Taalconfiguratie gemaakt met AI.
+
+# Configuratieversie
+version: 0.1.0
+
+########################## Global ###########################
+
+metrics-enabled: "Plugin-metrics zijn ingeschakeld."
+
+checking-for-updates: "Controleren op updates..."
+update-available: "Er is een nieuwe update beschikbaar! Download het van GitHub:"
+no-update-available: "U gebruikt de nieuwste versie. Geen updates beschikbaar."
+unable-check-for-updates: "Kon niet op updates controleren."
+
+config-outdated: "Uw configuratiebestand is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
+language-config-outdated: "Uw taalconfiguratie is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
+failed-to-save-config: "Kon het configuratiebestand niet opslaan."
+
+no-api-key-set: "Geen API-sleutel opgegeven. De AI-gebaseerde chatguardian-module is gedeactiveerd."
+
+no-permission: "U heeft geen toestemming om deze opdracht te gebruiken."
+invalid-syntax: "Ongeldige opdracht-syntax!"
+invalid-syntax-usage: "Juiste gebruik: /"
+
+##################### PixelChat Command #####################
+
+pixelchat:
+  version: "Pluginversie:"
+  developer: "Ontwikkelaar:"
+  plugin-website: "Pluginwebsite:"
+  report-bugs: "Rapporteer eventuele bugs aan:"
+  reload: "Configuratiebestanden succesvol herladen."
+  removed-player-strikes: "Succesvol straffen van de speler verwijderd."
+
+##################### PixelChat Guardian #####################
+
+cleared-strikes-on-server-restart: "De straffen van spelers zijn gereset. Om ze te behouden na serverherstarts, pas de relevante instelling in het configuratiebestand aan."
+
+player:
+  message-blocked: "Uw bericht is geblokkeerd. Reden:"
+  message-censored: "Uw bericht is gecensureerd. Reden:"
+  kick: "U bent van de server gekickt. Reden:"
+  ban-temporary: "U bent tijdelijk van de server verbannen. Reden:"
+  ban-permanent: "U bent permanent van de server verbannen. Reden:"

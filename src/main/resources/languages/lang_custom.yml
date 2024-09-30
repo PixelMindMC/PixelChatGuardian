@@ -1,7 +1,7 @@
-# This is the custom language config file for PixelChat Guardian.
-# If you want to translate the plugin, use this file.
-# If you want, you can send me your translated language config file and I can add it to the plugin.
-# This language config was generated for version ${project.version}.
+# Custom language configuration file for PixelChat Guardian.
+# Use this file to translate the plugin to your preferred language.
+# If you'd like to contribute your translations, please send me your language config file for inclusion in the plugin.
+# Generated for version ${project.version}.
 # Language config by:
 
 # Configuration Version
@@ -14,7 +14,7 @@ metrics-enabled: ""
 checking-for-updates: ""
 update-available: ""
 no-update-available: ""
-unable-check-for-updates: "."
+unable-check-for-updates: ""
 
 config-outdated: ""
 language-config-outdated: ""
@@ -23,7 +23,7 @@ failed-to-save-config: ""
 no-api-key-set: ""
 
 no-permission: ""
-invalid-syntax:
+invalid-syntax: ""
 invalid-syntax-usage: ""
 
 ##################### PixelChat Command #####################
@@ -34,9 +34,15 @@ pixelchat:
   plugin-website: ""
   report-bugs: ""
   reload: ""
+  removed-player-strikes: ""
 
 ##################### PixelChat Guardian #####################
 
-player-kick: ""
-player-ban-permanent: ""
-player-ban-temporary: ""
+cleared-strikes-on-server-restart: ""
+
+player:
+  message-blocked: ""
+  message-censored: ""
+  kick: ""
+  ban-temporary: ""
+  ban-permanent: ""

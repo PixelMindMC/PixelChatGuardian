@@ -29,7 +29,7 @@ public class ConfigHelper {
      * Constructs a ConfigHelper object
      *
      * @param plugin The plugin instance
-     * @param path The path of the configuration file
+     * @param path   The path of the configuration file
      */
     public ConfigHelper(PixelChat plugin, String path) {
         this.plugin = plugin;
