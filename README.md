@@ -22,7 +22,8 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 3. **Restart** your server to activate the plugin.
 4. **Create a free Groq account** and copy your API key.
 5. **Configure** the plugin settings in the `config.yml` file located in the `plugins/PixelChatGuardian` directory. Add
-   your API key under `api-key`. You can also configure a different API endpoint if preferred.
+   your API key under `api-key`. You can also configure a different API endpoint if preferred; Any OpenAI-API-compliant
+   endpoint works, but you may need to adjust the AI model string in the `config.yml`.
 
 ## Important Notes
 
@@ -35,6 +36,7 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 For assistance, bug reports, or suggestions, please reach out through:
 
 - [GitHub Issues](https://github.com/PixelMindMC/PixelChatGuardian/issues)
+- [Our Discord Server](https://discord.gg/hyGpwCp3zq)
 - [Modrinth Organization](https://modrinth.com/organization/pixelmindmc)
 
 If you enjoy the plugin, consider leaving a review on Modrinth and giving us a star on GitHub. Your feedback helps us
