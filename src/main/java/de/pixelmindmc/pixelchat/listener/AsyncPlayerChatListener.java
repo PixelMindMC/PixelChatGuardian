@@ -63,7 +63,7 @@ public class AsyncPlayerChatListener implements Listener {
         String message = event.getMessage();
 
         // AI based chat guard
-        if (chatGuardEnabled && isMessageBlocked(event, message, player))
+        if (chatGuardEnabled && !player.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION) && isMessageBlocked(event, message, player))
             return;
 
         // Emoji module

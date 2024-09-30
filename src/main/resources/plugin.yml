@@ -22,6 +22,7 @@ permissions:
       pixelchat.reload: true
       pixelchat.emojis: true
       pixelchat.remove-player-strikes: true
+      pixelchat.bypass-chat-moderation: true
 
   pixelchat.version:
     description: Allows the use of the /pixelchat version subcommand.
@@ -37,4 +38,8 @@ permissions:
 
   pixelchat.remove-player-strikes:
     description: Allows the use of the /pixelchat remove-strikes subcommand.
+    default: op
+
+  pixelchat.bypass-chat-moderation:
+    description: Bypasses the AI chat moderation
     default: op
