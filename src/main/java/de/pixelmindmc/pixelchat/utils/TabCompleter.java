@@ -6,8 +6,10 @@
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +39,20 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             if (args.length == 1) {
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) results.add("version");
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
-            }
+                if (sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
+                    results.add("remove-strikes");
+            } else if (args.length == 2 && args[0].equals("remove-strikes")) addOnlinePlayerCompletions();
         }
 
         return results;
+    }
+
+    /**
+     * Adds online players to the results list for player-based commands
+     */
+    private void addOnlinePlayerCompletions() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            results.add(player.getName());
+        }
     }
 }

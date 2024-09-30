@@ -32,6 +32,7 @@ pixelchat:
   plugin-website: "Plugin Website:"
   report-bugs: "Report any bugs to:"
   reload: "Configuration files successfully reloaded."
+  removed-player-strikes: "Successfully removed strikes from the player"
 
 ##################### PixelChat Guardian #####################
 

@@ -32,9 +32,9 @@ public class LangConstants {
     public static final String PIXELCHAT_PLUGIN_WEBSITE = "pixelchat.plugin-website";
     public static final String PIXELCHAT_REPORT_BUGS = "pixelchat.report-bugs";
     public static final String PIXELCHAT_RELOAD = "pixelchat.reload";
+    public static final String PIXELCHAT_REMOVED_PLAYER_STRIKES = "pixelchat.removed-player-strikes";
     // Pixelchat Guardian
     public static final String CLEARED_STRIKES_ON_SERVER_RESTART = "cleared-strikes-on-server-restart";
-
     public static final String PLAYER_MESSAGE_BLOCKED = "player.message-blocked";
     public static final String PLAYER_MESSAGE_CENSORED = "player.message-censored";
     public static final String PLAYER_KICK = "player.kick";

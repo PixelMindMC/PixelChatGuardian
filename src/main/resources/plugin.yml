@@ -9,27 +9,32 @@ website: https://modrinth.com/project/pixelchatguardian
 
 commands:
   pixelchat:
-    description: Main command for PixelChat Guardian, used for version info and reloading.
+    description: The main command for PixelChat Guardian, used for version info and reloading.
     usage: /<command> [version|reload]
-    aliases: [ pc, pixelchatguardian, pcg ]
+    aliases: [ pc, pixelchatguardian, pcg, chatguard ]
 
 permissions:
   pixelchat.*:
-    description: Grants access to all PixelChat commands.
+    description: Grants access to all PixelChat commands and features.
     default: op
     children:
       pixelchat.version: true
       pixelchat.reload: true
       pixelchat.emojis: true
+      pixelchat.remove-player-strikes: true
 
   pixelchat.version:
-    description: Grants access to the /pixelchat version subcommand.
+    description: Allows the use of the /pixelchat version subcommand.
     default: true
 
   pixelchat.reload:
-    description: Grants access to the /pixelchat reload subcommand.
+    description: Allows the use of the /pixelchat reload subcommand.
     default: op
 
   pixelchat.emojis:
-    description: Grants access to the use of emojis.
+    description: Allows the use of emojis in chat.
     default: true
+
+  pixelchat.remove-player-strikes:
+    description: Allows the use of the /pixelchat remove-strikes subcommand.
+    default: op

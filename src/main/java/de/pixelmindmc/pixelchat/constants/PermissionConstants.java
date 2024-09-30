@@ -12,6 +12,7 @@ public class PermissionConstants {
     public static final String PIXELCHAT_VERSION = "pixelchat.version";
     public static final String PIXELCHAT_RELOAD = "pixelchat.reload";
     public static final String PIXELCHAT_EMOJIS = "pixelchat.emojis";
+    public static final String PIXELCHAT_REMOVE_PLAYER_STRIKES = "pixelchat.remove-player-strikes";
 
     private PermissionConstants() {
     }

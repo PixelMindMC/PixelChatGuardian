@@ -101,10 +101,7 @@ public class AsyncPlayerChatListener implements Listener {
             event.setMessage("*".repeat(eventMessage.length()));
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
-            player.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.YELLOW +
-                            plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RESET + classification.reason()
-            );
+            player.sendMessage(LangConstants.PLUGIN_PREFIX + plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
 
         plugin.getLoggingHelper().info("Message by " + player.getName() +
                 (blockMessage ? " has been blocked: " : " has been censored: ") + message);

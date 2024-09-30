@@ -80,8 +80,10 @@ public final class PixelChat extends JavaPlugin {
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
 
-        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART))
+        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) {
             getConfigHelperPlayerStrikes().saveDefaultConfig();
+            getLoggingHelper().info(LangConstants.CLEARED_STRIKES_ON_SERVER_RESTART);
+        }
     }
 
     /**
