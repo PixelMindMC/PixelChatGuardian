@@ -4,109 +4,112 @@
 #*---------------------------------------------------------*#
 #############################################################
 
-# This is the configuration file for PixelChat Guardian.
-# This config was generated for version ${project.version}.
+# Configuration file for PixelChat Guardian.
+# Generated for version ${project.version}.
+# Ensure to update this file when updating the plugin!
 
-# Always create or update your configuration when you update the plugin!
+# For support or inquiries, please contact us via GitHub or Modrinth.
 
-# For support or questions, please reach out on GitHub or Modrinth.
+###################### General Settings ######################
 
-# Configuration Version
+# Configuration version
 version: 0.1.0
 
-###################### Global Settings ######################
-
-# Language setting for the plugin. Options are: custom and en. [Default: en]
+# Plugin language options: "custom" or "en". [Default: en]
 language: en
 
-# Enable or disable plugin metrics collection. [Default: true]
+# Enable or disable metrics collection. [Default: true]
 metrics-enabled: true
 
-# Enable or disable the update checker. [Default: true]
+# Enable or disable update checking. [Default: true]
 check-for-updates: true
 
-# Sets the plugin's log level. Available options include: DEBUG, INFO, WARNING, and ERROR. [Default: INFO]
+# Plugin log level. Options: DEBUG, INFO, WARNING, ERROR. [Default: INFO]
 log-level: INFO
 
-###################### Module Settings ######################
+####################### Module Settings #######################
 
-# Enable or disable specific plugin modules.
-modules:
-  # Enable or disable the chat guardian module. [Default: true]
+# Toggle specific plugin modules on/off.
+modules: # Chat guardian module. [Default: true]
   chatguard: true
-  # Enable or disable the emojis module. [Default: true]
+  # Emoji replacement module. [Default: true]
   emojis: true
 
-#################### AI and API Settings ####################
+####################### AI and API Settings ###################
 
-# Any endpoint that complies with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
+# API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
 api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
-# Any model, such as gpt-4o or llama-3.1-8b-instant for example. [Default: llama-3.1-70b-versatile]
+# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.1-70b-versatile]
 ai-model: "llama-3.1-70b-versatile"
 
-# Your API key for the endpoint.
+# API key for authentication with the endpoint.
 api-key: "API-KEY"
 
-# System prompt passed as context for the automatic moderation. [Default: You are a chat moderation tool for a Minecraft server. Analyze each message and respond in JSON with fields: block (boolean, whether to block the message or not) and reason (string, detailing the offense, shown to the user). Block messages that use offensive language, severe insults, slurs, and serious real-life crime references. Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries can include stuff like 'kill the villager' and 'kill all the zombies'. Do not give extra words or explanations.]
-sys-prompt: > 
+# System prompt for automatic chat moderation.
+# Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
+# Block offensive language, slurs, and crime-related references. Allow minor swears and normal gameplay discussions.
+sys-prompt: >
   "You are a chat moderation tool for a Minecraft server.
-  Analyze each message and respond in JSON with fields: block (boolean, whether to block the message or not) and reason (string, detailing the offense, shown to the user).
-  Block messages that use offensive language, severe insults, slurs, and serious real-life crime references.
-  Allow minor expressions like swears and normal gameplay queries. Normal gameplay queries can include stuff like 'kill the villager' and 'kill all the zombies'.
-  Do not give extra words or explanations."
+  Analyze each message and respond in JSON with the following fields: block (boolean, to block the message) and reason (string, to describe the offense to the user).
+  Block messages containing offensive language, severe insults, slurs, or references to real-world crimes.
+  Allow minor swearing and normal gameplay queries, such as 'kill the villager' or 'kill all the zombies'.
+  Respond succinctly without additional explanations."
 
-#################### Chatguard settings #####################
+###################### ChatGuard Settings #####################
 
-# Message handling strategy. Options: CENSOR and BLOCK. [Default: CENSOR]
+# Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
 message-handling: CENSOR
 
-# Whether to notify the user about their message being blocked. [Default: true]
+# Notify the user if their message is blocked. [Default: true]
 notify-user: true
 
-# Use the built-in strike system to manage player strikes. [Default: true]
+# Use the built-in strike system for managing player behavior. [Default: true]
 use-built-in-strike-system: true
 
-# Custom command to issue a strike to a player. This requires an external plugin to function. [Default: /strike <player>]
-custom-strike-command: "strike <player>"
+# Reset player strikes on server restart. [Default: true]
+clear-strikes-on-server-restart: true
 
-# Number of strikes a player receives before being kicked. [Default: 3]
+# Custom command for issuing a strike to a player (requires an external plugin). [Default: /strike <player> <reason>]
+custom-strike-command: "strike <player> <reason>"
+
+# Number of strikes before the player is kicked. [Default: 3]
 strikes-before-kick: 3
-# Command to kick a player after reaching the strike threshold. [Default: /kick <player> <reason>]
+# Command to kick a player after reaching the strike limit. [Default: /kick <player> <reason>]
 kick-command: "kick <player> <reason>"
 
-# Number of strikes a player receives before a temporary ban. [Default: 5]
+# Number of strikes before issuing a temporary ban. [Default: 5]
 strikes-before-temp-ban: 5
-# Command to temporarily ban a player. Since Minecraft does not have a built-in temp ban command, you can use an external plugin or an alternative method. [Default: /kick <player> <reason>]
+# Command to temporarily ban a player (requires an external plugin). [Default: /kick <player> <reason>]
 temp-ban-command: "kick <player> <reason>"
 
-# Number of strikes a player receives before being permanently banned. [Default: 6]
+# Number of strikes before a permanent ban. [Default: 6]
 strikes-before-ban: 6
-# Command to permanently ban a player after reaching the strike threshold. [Default: /ban <player> <reason>]
+# Command to permanently ban a player. [Default: /ban <player> <reason>]
 ban-command: "ban <player> <reason>"
 
-###################### Emoji settings #######################
+###################### Emoji Settings ########################
 
-# Sets the emoji list used to replace ASCII characters with corresponding emojis.
+# Custom emoji list that replaces ASCII characters with corresponding emojis.
 emoji-list:
-  <3: "❤"
-  :): "☺"
-  :(: "☹"
-  '!!': "‼"
-  ':airplane:': "✈"
-  ':biohazard:': "☣"
-  ':check:': "✔"
-  ':copyright:': "©"
-  ':female_sign:': "♀"
-  ':frowning:': "☹"
-  ':heart:': "❤"
-  ':index_pointing_up:': "☝"
-  ':male_sign:': "♂"
-  ':radioactive:': "☢"
-  ':registered:': "®"
-  ':skull_crossbones:': "☠"
-  ':smile:': "☺"
-  ':trademark:': "™"
-  ':v:': "✌"
-  ':watch:': "⌚"
-  ':writing_hand:': "✍"
+  "<3": "❤"
+  ":)": "☺"
+  ":(": "☹"
+  "!!": "‼"
+  ":airplane:": "✈"
+  ":biohazard:": "☣"
+  ":check:": "✔"
+  ":copyright:": "©"
+  ":female_sign:": "♀"
+  ":frowning:": "☹"
+  ":heart:": "❤"
+  ":index_pointing_up:": "☝"
+  ":male_sign:": "♂"
+  ":radioactive:": "☢"
+  ":registered:": "®"
+  ":skull_crossbones:": "☠"
+  ":smile:": "☺"
+  ":trademark:": "™"
+  ":v:": "✌"
+  ":watch:": "⌚"
+  ":writing_hand:": "✍"

@@ -124,6 +124,7 @@ public class PixelChatCommand implements CommandExecutor {
 
         // Reload the plugin configurations
         plugin.getConfigHelper().loadConfig();
+        plugin.getConfigHelperPlayerStrikes().loadConfig();
         plugin.getConfigHelperLanguage().loadConfig();
 
         // Send a message after successfully reloading the configurations

@@ -1,5 +1,5 @@
-# This is the english language config file for PixelChat Guardian.
-# This language config was generated for version ${project.version}.
+# English language configuration file for PixelChat Guardian.
+# Generated for version ${project.version}.
 # Language config by: PixelMindMC
 
 # Configuration Version
@@ -11,33 +11,35 @@ metrics-enabled: "Plugin metrics are enabled."
 
 checking-for-updates: "Checking for updates..."
 update-available: "A new update is available! Download it from GitHub:"
-no-update-available: "No new updates available."
+no-update-available: "You are using the latest version. No updates available."
 unable-check-for-updates: "Unable to check for updates."
 
 config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
 language-config-outdated: "Your language configuration is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
-failed-to-save-config: "Failed to save configuration."
+failed-to-save-config: "Failed to save the configuration file."
 
-no-api-key-set: "No API key has been set, so the AI-based chat guardian module has been deactivated."
+no-api-key-set: "No API key provided. The AI-based chat guardian module has been deactivated."
 
-no-permission: "You do not have permission to execute this command."
+no-permission: "You do not have permission to use this command."
 invalid-syntax: "Invalid command syntax!"
-invalid-syntax-usage: "Usage: /"
+invalid-syntax-usage: "Correct usage: /"
 
 ##################### PixelChat Command #####################
 
 pixelchat:
-  version: "Version:"
+  version: "Plugin Version:"
   developer: "Developer:"
-  plugin-website: "Plugin website:"
-  report-bugs: "Report bugs to:"
-  reload: "Configurations reloaded successfully."
+  plugin-website: "Plugin Website:"
+  report-bugs: "Report any bugs to:"
+  reload: "Configuration files successfully reloaded."
 
 ##################### PixelChat Guardian #####################
 
-message-blocked: "Your message has been blocked. Reason: "
-message-censored: "Your message has been censored. Reason: "
+cleared-strikes-on-server-restart: "Player strikes have been reset. To preserve them after server restarts, adjust the relevant setting in the configuration file."
+
 player:
-  kick: "You have been kicked from this server. Reason: "
-  ban-temporary: "You have been temporarily banned from this server. Reason: "
-  ban-permanent: "You have been banned from this server. Reason: "
+  message-blocked: "Your message has been blocked. Reason:"
+  message-censored: "Your message has been censored. Reason:"
+  kick: "You have been kicked from the server. Reason:"
+  ban-temporary: "You have been temporarily banned from the server. Reason:"
+  ban-permanent: "You have been permanently banned from the server. Reason:"

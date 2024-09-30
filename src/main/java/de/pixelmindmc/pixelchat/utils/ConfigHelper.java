@@ -63,9 +63,28 @@ public class ConfigHelper {
     public void saveConfig() {
         try {
             fileConfiguration.save(file);
+            loadConfig();
         } catch (IOException e) {
             plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
+    }
+
+    /**
+     * Method to set a specified path with the given value
+     */
+    public void set(String path, Object value) {
+        fileConfiguration.set(path, value);
+        saveConfig();
+    }
+
+    /**
+     * Checks if the specified path exists in the file configuration
+     *
+     * @param path The path of the value
+     * @return The value
+     */
+    public boolean contains(String path) {
+        return fileConfiguration.contains(path);
     }
 
     /**

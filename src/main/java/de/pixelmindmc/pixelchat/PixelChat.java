@@ -39,6 +39,7 @@ public final class PixelChat extends JavaPlugin {
 
     // ConfigHelper instances
     private ConfigHelper configHelper;
+    private ConfigHelper configHelperPlayerStrikes;
     private ConfigHelper configHelperLangCustom;
     private ConfigHelper configHelperLangEN;
 
@@ -67,6 +68,7 @@ public final class PixelChat extends JavaPlugin {
         getLoggingHelper().debug("Loading configurations");
 
         configHelper = new ConfigHelper(this, "config.yml");
+        configHelperPlayerStrikes = new ConfigHelper(this, "player_strikes.yml");
         configHelperLangCustom = new ConfigHelper(this, "languages/lang_custom.yml");
         configHelperLangEN = new ConfigHelper(this, "languages/lang_en.yml");
 
@@ -77,6 +79,9 @@ public final class PixelChat extends JavaPlugin {
 
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
+
+        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART))
+            getConfigHelperPlayerStrikes().saveDefaultConfig();
     }
 
     /**
@@ -86,6 +91,15 @@ public final class PixelChat extends JavaPlugin {
      */
     public ConfigHelper getConfigHelper() {
         return configHelper;
+    }
+
+    /**
+     * Retrieves the player strikes configuration
+     *
+     * @return The {@code ConfigHelper}
+     */
+    public ConfigHelper getConfigHelperPlayerStrikes() {
+        return configHelperPlayerStrikes;
     }
 
     /**
@@ -170,7 +184,7 @@ public final class PixelChat extends JavaPlugin {
      * Initializes the bStats metrics for the plugin
      */
     private void initializeMetrics() {
-        if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED, true)) {
+        if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.METRICS_ENABLED));
             new Metrics(this, 23371);
         }
@@ -183,7 +197,7 @@ public final class PixelChat extends JavaPlugin {
      * @throws MalformedURLException If the set URL is invalid
      */
     private void checkForUpdates() throws URISyntaxException, IOException {
-        if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES, true)) {
+        if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_FOR_UPDATES));
             String updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);

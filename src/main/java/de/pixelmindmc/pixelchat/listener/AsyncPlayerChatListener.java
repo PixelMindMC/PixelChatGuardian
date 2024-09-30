@@ -11,29 +11,27 @@ import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
+import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-
 /**
  * Listener for handling player chat events asynchronously
  */
 public class AsyncPlayerChatListener implements Listener {
-    private static final String STRIKE_KEY = "STRIKE";
     private final PixelChat plugin;
-    // Map to store emoji translations
-    private Map<String, String> emojiMap = new HashMap<>();
     private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
+    // Map to store emoji translations
+    private Map<String, String> emojiMap = new HashMap<>();
 
     /**
      * Constructs a AsyncPlayerChatListener object
@@ -96,7 +94,7 @@ public class AsyncPlayerChatListener implements Listener {
             return false;
 
         String eventMessage = event.getMessage();
-        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals(ConfigConstants.MESSAGE_HANDLING_BLOCK);
+        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
         if (blockMessage)
             event.setCancelled(true);
         else
@@ -105,9 +103,7 @@ public class AsyncPlayerChatListener implements Listener {
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
             player.sendMessage(
                     LangConstants.PLUGIN_PREFIX + ChatColor.YELLOW +
-                            plugin.getConfigHelperLanguage().getString(
-                                    blockMessage ? LangConstants.MESSAGE_BLOCKED : LangConstants.MESSAGE_CENSORED
-                            ) + ChatColor.RESET + classification.reason()
+                            plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RESET + classification.reason()
             );
 
         plugin.getLoggingHelper().info("Message by " + player.getName() +
@@ -116,37 +112,47 @@ public class AsyncPlayerChatListener implements Listener {
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(player, classification.reason());
         } else
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player, "");
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player, classification.reason());
 
         return true;
     }
 
     /**
-     * Runs the built-in strike system on the given player.
-     * This is executed whenever a message has been blocked and the built-in strike system is enabled.
+     * Runs the built-in strike system on the given player
+     * This is executed whenever a message has been blocked and the built-in strike system is enabled
      *
      * @param player The player to run the strike system on
      * @param reason The reason why the player's message has been blocked or censored
      */
     private void runStrikeSystem(Player player, String reason) {
-        if (!player.hasMetadata(STRIKE_KEY))
-            player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, 0));
+        ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
+        String playerUUID = player.getUniqueId().toString();
 
-        int strikes = player.getMetadata(STRIKE_KEY).get(0).asInt() + 1;
-        player.setMetadata(STRIKE_KEY, new FixedMetadataValue(plugin, strikes));
+        // Retrieve the player's current strike count
+        int strikes = configHelperPlayerStrikes.getInt(playerUUID);
 
-        plugin.getLoggingHelper().debug(player.getName() + " has " + strikes + " strikes.");
+        // Increment the player's strike count
+        strikes++;
+        configHelperPlayerStrikes.set(playerUUID, strikes);
 
+        // Log the new strike count for debugging
+        plugin.getLoggingHelper().debug(player.getName() + " now has " + strikes + " strike(s).");
+
+        // Get the thresholds for kick, temp ban, and permanent ban
         int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);
         int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_TEMP_BAN);
         int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_BAN);
 
-        if (strikes >= strikesToKick && strikes <= strikesToTempBan) { //Enough strikes to kick, but not (temp)ban
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + reason);
-        } else if (strikes >= strikesToTempBan && strikes <= strikesToBan) { //Enough strikes to tempban but not ban
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + reason);
-        } else if (strikes >= strikesToBan) //Enough strikes to permaban
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + reason);
+        // Check if the player has reached the threshold for punishment
+        if (strikes >= strikesToKick && strikes < strikesToTempBan) {
+            // Player has enough strikes to be kicked
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + reason);
+        } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
+            // Player has enough strikes to be temporarily banned
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + " " + reason);
+        } else if (strikes >= strikesToBan)
+            // Player has enough strikes to be permanently banned
+            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + reason);
     }
 
     /**
