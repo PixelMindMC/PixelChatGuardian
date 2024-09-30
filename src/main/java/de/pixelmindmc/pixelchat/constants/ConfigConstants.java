@@ -5,6 +5,9 @@
 
 package de.pixelmindmc.pixelchat.constants;
 
+/**
+ * Constant class for holding constant values that are used for configuration
+ */
 public class ConfigConstants {
     public static final String CONFIG_VERSION = "version";
     // Global settings

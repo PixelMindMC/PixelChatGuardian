@@ -7,6 +7,9 @@ package de.pixelmindmc.pixelchat.constants;
 
 import org.bukkit.ChatColor;
 
+/**
+ * Constant class for holding constant values that are used for the language configuration
+ */
 public class LangConstants {
     public static final String LANGUAGE_CONFIG_VERSION = "version";
     public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";

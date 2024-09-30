@@ -25,6 +25,12 @@ public class ConfigHelper {
     private FileConfiguration fileConfiguration;
     private File file;
 
+    /**
+     * Constructs a ConfigHelper object
+     *
+     * @param plugin The plugin instance
+     * @param path The path of the configuration file
+     */
     public ConfigHelper(PixelChat plugin, String path) {
         this.plugin = plugin;
         this.path = path;

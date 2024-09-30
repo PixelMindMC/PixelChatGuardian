@@ -5,6 +5,9 @@
 
 package de.pixelmindmc.pixelchat.constants;
 
+/**
+ * Constant class for holding constant values that are used for the API
+ */
 public class APIConstants {
     public static final String BLOCK_KEY = "block";
     public static final String REASON_KEY = "reason";

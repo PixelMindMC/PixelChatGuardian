@@ -34,6 +34,11 @@ public class APIHelper {
     private final String apiKey;
     private final String sysPrompt;
 
+    /**
+     * Constructs a APIHelper object
+     *
+     * @param plugin The plugin instance
+     */
     public APIHelper(PixelChat plugin) {
         aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
         apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
@@ -93,14 +98,7 @@ public class APIHelper {
      * @throws IOException If any issue happens, an exception is thrown
      */
     private void sendRequest(HttpURLConnection connection, String prompt) throws IOException {
-        Map<String, Object> json = Map.of(
-                "model", aiModel,
-                "messages", new Map[]{
-                        Map.of("role", "system", APIConstants.CONTENT_KEY, sysPrompt),
-                        Map.of("role", "user", APIConstants.CONTENT_KEY, prompt)
-                },
-                "response_format", Map.of("type", "json_object")
-        );
+        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY, sysPrompt), Map.of("role", "user", APIConstants.CONTENT_KEY, prompt)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
@@ -121,10 +119,7 @@ public class APIHelper {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
         // Extract the content string from the first choice's message
-        String contentString = jsonObject.getAsJsonArray("choices")
-                .get(0).getAsJsonObject()
-                .getAsJsonObject("message")
-                .get("content").getAsString();
+        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
 
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);

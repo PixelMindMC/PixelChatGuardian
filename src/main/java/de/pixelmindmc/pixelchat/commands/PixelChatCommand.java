@@ -16,9 +16,17 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+/**
+ * CommandExecutor for handling the "pixelchat" commands, the main commands for the plugin
+ */
 public class PixelChatCommand implements CommandExecutor {
     private final PixelChat plugin;
 
+    /**
+     * Constructs a PixelChatCommand object
+     *
+     * @param plugin The plugin instance
+     */
     public PixelChatCommand(PixelChat plugin) {
         this.plugin = plugin;
     }

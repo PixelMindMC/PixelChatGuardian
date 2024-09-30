@@ -5,6 +5,9 @@
 
 package de.pixelmindmc.pixelchat.exceptions;
 
+/**
+ * This class provides constructors for passing custom error messages and wrapping underlying causes
+ */
 public class MessageClassificationException extends Exception {
     public MessageClassificationException(String message) {
         super(message);

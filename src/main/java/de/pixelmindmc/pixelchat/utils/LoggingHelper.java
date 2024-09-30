@@ -21,7 +21,7 @@ public class LoggingHelper {
     /**
      * Constructs a LoggingHelper object
      *
-     * @param plugin The plugin instance used to fetch the logger and configuration
+     * @param plugin The plugin instance
      * @throws NullPointerException if the log level in the configuration is null
      */
     public LoggingHelper(PixelChat plugin) {

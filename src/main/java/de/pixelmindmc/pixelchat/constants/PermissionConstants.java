@@ -5,6 +5,9 @@
 
 package de.pixelmindmc.pixelchat.constants;
 
+/**
+ * Constant class for holding constant values that are used for the permissions
+ */
 public class PermissionConstants {
     public static final String PIXELCHAT_VERSION = "pixelchat.version";
     public static final String PIXELCHAT_RELOAD = "pixelchat.reload";

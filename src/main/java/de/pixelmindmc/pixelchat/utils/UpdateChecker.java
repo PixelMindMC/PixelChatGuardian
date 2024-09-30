@@ -23,6 +23,12 @@ public class UpdateChecker {
     private final PixelChat plugin;
     private final URL url;
 
+    /**
+     * Constructs a UpdateChecker object
+     *
+     * @param plugin The plugin instance
+     * @param apiUrl The URL pointing to the GitHub API endpoint for checking updates
+     */
     public UpdateChecker(PixelChat plugin, URL apiUrl) {
         this.plugin = plugin;
         url = apiUrl;

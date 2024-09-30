@@ -35,6 +35,11 @@ public class AsyncPlayerChatListener implements Listener {
     private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
 
+    /**
+     * Constructs a AsyncPlayerChatListener object
+     *
+     * @param plugin The plugin instance
+     */
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
 
