@@ -41,7 +41,13 @@ public final class PixelChat extends JavaPlugin {
     private ConfigHelper configHelper;
     private ConfigHelper configHelperPlayerStrikes;
     private ConfigHelper configHelperLangCustom;
-    private ConfigHelper configHelperLangEN;
+    private ConfigHelper configHelperLangGerman;
+    private ConfigHelper configHelperLangEnglish;
+    private ConfigHelper configHelperLangSpanish;
+    private ConfigHelper configHelperLangFrench;
+    private ConfigHelper configHelperLangDutch;
+    private ConfigHelper configHelperLangSimplifiedChinese;
+    private ConfigHelper configHelperLangTraditionalChinese;
 
     private APIHelper apiHelper;
 
@@ -53,11 +59,11 @@ public final class PixelChat extends JavaPlugin {
         registerCommands();
         registerTabCompleter(new TabCompleter());
         initializeMetrics();
-        /*try {
+        try {
             checkForUpdates();
         } catch (URISyntaxException | IOException e) {
             throw new RuntimeException(e);
-        }*/
+        }
     }
 
     /**
@@ -70,7 +76,13 @@ public final class PixelChat extends JavaPlugin {
         configHelper = new ConfigHelper(this, "config.yml");
         configHelperPlayerStrikes = new ConfigHelper(this, "player_strikes.yml");
         configHelperLangCustom = new ConfigHelper(this, "languages/lang_custom.yml");
-        configHelperLangEN = new ConfigHelper(this, "languages/lang_en.yml");
+        configHelperLangGerman = new ConfigHelper(this, "languages/lang_de.yml");
+        configHelperLangEnglish = new ConfigHelper(this, "languages/lang_en.yml");
+        configHelperLangSpanish = new ConfigHelper(this, "languages/lang_es.yml");
+        configHelperLangFrench = new ConfigHelper(this, "languages/lang_fr.yml");
+        configHelperLangDutch = new ConfigHelper(this, "languages/lang_nl.yml");
+        configHelperLangSimplifiedChinese = new ConfigHelper(this, "languages/lang_zh-cn.yml");
+        configHelperLangTraditionalChinese = new ConfigHelper(this, "languages/lang_zh-tw.yml");
 
         // Check config versions
         String version = getDescription().getVersion();
@@ -116,8 +128,26 @@ public final class PixelChat extends JavaPlugin {
             case "custom" -> {
                 return configHelperLangCustom;
             }
+            case "de" -> {
+                return configHelperLangGerman;
+            }
+            case "es" -> {
+                return configHelperLangSpanish;
+            }
+            case "fr" -> {
+                return configHelperLangFrench;
+            }
+            case "nl" -> {
+                return configHelperLangDutch;
+            }
+            case "zh-cn" -> {
+                return configHelperLangSimplifiedChinese;
+            }
+            case "zh-tw" -> {
+                return configHelperLangTraditionalChinese;
+            }
             default -> {
-                return configHelperLangEN;
+                return configHelperLangEnglish;
             }
         }
     }

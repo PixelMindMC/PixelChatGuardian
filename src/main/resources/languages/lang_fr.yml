@@ -1,0 +1,46 @@
+# Fichier de configuration de langue français pour PixelChat Guardian.
+# Généré pour la version ${project.version}.
+# Configuration de langue créée avec IA.
+
+# Version de configuration
+version: 0.1.0
+
+########################## Global ###########################
+
+metrics-enabled: "Les métriques du plugin sont activées."
+
+checking-for-updates: "Vérification des mises à jour..."
+update-available: "Une nouvelle mise à jour est disponible ! Téléchargez-la depuis GitHub :"
+no-update-available: "Vous utilisez la dernière version. Aucune mise à jour disponible."
+unable-check-for-updates: "Impossible de vérifier les mises à jour."
+
+config-outdated: "Votre fichier de configuration est obsolète ! Veuillez le mettre à jour vers la dernière version. Le plugin tentera de le charger, mais des erreurs peuvent survenir."
+language-config-outdated: "Votre configuration linguistique est obsolète ! Veuillez la mettre à jour vers la dernière version. Le plugin tentera de la charger, mais des erreurs peuvent survenir."
+failed-to-save-config: "Échec de la sauvegarde du fichier de configuration."
+
+no-api-key-set: "Aucune clé API fournie. Le module de gardien de chat basé sur l'IA a été désactivé."
+
+no-permission: "Vous n'avez pas la permission d'utiliser cette commande."
+invalid-syntax: "Syntaxe de commande invalide !"
+invalid-syntax-usage: "Utilisation correcte : /"
+
+##################### PixelChat Command #####################
+
+pixelchat:
+  version: "Version du plugin :"
+  developer: "Développeur :"
+  plugin-website: "Site web du plugin :"
+  report-bugs: "Signalez tout bug à :"
+  reload: "Fichiers de configuration rechargés avec succès."
+  removed-player-strikes: "Sanctions retirées avec succès du joueur."
+
+##################### PixelChat Guardian #####################
+
+cleared-strikes-on-server-restart: "Les sanctions des joueurs ont été réinitialisées. Pour les conserver après les redémarrages du serveur, ajustez le paramètre pertinent dans le fichier de configuration."
+
+player:
+  message-blocked: "Votre message a été bloqué. Raison :"
+  message-censored: "Votre message a été censuré. Raison :"
+  kick: "Vous avez été expulsé du serveur. Raison :"
+  ban-temporary: "Vous avez été temporairement banni du serveur. Raison :"
+  ban-permanent: "Vous avez été banni définitivement du serveur. Raison :"
