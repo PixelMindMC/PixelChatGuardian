@@ -8,12 +8,12 @@
 # Generated for version ${project.version}.
 # Ensure to update this file when updating the plugin!
 
-# For support or inquiries, please contact us via GitHub or Modrinth.
+# For support or inquiries, please contact us via GitHub, Discord or Modrinth.
 
 ###################### General Settings ######################
 
 # Configuration version
-version: 0.1.0
+version: 1.0.0
 
 # Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
 language: en

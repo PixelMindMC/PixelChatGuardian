@@ -11,7 +11,7 @@ plugins {
 
 // Define project group and version
 group = 'de.pixelmindmc'
-version = '0.1.0'
+version = '1.0.0'
 
 // Configure repositories for dependencies
 repositories {
