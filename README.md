@@ -17,7 +17,7 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 
 ## Installation
 
-1. **Download** the latest version from the [Modrinth](https://modrinth.com/project/pixelchatguardian) page.
+1. **Download** the latest version from the [Modrinth](https://modrinth.com/plugin/pixelchatguardian/) page.
 2. **Place** the downloaded `.jar` file into the `plugins` folder of your Minecraft server.
 3. **Restart** your server to activate the plugin.
 4. **Create a free Groq account** and copy your API key.
@@ -48,7 +48,7 @@ improve!
 - [Issues](https://github.com/PixelMindMC/PixelChatGuardian/issues)
 - [Pull Requests](https://github.com/PixelMindMC/PixelChatGuardian/pulls)
 - [Changelog](https://github.com/PixelMindMC/PixelChatGuardian/blob/master/CHANGELOG.md)
-- [Modrinth Project](https://modrinth.com/project/pixelchatguardian)
+- [Modrinth Project](https://modrinth.com/plugin/pixelchatguardian/)
 - [bStats Statistics](https://www.bstats.org/plugin/bukkit/PixelChat%20Guardian/23371)
 
 ## License
