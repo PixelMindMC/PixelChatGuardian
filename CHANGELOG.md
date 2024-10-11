@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.1]
+## [1.0.1] - Latest Stable Release (11.10.2024)
 
 ### Added
 
@@ -13,7 +13,7 @@ All notable changes to this project will be documented in this file.
 - Logging server strikes being cleared on startup.
 - cleared-strikes-on-server-restart language var.
 
-## [1.0.0] - Latest Stable Release (01.10.2024)
+## [1.0.0] - (01.10.2024)
 
 - ### Initial release
 
