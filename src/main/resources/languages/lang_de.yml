@@ -3,20 +3,22 @@
 # Sprachkonfiguration erstellt mit KI.
 
 # Konfigurationsversion
-version: 1.0.0
+version: 1.0.1
 
 ########################## Global ###########################
 
 metrics-enabled: "Plugin-Metriken sind aktiviert."
 
 checking-for-updates: "Überprüfe auf Updates..."
-update-available: "Ein neues Update ist verfügbar! Lade es von GitHub herunter:"
+update-available: "Ein neues Update ist verfügbar! Lade es von Modrinth herunter:"
 no-update-available: "Sie verwenden die neueste Version. Keine Updates verfügbar."
 unable-check-for-updates: "Überprüfen auf Updates fehlgeschlagen."
 
 config-outdated: "Ihre Konfigurationsdatei ist veraltet! Bitte aktualisieren Sie sie auf die neueste Version. Das Plugin wird versuchen, sie zu laden, aber es können Fehler auftreten."
 language-config-outdated: "Ihre Sprachkonfiguration ist veraltet! Bitte aktualisieren Sie sie auf die neueste Version. Das Plugin wird versuchen, sie zu laden, aber es können Fehler auftreten."
 failed-to-save-config: "Fehler beim Speichern der Konfigurationsdatei."
+
+first-time-message: "Es sieht so aus, als ob Sie dieses Plugin zum ersten Mal verwenden. Bitte fügen Sie Ihren API-Schlüssel unter „api-key“ in der Konfigurationsdatei hinzu. Für weitere Unterstützung siehe das Wiki."
 
 no-api-key-set: "Es wurde kein API-Schlüssel angegeben. Das KI-gestützte Chatguardian-Modul wurde deaktiviert."
 

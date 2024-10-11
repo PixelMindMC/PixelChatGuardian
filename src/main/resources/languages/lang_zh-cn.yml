@@ -3,20 +3,22 @@
 # 语言配置由 AI 创建。
 
 # 配置版本
-version: 1.0.0
+version: 1.0.1
 
 ########################## Global ###########################
 
 metrics-enabled: "插件指标已启用。"
 
 checking-for-updates: "检查更新中..."
-update-available: "有新更新可用！请从 GitHub 下载："
+update-available: "有新更新可用！请从 Modrinth 下载："
 no-update-available: "您正在使用最新版本。没有可用的更新。"
 unable-check-for-updates: "无法检查更新。"
 
 config-outdated: "您的配置文件已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
 language-config-outdated: "您的语言配置已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
 failed-to-save-config: "保存配置文件失败。"
+
+first-time-message: "看起来这是您第一次使用此插件。请在配置文件中的 “api-key” 下添加您的 API 密钥。如需进一步帮助，请参考 Wiki。"
 
 no-api-key-set: "未提供 API 密钥。基于 AI 的聊天守护模块已被禁用。"
 

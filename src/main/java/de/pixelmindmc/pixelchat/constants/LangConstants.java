@@ -22,6 +22,7 @@ public class LangConstants {
     public static final String CONFIG_OUTDATED = "config-outdated";
     public static final String LANGUAGE_CONFIG_OUTDATED = "language-config-outdated";
     public static final String FAILED_TO_SAVE_CONFIG = "failed-to-save-config";
+    public static final String FIRST_TIME_MESSAGE = "first-time-message";
     public static final String NO_API_KEY_SET = "no-api-key-set";
     public static final String NO_PERMISSION = "no-permission";
     public static final String INVALID_SYNTAX = "invalid-syntax";

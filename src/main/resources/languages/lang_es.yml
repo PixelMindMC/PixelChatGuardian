@@ -3,20 +3,22 @@
 # Configuración de idioma creada con IA.
 
 # Versión de configuración
-version: 1.0.0
+version: 1.0.1
 
 ########################## Global ###########################
 
 metrics-enabled: "Las métricas del plugin están habilitadas."
 
 checking-for-updates: "Buscando actualizaciones..."
-update-available: "¡Hay una nueva actualización disponible! Descárgala desde GitHub:"
+update-available: "¡Hay una nueva actualización disponible! Descárgala desde Modrinth:"
 no-update-available: "Estás utilizando la última versión. No hay actualizaciones disponibles."
 unable-check-for-updates: "No se puede verificar si hay actualizaciones."
 
 config-outdated: "¡Tu archivo de configuración está desactualizado! Por favor, actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
 language-config-outdated: "¡Tu configuración de idioma está desactualizada! Por favor, actualízala a la última versión. El plugin intentará cargarla, pero pueden ocurrir errores."
 failed-to-save-config: "Error al guardar el archivo de configuración."
+
+first-time-message: "Parece que es la primera vez que usa este complemento. Por favor, agregue su clave API bajo 'api-key' en el archivo de configuración. Para obtener más ayuda, consulte la wiki."
 
 no-api-key-set: "No se proporcionó ninguna clave API. El módulo de guardian de chat basado en IA ha sido desactivado."
 

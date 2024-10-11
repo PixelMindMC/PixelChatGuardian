@@ -3,20 +3,22 @@
 # Taalconfiguratie gemaakt met AI.
 
 # Configuratieversie
-version: 1.0.0
+version: 1.0.1
 
 ########################## Global ###########################
 
 metrics-enabled: "Plugin-metrics zijn ingeschakeld."
 
 checking-for-updates: "Controleren op updates..."
-update-available: "Er is een nieuwe update beschikbaar! Download het van GitHub:"
+update-available: "Er is een nieuwe update beschikbaar! Download het van Modrinth:"
 no-update-available: "U gebruikt de nieuwste versie. Geen updates beschikbaar."
 unable-check-for-updates: "Kon niet op updates controleren."
 
 config-outdated: "Uw configuratiebestand is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
 language-config-outdated: "Uw taalconfiguratie is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
 failed-to-save-config: "Kon het configuratiebestand niet opslaan."
+
+first-time-message: "Het lijkt erop dat dit de eerste keer is dat u deze plug-in gebruikt. Voeg uw API-sleutel toe onder 'api-key' in het configuratiebestand. Raadpleeg de wiki voor verdere assistentie."
 
 no-api-key-set: "Geen API-sleutel opgegeven. De AI-gebaseerde chatguardian-module is gedeactiveerd."
 

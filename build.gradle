@@ -11,7 +11,7 @@ plugins {
 
 // Define project group and version
 group = 'de.pixelmindmc'
-version = '1.0.0'
+version = '1.0.1'
 
 // Configure repositories for dependencies
 repositories {
@@ -38,7 +38,7 @@ dependencies {
     implementation 'org.bstats:bstats-bukkit:3.1.0'
 
     // Apache Commons Lang dependency
-    compileOnly 'org.apache.commons:commons-lang3:3.15.0'
+    compileOnly 'org.apache.commons:commons-lang3:3.17.0'
 }
 
 // Configure Java version compatibility

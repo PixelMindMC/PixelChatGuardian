@@ -5,7 +5,7 @@
 # Language config by:
 
 # Configuration Version
-version: 1.0.0
+version: 1.0.1
 
 ########################## Global ###########################
 
@@ -19,6 +19,8 @@ unable-check-for-updates: ""
 config-outdated: ""
 language-config-outdated: ""
 failed-to-save-config: ""
+
+first-time-message: ""
 
 no-api-key-set: ""
 

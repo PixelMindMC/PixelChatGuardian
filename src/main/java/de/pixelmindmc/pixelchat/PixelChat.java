@@ -1,5 +1,5 @@
 /*
- * This file is part of PixelChatGuardian.
+ * This file is part of PixelChat Guardian.
  * Copyright (C) $today.year PixelMindMC
  *
  * PixelChatGuardian is free software: you can redistribute it and/or modify
@@ -33,6 +33,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
+/**
+ * The main class for the PixelChat Guardian plugin
+ */
 public final class PixelChat extends JavaPlugin {
     private final LoggingHelper loggingHelper = new LoggingHelper(this);
     public boolean updateAvailable = false;
@@ -51,6 +54,7 @@ public final class PixelChat extends JavaPlugin {
 
     private APIHelper apiHelper;
 
+    // Called when the plugin is first enabled
     @Override
     public void onEnable() {
         loadConfigs();
@@ -91,6 +95,9 @@ public final class PixelChat extends JavaPlugin {
 
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
+
+        if (!getConfigHelper().getFileExist())
+            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
 
         if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) {
             getConfigHelperPlayerStrikes().saveDefaultConfig();
@@ -161,7 +168,7 @@ public final class PixelChat extends JavaPlugin {
 
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
         if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
-        if (Objects.equals(apiKey, "API-KEY") || apiKey == null) {
+        if (getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY") || apiKey == null) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
         }

@@ -24,6 +24,7 @@ public class ConfigHelper {
     private final String path;
     private FileConfiguration fileConfiguration;
     private File file;
+    private boolean fileExist = true;
 
     /**
      * Constructs a ConfigHelper object
@@ -43,7 +44,10 @@ public class ConfigHelper {
      */
     public void saveDefaultConfig() {
         file = new File(plugin.getDataFolder(), path);
-        if (!file.exists()) plugin.saveResource(path, false);
+        if (!file.exists()) {
+            fileExist = false;
+            plugin.saveResource(path, false);
+        }
     }
 
     /**
@@ -67,6 +71,15 @@ public class ConfigHelper {
         } catch (IOException e) {
             plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
+    }
+
+    /**
+     * Retrieve the boolean fileExist
+     *
+     * @return The boolean
+     */
+    public boolean getFileExist() {
+        return fileExist;
     }
 
     /**
