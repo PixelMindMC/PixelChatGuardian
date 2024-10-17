@@ -19,13 +19,18 @@ version: 1.0.1
 language: en
 
 # Enable or disable metrics collection. [Default: true]
-metrics-enabled: true
+enable-metrics: true
 
 # Enable or disable update checking. [Default: true]
 check-for-updates: true
 
 # Plugin log level. Options: DEBUG, INFO, WARNING and ERROR. [Default: INFO]
 log-level: INFO
+
+# Enable or disable support for specific plugins. Set to true to enable support for a plugin.
+plugin-support:
+  # Enable support for CarbonChat integration. [Default: true]
+  carbonchat: true
 
 ####################### Module Settings #######################
 
@@ -57,6 +62,11 @@ sys-prompt: >
   Respond succinctly without additional explanations."
 
 ###################### ChatGuard Settings #####################
+
+# Enable or disable the custom ChatGuard prefix. [Default: false]
+enable-custom-chatguard-prefix: false
+# Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixe§9lChat§r§8]]
+custom-chatguard-prefix: "§8[§c§lPixe§9lChat§r§8]"
 
 # Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
 message-handling: CENSOR

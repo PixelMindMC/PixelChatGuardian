@@ -12,9 +12,10 @@ public class ConfigConstants {
     public static final String CONFIG_VERSION = "version";
     // Global settings
     public static final String LANGUAGE = "language";
-    public static final String METRICS_ENABLED = "metrics-enabled";
+    public static final String METRICS_ENABLED = "enable-metrics";
     public static final String CHECK_FOR_UPDATES = "check-for-updates";
     public static final String LOG_LEVEL = "log-level";
+    public static final String PLUGIN_SUPPORT_CARBONCHAT = "plugin-support.carbonchat";
     // Module settings
     public static final String MODULE_CHATGUARD = "modules.chatguard";
     public static final String MODULE_EMOJIS = "modules.emojis";
@@ -24,6 +25,8 @@ public class ConfigConstants {
     public static final String API_KEY = "api-key";
     public static final String SYSTEM_PROMPT = "sys-prompt";
     // Chatguard settings
+    public static final String CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX = "enable-custom-chatguard-prefix";
+    public static final String CHATGUARD_CUSTOM_CHATGUARD_PREFIX = "custom-chatguard-prefix";
     public static final String CHATGUARD_MESSAGE_HANDLING = "message-handling";
     public static final String CHATGUARD_NOTIFY_USER = "notify-user";
     public static final String CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM = "use-built-in-strike-system";

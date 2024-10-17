@@ -64,7 +64,7 @@ public class PixelChatCommand implements CommandExecutor {
         switch (args[0].toLowerCase()) {
             case "version" -> handleVersionSubcommand(sender, label, args, configHelperLanguage);
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
-            case "remove-strikes" ->
+            case "remove-strikes", "removestrikes", "rmstrikes" ->
                     handleRemoveStrikesSubcommand(sender, label, args, plugin.getConfigHelperPlayerStrikes(), configHelperLanguage);
             default ->
                     sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload|remove-strikes>");

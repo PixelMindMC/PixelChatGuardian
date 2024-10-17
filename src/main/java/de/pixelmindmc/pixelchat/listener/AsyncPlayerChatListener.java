@@ -10,6 +10,7 @@ import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
+import de.pixelmindmc.pixelchat.integration.CarbonChatIntegration;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.bukkit.Bukkit;
@@ -19,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,27 +31,55 @@ import java.util.Objects;
  */
 public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
+    private final String chatguardPrefix;
     private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
     // Map to store emoji translations
     private Map<String, String> emojiMap = new HashMap<>();
+    private CarbonChatIntegration carbonChatIntegration = null;
 
     /**
-     * Constructs a AsyncPlayerChatListener object
+     * Constructs an AsyncPlayerChatListener object
      *
      * @param plugin The plugin instance
      */
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
 
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX)) {
+            chatguardPrefix = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
+        } else chatguardPrefix = LangConstants.PLUGIN_PREFIX;
+
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
             String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
             this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
+
+            // Initialize CarbonChat integration if available
+            if (plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
+                carbonChatIntegration.registerCarbonChatListener();
         }
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
             emojiEnabled = true;
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
+        }
+    }
+
+    /**
+     * Sets up CarbonChat integration if CarbonChat is detected
+     *
+     * @return true if CarbonChat integration is successfully set up, false otherwise
+     */
+    private boolean setupCarbonChatIntegration() {
+        try {
+            Class.forName("net.draycia.carbon.api.CarbonChatProvider");
+            carbonChatIntegration = new CarbonChatIntegration(plugin);
+
+            // Debug logger message
+            plugin.getLoggingHelper().debug("Using CarbonChat integration");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
         }
     }
 
@@ -90,21 +121,16 @@ public class AsyncPlayerChatListener implements Listener {
             return false; //Don't block message if there was an error while classifying it
         }
 
-        if (!classification.block())
-            return false;
+        if (!classification.block()) return false;
 
-        String eventMessage = event.getMessage();
         boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
-        if (blockMessage)
-            event.setCancelled(true);
-        else
-            event.setMessage("*".repeat(eventMessage.length()));
+        if (blockMessage) event.setCancelled(true);
+        else event.setMessage("*".repeat(message.length()));
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
-            player.sendMessage(LangConstants.PLUGIN_PREFIX + plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
+            player.sendMessage(chatguardPrefix + plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
 
-        plugin.getLoggingHelper().info("Message by " + player.getName() +
-                (blockMessage ? " has been blocked: " : " has been censored: ") + message);
+        plugin.getLoggingHelper().info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + message);
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(player, classification.reason());
@@ -131,10 +157,6 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Increment the player's strike count
         strikes++;
-        configHelperPlayerStrikes.set(playerUUID, strikes);
-
-        // Log the new strike count for debugging
-        plugin.getLoggingHelper().debug(player.getName() + " now has " + strikes + " strike(s).");
 
         // Get the thresholds for kick, temp ban, and permanent ban
         int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);

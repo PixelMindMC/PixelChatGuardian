@@ -6,7 +6,7 @@
 // Apply plugins
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '8.3.2'
+    id 'com.gradleup.shadow' version '8.3.3'
 }
 
 // Define project group and version
@@ -39,18 +39,19 @@ dependencies {
 
     // Apache Commons Lang dependency
     compileOnly 'org.apache.commons:commons-lang3:3.17.0'
+
+    // CarbonChat API dependency
+    compileOnly("de.hexaoxi:carbonchat-api:3.0.0-beta.27")
 }
 
 // Configure Java version compatibility
-def targetJavaVersion = 17
+def targetJavaVersion = 21
 java {
     // Set source and target compatibility to the specified Java version
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
-    }
+    if (JavaVersion.current() < javaVersion) toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
 }
 
 // Configure Java compilation tasks
@@ -60,7 +61,7 @@ tasks.withType(JavaCompile).configureEach {
 
 // Configure the shadow JAR task
 tasks.named('shadowJar') {
-    archiveClassifier.set('shadowJar')
+    archiveClassifier.set('')
 
     // Relocate package to avoid conflicts, if needed
     relocate('org.bstats', 'de.pixelmindmc.pixelchat.metrics')
@@ -70,25 +71,23 @@ tasks.named('shadowJar') {
 
     // Define the manifest attributes for the final JAR
     manifest {
-        attributes(
-                'Implementation-Title': name,
+        attributes('Implementation-Title': name,
                 'Implementation-Version': version,
-                'Main-Class': 'de.pixelmindmc.pixelchat'
-        )
+                'Main-Class': 'de.pixelmindmc.pixelchat')
     }
 }
 
-// Ensure the shadow JAR is built as part of the 'build' task
+// Ensure both JARs are built during the 'build' task
 tasks.build {
     dependsOn tasks.shadowJar
 }
 
 // Configure the processResources task
-processResources {
+tasks.processResources {
     def props = [version: version]
-    inputs.properties props
+    inputs.properties(props)
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {
-        expand props
+        expand(props)
     }
 }

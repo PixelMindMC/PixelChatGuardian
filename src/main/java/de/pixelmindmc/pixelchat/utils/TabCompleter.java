@@ -41,7 +41,8 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
                     results.add("remove-strikes");
-            } else if (args.length == 2 && args[0].equals("remove-strikes")) addOnlinePlayerCompletions();
+            } else if (args.length == 2 && args[0].equals("remove-strikes") || args[0].equals("removestrikes") || args[0].equals("rmstrikes"))
+                addOnlinePlayerCompletions();
         }
 
         return results;
