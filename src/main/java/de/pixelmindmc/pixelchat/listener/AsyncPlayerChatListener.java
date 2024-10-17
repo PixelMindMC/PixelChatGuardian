@@ -124,9 +124,10 @@ public class AsyncPlayerChatListener implements Listener {
     private void runStrikeSystem(Player player, String reason) {
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
         String playerUUID = player.getUniqueId().toString();
+        String action = "NOTHING";
 
         // Retrieve the player's current strike count
-        int strikes = configHelperPlayerStrikes.getInt(playerUUID);
+        int strikes = configHelperPlayerStrikes.getInt(playerUUID + ".strikes");
 
         // Increment the player's strike count
         strikes++;
@@ -144,12 +145,36 @@ public class AsyncPlayerChatListener implements Listener {
         if (strikes >= strikesToKick && strikes < strikesToTempBan) {
             // Player has enough strikes to be kicked
             executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + reason);
+            action = "KICK";
         } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
             // Player has enough strikes to be temporarily banned
             executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + " " + reason);
-        } else if (strikes >= strikesToBan)
+            action = "TEMP-BAN";
+        } else if (strikes >= strikesToBan) {
             // Player has enough strikes to be permanently banned
             executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), player, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + reason);
+            action = "BAN";
+        }
+
+        // Save the player's name in case it hasn't been stored yet
+        configHelperPlayerStrikes.set(playerUUID + ".name", player.getName());
+
+        // Save the player's strike count
+        configHelperPlayerStrikes.set(playerUUID + ".strikes", strikes);
+
+        // Get the current date and time
+        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // Create a new strike entry with reason and date in the strike history
+        String strikePath = playerUUID + ".strikeHistory." + currentDate;
+        configHelperPlayerStrikes.set(strikePath + ".reason", reason);
+        configHelperPlayerStrikes.set(strikePath + ".action", action);
+
+        // Save changes to the config file
+        configHelperPlayerStrikes.saveConfig();
+
+        // Log the new strike count for debugging
+        plugin.getLoggingHelper().debug(player.getName() + " got a Strike for " + reason + " and now has " + strikes + " strike(s).");
     }
 
     /**
