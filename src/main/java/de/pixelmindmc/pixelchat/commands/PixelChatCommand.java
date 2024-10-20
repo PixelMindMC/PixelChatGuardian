@@ -61,7 +61,7 @@ public class PixelChatCommand implements CommandExecutor {
             return true;
         }
 
-        // Trollplus subcommand selection
+        // Pixelchat subcommand selection
         switch (args[0].toLowerCase()) {
             case "version" -> handleVersionSubcommand(sender, label, args, configHelperLanguage);
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
