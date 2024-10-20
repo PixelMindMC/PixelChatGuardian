@@ -39,6 +39,8 @@ modules: # Chat guardian module. [Default: true]
   chatguard: true
   # Emoji replacement module. [Default: true]
   emojis: true
+  # Color and format code replacement module. [Default: true]
+  colors: true
 
 ####################### AI and API Settings ###################
 
@@ -123,3 +125,29 @@ emoji-list:
   ":v:": "✌"
   ":watch:": "⌚"
   ":writing_hand:": "✍"
+
+color-list:
+  ":black:": "§0"
+  ":dark_blue:": "§1"
+  ":dark_green:": "§2"
+  ":dark_aqua:": "§3"
+  ":dark_red:": "§4"
+  ":dark_purple:": "§5"
+  ":gold:": "§6"
+  ":gray:": "§7"
+  ":dark_gray:": "§8"
+  ":blue:": "§9"
+  ":green:": "§a"
+  ":aqua:": "§b"
+  ":red:": "§c"
+  ":light_purple:": "§d"
+  ":yellow:": "§e"
+  ":white:": "§f"
+  # below are format codes
+  ":obfuscated:": "§k"
+  ":bold:": "§l"
+  ":strikethrough:": "§m"
+  ":underline:": "§n"
+  ":italic:": "§o"
+  ":reset:": "§r"
+

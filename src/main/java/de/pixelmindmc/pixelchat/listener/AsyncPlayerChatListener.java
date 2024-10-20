@@ -33,8 +33,10 @@ public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     private final String chatguardPrefix;
     private boolean chatGuardEnabled = false;
+    private boolean colorsEnabled = false;
     private boolean emojiEnabled = false;
-    // Map to store emoji translations
+    // Maps to store emoji and color translations
+    private Map<String, String> colorMap = new HashMap<>();
     private Map<String, String> emojiMap = new HashMap<>();
     private CarbonChatIntegration carbonChatIntegration = null;
 
@@ -62,6 +64,11 @@ public class AsyncPlayerChatListener implements Listener {
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
             emojiEnabled = true;
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
+        }
+
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_COLORS)) {
+            colorsEnabled = true;
+            colorMap = plugin.getConfigHelper().getStringMap(ConfigConstants.COLOR_LIST);
         }
     }
 
@@ -100,6 +107,12 @@ public class AsyncPlayerChatListener implements Listener {
         // Emoji module
         if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
             message = convertAsciiToEmojis(message);
+            event.setMessage(message);
+        }
+
+        // Color module
+        if (colorsEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_COLORS)) {
+            message = convertChatCodesToMinecraftChatCodes(message);
             event.setMessage(message);
         }
     }
@@ -222,6 +235,19 @@ public class AsyncPlayerChatListener implements Listener {
      */
     private String convertAsciiToEmojis(String message) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
+            message = message.replace(entry.getKey(), entry.getValue());
+        }
+        return message;
+    }
+
+    /**
+     * Helper method to convert color and format codes with :codename: format to minecraft chad codes
+     *
+     * @param message The original message
+     * @return The message with replaced color and format codes
+     */
+    private String convertChatCodesToMinecraftChatCodes(String message) {
+        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());
         }
         return message;

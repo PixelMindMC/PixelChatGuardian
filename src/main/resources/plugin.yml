@@ -21,6 +21,7 @@ permissions:
     children:
       pixelchat.version: true
       pixelchat.reload: true
+      pixelchat.colors: true
       pixelchat.emojis: true
       pixelchat.remove-player-strikes: true
       pixelchat.bypass-chat-moderation: false
@@ -31,6 +32,11 @@ permissions:
 
   pixelchat.reload:
     description: Allows the use of the /pixelchat reload subcommand.
+    default: op
+
+  pixelchat.colors:
+    description: > 
+      Allows the use of color and format codes in the form of :codename: in the chat
     default: op
 
   pixelchat.emojis:

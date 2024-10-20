@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 - Add support for the `CarbonChat` plugin
 - Add custom ChatGuard prefix
+- Add color & format code system similar to emoji system
 
 ## [1.0.1] - Latest Stable Release (11.10.2024)
 

@@ -18,6 +18,7 @@ public class ConfigConstants {
     public static final String PLUGIN_SUPPORT_CARBONCHAT = "plugin-support.carbonchat";
     // Module settings
     public static final String MODULE_CHATGUARD = "modules.chatguard";
+    public static final String MODULE_COLORS = "modules.colors";
     public static final String MODULE_EMOJIS = "modules.emojis";
     // AI and API settings
     public static final String API_ENDPOINT = "api-endpoint";
@@ -39,6 +40,7 @@ public class ConfigConstants {
     public static final String CHATGUARD_STRIKES_BEFORE_BAN = "strikes-before-ban";
     public static final String CHATGUARD_BAN_COMMAND = "ban-command";
     // Emoji settings
+    public static final String COLOR_LIST = "color-list";
     public static final String EMOJI_LIST = "emoji-list";
 
     private ConfigConstants() {
