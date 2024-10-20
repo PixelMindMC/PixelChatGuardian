@@ -13,7 +13,7 @@
 ###################### General Settings ######################
 
 # Configuration version
-version: 1.0.1
+version: 1.1.0
 
 # Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
 language: en

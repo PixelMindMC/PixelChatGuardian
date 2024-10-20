@@ -57,7 +57,7 @@ public class AsyncPlayerChatListener implements Listener {
             this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
 
             // Initialize CarbonChat integration if available
-            if (plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
+            if (chatGuardEnabled && plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
                 carbonChatIntegration.registerCarbonChatListener();
         }
 

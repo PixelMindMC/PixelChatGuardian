@@ -100,7 +100,7 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
 
         if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) {
-            getConfigHelperPlayerStrikes().saveDefaultConfig();
+            getConfigHelperPlayerStrikes().forceSaveDefaultConfig();
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CLEARED_STRIKES_ON_SERVER_RESTART));
         }
     }

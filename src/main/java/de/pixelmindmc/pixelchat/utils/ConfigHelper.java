@@ -51,6 +51,13 @@ public class ConfigHelper {
     }
 
     /**
+     * Method to force save the default config
+     */
+    public void forceSaveDefaultConfig() {
+        plugin.saveResource(path, true);
+    }
+
+    /**
      * Method to load or reload the config file
      */
     public void loadConfig() {
