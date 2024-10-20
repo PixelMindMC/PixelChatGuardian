@@ -35,6 +35,7 @@ pixelchat:
   report-bugs: "Signalez tout bug à :"
   reload: "Fichiers de configuration rechargés avec succès."
   removed-player-strikes: "Sanctions retirées avec succès du joueur."
+  struck-player: "A frappé le joueur"
 
 ##################### PixelChat Guardian #####################
 

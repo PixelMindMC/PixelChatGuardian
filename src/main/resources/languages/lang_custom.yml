@@ -37,6 +37,7 @@ pixelchat:
   report-bugs: ""
   reload: ""
   removed-player-strikes: ""
+  struck-player: ""
 
 ##################### PixelChat Guardian #####################
 

@@ -52,6 +52,8 @@ public final class PixelChat extends JavaPlugin {
     private ConfigHelper configHelperLangSimplifiedChinese;
     private ConfigHelper configHelperLangTraditionalChinese;
 
+    private AsyncPlayerChatListener asyncPlayerChatListener;
+
     private APIHelper apiHelper;
 
     // Called when the plugin is first enabled
@@ -193,7 +195,7 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register listeners");
 
-        pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
+        pluginManager.registerEvents(asyncPlayerChatListener = new AsyncPlayerChatListener(this), this);
     }
 
 
@@ -247,5 +249,14 @@ public final class PixelChat extends JavaPlugin {
     // Retrieves the LoggingHelper instance
     public LoggingHelper getLoggingHelper() {
         return loggingHelper;
+    }
+
+    /**
+     * Retrieves the AsyncPlayerChatListener instance
+     *
+     * @return The AsyncPlayerChatListener instance
+     */
+    public AsyncPlayerChatListener getAsyncPlayerChatListener() {
+        return asyncPlayerChatListener;
     }
 }

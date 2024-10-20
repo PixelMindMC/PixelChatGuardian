@@ -33,10 +33,10 @@ public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     private final String chatguardPrefix;
     private boolean chatGuardEnabled = false;
-    private boolean colorsEnabled = false;
+    private boolean chatCodesEnabled = false;
     private boolean emojiEnabled = false;
     // Maps to store emoji and color translations
-    private Map<String, String> colorMap = new HashMap<>();
+    private Map<String, String> chatCodesFormatMap = new HashMap<>();
     private Map<String, String> emojiMap = new HashMap<>();
     private CarbonChatIntegration carbonChatIntegration = null;
 
@@ -66,9 +66,9 @@ public class AsyncPlayerChatListener implements Listener {
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
         }
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_COLORS)) {
-            colorsEnabled = true;
-            colorMap = plugin.getConfigHelper().getStringMap(ConfigConstants.COLOR_LIST);
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
+            chatCodesEnabled = true;
+            chatCodesFormatMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
         }
     }
 
@@ -111,7 +111,7 @@ public class AsyncPlayerChatListener implements Listener {
         }
 
         // Color module
-        if (colorsEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_COLORS)) {
+        if (chatCodesEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
             message = convertChatCodesToMinecraftChatCodes(message);
             event.setMessage(message);
         }
@@ -160,7 +160,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param player The player to run the strike system on
      * @param reason The reason why the player's message has been blocked or censored
      */
-    private void runStrikeSystem(Player player, String reason) {
+    public void runStrikeSystem(Player player, String reason) {
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
         String playerUUID = player.getUniqueId().toString();
         String action = "NOTHING";
@@ -205,11 +205,8 @@ public class AsyncPlayerChatListener implements Listener {
         configHelperPlayerStrikes.set(strikePath + ".reason", reason);
         configHelperPlayerStrikes.set(strikePath + ".action", action);
 
-        // Save changes to the config file
-        configHelperPlayerStrikes.saveConfig();
-
         // Log the new strike count for debugging
-        plugin.getLoggingHelper().debug(player.getName() + " got a Strike for " + reason + " and now has " + strikes + " strike(s).");
+        plugin.getLoggingHelper().debug(player.getName() + " got a Strike for " + reason + " and now has " + strikes + " strike(s)");
     }
 
     /**
@@ -225,6 +222,9 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Schedule to execute the task on the next server tick, as it cannot run from an async context (where we are now)
         Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));
+
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Executed the command: " + processedCommand);
     }
 
     /**
@@ -237,6 +237,10 @@ public class AsyncPlayerChatListener implements Listener {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());
         }
+
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Ascii code converted into an emoji");
+
         return message;
     }
 
@@ -247,9 +251,13 @@ public class AsyncPlayerChatListener implements Listener {
      * @return The message with replaced color and format codes
      */
     private String convertChatCodesToMinecraftChatCodes(String message) {
-        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
+        for (Map.Entry<String, String> entry : chatCodesFormatMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());
         }
+
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Converted a chat code into a Minecraft chat code");
+
         return message;
     }
 }

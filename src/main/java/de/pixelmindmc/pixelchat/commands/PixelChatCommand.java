@@ -24,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -56,7 +57,7 @@ public class PixelChatCommand implements CommandExecutor {
 
         // Display usage information if no arguments are provided
         if (args.length == 0) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload|remove-strikes>");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload|remove-strikes|strike>");
             return true;
         }
 
@@ -66,8 +67,9 @@ public class PixelChatCommand implements CommandExecutor {
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
             case "remove-strikes", "removestrikes", "rmstrikes" ->
                     handleRemoveStrikesSubcommand(sender, label, args, plugin.getConfigHelperPlayerStrikes(), configHelperLanguage);
+            case "strike" -> handleStrikeSubcommand(sender, label, args, configHelperLanguage);
             default ->
-                    sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload|remove-strikes>");
+                    sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload|remove-strikes|strike>");
         }
 
         return true;
@@ -165,7 +167,6 @@ public class PixelChatCommand implements CommandExecutor {
             return;
         }
 
-        // Check if the player is in the blocklist
         Player onlinePlayer = Bukkit.getPlayer(args[1]);
         UUID playerUUID;
         if (onlinePlayer != null) {
@@ -173,11 +174,46 @@ public class PixelChatCommand implements CommandExecutor {
         } else playerUUID = getOfflinePlayerUUID(args[1]);
 
 
-        if (playerUUID != null) if (configHelperPlayerStrikes.contains(playerUUID.toString()))
-            configHelperPlayerStrikes.set(playerUUID.toString(), null);
+        if (playerUUID != null && configHelperPlayerStrikes.contains(playerUUID.toString()))
+            // Reset the player's strike count to 0
+            configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
 
         // Send a message after successfully remove player strikes from a specific player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_REMOVED_PLAYER_STRIKES) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
+    }
+
+    /**
+     * Handles the "strike" subcommand to strike a player
+     *
+     * @param sender               The command sender
+     * @param label                The label
+     * @param args                 The arguments
+     * @param configHelperLanguage The ConfigHelper for the languageConfig
+     */
+    private void handleStrikeSubcommand(CommandSender sender, String label, String[] args, ConfigHelper configHelperLanguage) {
+        // Check if the player has the required permission
+        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
+            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
+            return;
+        }
+
+        // Check if the command syntax is correct
+        if (args.length != 3) {
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " strike <player> <reason>");
+            return;
+        }
+
+        Player onlinePlayer = Bukkit.getPlayer(args[1]);
+        UUID playerUUID;
+        if (onlinePlayer != null) {
+            playerUUID = onlinePlayer.getUniqueId();
+        } else playerUUID = getOfflinePlayerUUID(args[1]);
+
+        if (playerUUID != null)
+            plugin.getAsyncPlayerChatListener().runStrikeSystem(Objects.requireNonNull(Bukkit.getPlayer(playerUUID)), args[2]);
+
+        // Send a message after successfully struck a player
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
     }
 
     /**

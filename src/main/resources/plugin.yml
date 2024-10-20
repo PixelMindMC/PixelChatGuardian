@@ -11,7 +11,7 @@ softdepend: [ CarbonChat ]
 commands:
   pixelchat:
     description: The main command for PixelChat Guardian, used for version info and reloading.
-    usage: /<command> [version|reload|remove-strikes]
+    usage: /<command> [version|reload|remove-strikes|strike]
     aliases: [ pc, pixelchatguardian, pcg, chatguard, chatguardian ]
 
 permissions:
@@ -21,9 +21,10 @@ permissions:
     children:
       pixelchat.version: true
       pixelchat.reload: true
-      pixelchat.colors: true
+      pixelchat.chat-codes: true
       pixelchat.emojis: true
       pixelchat.remove-player-strikes: true
+      pixelchat.strike-player: true
       pixelchat.bypass-chat-moderation: false
 
   pixelchat.version:
@@ -34,10 +35,10 @@ permissions:
     description: Allows the use of the /pixelchat reload subcommand.
     default: op
 
-  pixelchat.colors:
-    description: > 
-      Allows the use of color and format codes in the form of :codename: in the chat
-    default: op
+  pixelchat.chat-codes:
+    description: >
+      Allows the use of color and format chat codes in the form of :codename: in the chat
+    default: true
 
   pixelchat.emojis:
     description: Allows the use of emojis in chat.
@@ -45,6 +46,10 @@ permissions:
 
   pixelchat.remove-player-strikes:
     description: Allows the use of the /pixelchat remove-strikes subcommand.
+    default: op
+
+  pixelchat.strike-player:
+    description: Allows the use of the /pixelchat strike subcommand.
     default: op
 
   pixelchat.bypass-chat-moderation:

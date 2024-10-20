@@ -35,6 +35,7 @@ pixelchat:
   report-bugs: "報告任何錯誤至："
   reload: "配置文件成功重新加載。"
   removed-player-strikes: "成功從玩家中移除處罰。"
+  struck-player: "擊中了玩家"
 
 ##################### PixelChat Guardian #####################
 

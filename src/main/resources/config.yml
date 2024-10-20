@@ -10,7 +10,7 @@
 
 # For support or inquiries, please contact us via GitHub, Discord or Modrinth.
 
-###################### General Settings ######################
+###################### General Settings #####################
 
 # Configuration version
 version: 1.1.0
@@ -32,17 +32,18 @@ plugin-support:
   # Enable support for CarbonChat integration. [Default: true]
   carbonchat: true
 
-####################### Module Settings #######################
+###################### Module Settings ######################
 
 # Toggle specific plugin modules on/off.
-modules: # Chat guardian module. [Default: true]
+modules:
+  # Chat guardian module. [Default: true]
   chatguard: true
   # Emoji replacement module. [Default: true]
   emojis: true
-  # Color and format code replacement module. [Default: true]
-  colors: true
+  # Color and format chat code replacement module. [Default: true]
+  chat-codes: true
 
-####################### AI and API Settings ###################
+#################### AI and API Settings ####################
 
 # API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
 api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
@@ -63,7 +64,7 @@ sys-prompt: >
   Allow minor swearing and normal gameplay queries, such as 'kill the villager' or 'kill all the zombies'.
   Respond succinctly without additional explanations."
 
-###################### ChatGuard Settings #####################
+##################### ChatGuard Settings ####################
 
 # Enable or disable the custom ChatGuard prefix. [Default: false]
 enable-custom-chatguard-prefix: false
@@ -100,7 +101,7 @@ strikes-before-ban: 6
 # Command to permanently ban a player. [Default: /ban <player> <reason>]
 ban-command: "ban <player> <reason>"
 
-###################### Emoji Settings ########################
+####################### Emoji Settings ######################
 
 # Custom emoji list that replaces ASCII characters with corresponding emojis.
 emoji-list:
@@ -126,7 +127,10 @@ emoji-list:
   ":watch:": "⌚"
   ":writing_hand:": "✍"
 
-color-list:
+#################### Chat codes Settings ####################
+
+# Color and format chat codes list that replaces ASCII characters with corresponding color or format chat code.
+chat-codes-list:
   ":black:": "§0"
   ":dark_blue:": "§1"
   ":dark_green:": "§2"
@@ -143,11 +147,10 @@ color-list:
   ":light_purple:": "§d"
   ":yellow:": "§e"
   ":white:": "§f"
-  # below are format codes
+
   ":obfuscated:": "§k"
   ":bold:": "§l"
   ":strikethrough:": "§m"
   ":underline:": "§n"
   ":italic:": "§o"
   ":reset:": "§r"
-

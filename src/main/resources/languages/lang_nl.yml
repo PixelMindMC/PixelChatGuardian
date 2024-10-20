@@ -35,6 +35,7 @@ pixelchat:
   report-bugs: "Rapporteer eventuele bugs aan:"
   reload: "Configuratiebestanden succesvol herladen."
   removed-player-strikes: "Succesvol straffen van de speler verwijderd."
+  struck-player: "Raakte de speler"
 
 ##################### PixelChat Guardian #####################
 
