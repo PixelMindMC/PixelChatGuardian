@@ -32,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * The main class for the PixelChat Guardian plugin
@@ -98,13 +99,13 @@ public final class PixelChat extends JavaPlugin {
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
 
+        // Check if it is the first time using this plugin
         if (!getConfigHelper().getFileExist())
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
 
-        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) {
-            getConfigHelperPlayerStrikes().forceSaveDefaultConfig();
-            getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CLEARED_STRIKES_ON_SERVER_RESTART));
-        }
+        // Reset the strike count of every player if enabled
+        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART))
+            resetPlayerStrikesOnServerStart();
     }
 
     /**
@@ -159,6 +160,31 @@ public final class PixelChat extends JavaPlugin {
                 return configHelperLangEnglish;
             }
         }
+    }
+
+    /**
+     * Resets the strike count of every player to 0 on server start
+     */
+    private void resetPlayerStrikesOnServerStart() {
+        ConfigHelper configHelperPlayerStrikes = getConfigHelperPlayerStrikes();
+
+        // Get all the top-level keys in the config (assuming these are player UUIDs)
+        Set<String> playerUUIDs = configHelperPlayerStrikes.getKeys("");
+
+        // Iterate through each player UUID and reset the strike count
+        for (String playerUUID : playerUUIDs) {
+            // Check if the player has a strikes entry in the config
+            if (configHelperPlayerStrikes.contains(playerUUID + ".strikes")) {
+                // Set the strike count to 0
+                configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
+
+                // Debug logger message
+                getLoggingHelper().debug("Reset strikes for player with UUID: " + playerUUID);
+            }
+        }
+
+        // Log the completion of strike reset
+        getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CLEARED_STRIKES_ON_SERVER_RESTART));
     }
 
     /**

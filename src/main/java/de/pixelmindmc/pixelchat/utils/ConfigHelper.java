@@ -14,7 +14,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility class for managing configuration files
@@ -48,13 +50,6 @@ public class ConfigHelper {
             fileExist = false;
             plugin.saveResource(path, false);
         }
-    }
-
-    /**
-     * Method to force save the default config
-     */
-    public void forceSaveDefaultConfig() {
-        plugin.saveResource(path, true);
     }
 
     /**
@@ -184,5 +179,16 @@ public class ConfigHelper {
             resultMap.put(key, value);
         }
         return resultMap;
+    }
+
+    /**
+     * Retrieve all keys in the config at a given path or at the root if no path is specified
+     *
+     * @param path The path of the section, or empty string ("") for root
+     * @return A set of all keys found in that section or root
+     */
+    public Set<String> getKeys(String path) {
+        ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
+        return (section != null) ? section.getKeys(false) : new HashSet<>();
     }
 }
