@@ -8,7 +8,6 @@ package de.pixelmindmc.pixelchat.integration;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
-import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
@@ -18,21 +17,21 @@ import org.bukkit.Bukkit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.notifyAndStrikeplayer;
+
 /**
  * Handles integration with CarbonChat
  */
 public class CarbonChatIntegration {
     private final PixelChat plugin;
-    private final AsyncPlayerChatListener listener;
 
     /**
      * Constructs an CarbonChatIntegration object
      *
      * @param plugin The plugin instance
      */
-    public CarbonChatIntegration(PixelChat plugin, AsyncPlayerChatListener listener) {
+    public CarbonChatIntegration(PixelChat plugin) {
         this.plugin = plugin;
-        this.listener = listener;
     }
 
     /**
@@ -73,6 +72,6 @@ public class CarbonChatIntegration {
             event.cancelled(true);
         } else event.message(Component.text("*".repeat(content.length())));
 
-        listener.notifyAndStrikeplayer(Bukkit.getPlayer(event.sender().uuid()), content, classification, blockMessage);
+        notifyAndStrikeplayer(plugin, Bukkit.getPlayer(event.sender().uuid()), content, classification, blockMessage);
     }
 }

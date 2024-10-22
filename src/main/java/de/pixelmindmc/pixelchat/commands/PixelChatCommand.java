@@ -27,6 +27,8 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.UUID;
 
+import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.runStrikeSystem;
+
 /**
  * CommandExecutor for handling the "pixelchat" command, the main command for the plugin
  */
@@ -210,7 +212,7 @@ public class PixelChatCommand implements CommandExecutor {
         } else playerUUID = getOfflinePlayerUUID(args[1]);
 
         if (playerUUID != null)
-            plugin.getAsyncPlayerChatListener().runStrikeSystem(Objects.requireNonNull(Bukkit.getPlayer(playerUUID)), args[2]);
+            runStrikeSystem(plugin, Objects.requireNonNull(Bukkit.getPlayer(playerUUID)), args[2]);
 
         // Send a message after successfully struck a player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
