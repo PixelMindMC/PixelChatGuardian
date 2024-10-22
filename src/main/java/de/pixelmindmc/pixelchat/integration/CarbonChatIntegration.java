@@ -9,6 +9,7 @@ import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
+import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.kyori.adventure.text.Component;
@@ -17,16 +18,15 @@ import org.bukkit.Bukkit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.notifyAndStrikeplayer;
-
 /**
  * Handles integration with CarbonChat
  */
 public class CarbonChatIntegration {
     private final PixelChat plugin;
 
+
     /**
-     * Constructs an CarbonChatIntegration object
+     * Constructs a CarbonChatIntegration object
      *
      * @param plugin The plugin instance
      */
@@ -38,6 +38,9 @@ public class CarbonChatIntegration {
      * Registers the CarbonChat event listener if CarbonChat is enabled
      */
     public void registerCarbonChatListener() {
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Register CarbonChat listener");
+
         CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonChatEvent.class, event -> isMessageBlockedCarbonChat(event, event.message()));
     }
 
@@ -57,6 +60,9 @@ public class CarbonChatIntegration {
 
         if (content == null) return;
 
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Check if the message '" + content + "' should be blocked for the CarbonChat integration");
+
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(content);
@@ -72,6 +78,6 @@ public class CarbonChatIntegration {
             event.cancelled(true);
         } else event.message(Component.text("*".repeat(content.length())));
 
-        notifyAndStrikeplayer(plugin, Bukkit.getPlayer(event.sender().uuid()), content, classification, blockMessage);
+        ChatGuardHelper.notifyAndStrikePlayer(plugin, Bukkit.getPlayer(event.sender().uuid()), content, classification, blockMessage);
     }
 }

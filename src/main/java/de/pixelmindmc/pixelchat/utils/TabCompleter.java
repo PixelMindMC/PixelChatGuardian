@@ -43,10 +43,10 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
                     results.add("remove-strikes");
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) results.add("strike");
             } else if (args.length == 2) {
-                if (args[0].equals("remove-strikes") || args[0].equals("removestrikes") || args[0].equals("rmstrikes"))
+                if (args[0].equals("remove-strikes") || args[0].equals("remove-strike") || args[0].equals("removestrikes") || args[0].equals("removestrike") || args[0].equals("rmstrikes") || args[0].equals("rmstrike"))
                     addOnlinePlayerCompletions();
                 if (args[0].equals("strike")) addOnlinePlayerCompletions();
-            }
+            } else if (args.length == 3) if (args[0].equals("strike")) results.add("<reason>");
         }
 
         return results;

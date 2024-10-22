@@ -1,3 +1,8 @@
+/*
+ * This file is part of PixelChat Guardian.
+ * Copyright (C) 2024 PixelMindMC
+ */
+
 package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
@@ -11,8 +16,14 @@ import org.bukkit.entity.Player;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Utility class for managing configuration files
+ */
 public class ChatGuardHelper {
 
+    /**
+     * Constructs a ChatGuardHelper object
+     */
     private ChatGuardHelper() {
     }
 
@@ -24,7 +35,10 @@ public class ChatGuardHelper {
      * @param classification The classification of the message
      * @param blockMessage   Whether the message should be blocked ({@code true}) or censored ({@code false})
      */
-    public static void notifyAndStrikeplayer(PixelChat plugin, Player player, String userMessage, MessageClassification classification, boolean blockMessage) {
+    public static void notifyAndStrikePlayer(PixelChat plugin, Player player, String userMessage, MessageClassification classification, boolean blockMessage) {
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Notify and strike player");
+
         String chatguardPrefix;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX)) {
@@ -50,6 +64,9 @@ public class ChatGuardHelper {
      * @param reason The reason why the player's message has been blocked or censored
      */
     public static void runStrikeSystem(PixelChat plugin, Player player, String reason) {
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Run strike system");
+
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
         String playerUUID = player.getUniqueId().toString();
         String action = "NOTHING";
@@ -95,7 +112,7 @@ public class ChatGuardHelper {
         configHelperPlayerStrikes.set(strikePath + ".action", action);
 
         // Log the new strike count for debugging
-        plugin.getLoggingHelper().debug(player.getName() + " got a Strike for " + reason + " and now has " + strikes + " strike(s)");
+        plugin.getLoggingHelper().info(player.getName() + " got a Strike for " + reason + " and now has " + strikes + " strike(s)");
     }
 
     /**

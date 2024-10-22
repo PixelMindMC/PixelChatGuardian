@@ -39,7 +39,7 @@ import java.util.Set;
  */
 public final class PixelChat extends JavaPlugin {
     private final LoggingHelper loggingHelper = new LoggingHelper(this);
-    public boolean updateAvailable = false;
+    public String updateChecker;
 
     // ConfigHelper instances
     private ConfigHelper configHelper;
@@ -266,10 +266,14 @@ public final class PixelChat extends JavaPlugin {
     private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_FOR_UPDATES));
-            String updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
+            updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);
-            if (updateChecker.equals(LangConstants.UPDATE_AVAILABLE)) updateAvailable = true;
         }
+    }
+
+    // Retrieves the string updateChecker
+    public String updateChecker() {
+        return updateChecker;
     }
 
     // Retrieves the LoggingHelper instance

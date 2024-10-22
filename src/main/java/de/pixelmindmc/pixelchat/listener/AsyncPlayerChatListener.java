@@ -11,6 +11,7 @@ import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.integration.CarbonChatIntegration;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
+import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,19 +21,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.notifyAndStrikeplayer;
-
 /**
  * Listener for handling player chat events asynchronously
  */
 public class AsyncPlayerChatListener implements Listener {
     private final PixelChat plugin;
     private boolean chatGuardEnabled = false;
-    private boolean chatCodesEnabled = false;
     private boolean emojiEnabled = false;
-    // Maps to store emoji and color translations
-    private Map<String, String> chatCodesFormatMap = new HashMap<>();
+    private boolean chatCodesEnabled = false;
+
     private Map<String, String> emojiMap = new HashMap<>();
+    private Map<String, String> chatCodesMap = new HashMap<>();
     private CarbonChatIntegration carbonChatIntegration = null;
 
     /**
@@ -59,7 +58,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
             chatCodesEnabled = true;
-            chatCodesFormatMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
+            chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
         }
     }
 
@@ -97,14 +96,14 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Emoji module
         if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
-            message = convertAsciiToEmojis(message);
-            event.setMessage(message);
+            String newMessage = convertAsciiToEmojis(message);
+            event.setMessage(newMessage);
         }
 
         // Color module
         if (chatCodesEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
-            message = convertChatCodesToMinecraftChatCodes(message);
-            event.setMessage(message);
+            String newMessage = convertChatCodesToMinecraftChatCodes(message);
+            event.setMessage(newMessage);
         }
     }
 
@@ -117,6 +116,8 @@ public class AsyncPlayerChatListener implements Listener {
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
     private boolean isMessageBlocked(AsyncPlayerChatEvent event, String message, Player player) {
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked");
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
@@ -131,7 +132,7 @@ public class AsyncPlayerChatListener implements Listener {
         if (blockMessage) event.setCancelled(true);
         else event.setMessage("*".repeat(message.length()));
 
-        notifyAndStrikeplayer(plugin, player, message, classification, blockMessage);
+        ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockMessage);
 
         return true;
     }
@@ -160,7 +161,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @return The message with replaced color and format codes
      */
     private String convertChatCodesToMinecraftChatCodes(String message) {
-        for (Map.Entry<String, String> entry : chatCodesFormatMap.entrySet()) {
+        for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
             message = message.replace(entry.getKey(), entry.getValue());
         }
 

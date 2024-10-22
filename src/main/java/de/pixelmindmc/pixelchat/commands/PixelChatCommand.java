@@ -24,7 +24,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
-import java.util.Objects;
 import java.util.UUID;
 
 import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.runStrikeSystem;
@@ -114,7 +113,8 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
 
         // Send a message when an update is available
-        if (plugin.updateAvailable) sender.sendMessage(LangConstants.UPDATE_AVAILABLE);
+        if (!plugin.updateChecker().equals(LangConstants.NO_UPDATE_AVAILABLE))
+            sender.sendMessage(plugin.updateChecker());
     }
 
     /**
@@ -211,8 +211,10 @@ public class PixelChatCommand implements CommandExecutor {
             playerUUID = onlinePlayer.getUniqueId();
         } else playerUUID = getOfflinePlayerUUID(args[1]);
 
-        if (playerUUID != null)
-            runStrikeSystem(plugin, Objects.requireNonNull(Bukkit.getPlayer(playerUUID)), args[2]);
+
+        assert playerUUID != null;
+        Player player = Bukkit.getPlayer(playerUUID);
+        if (player != null) runStrikeSystem(plugin, player, args[2]);
 
         // Send a message after successfully struck a player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
@@ -246,7 +248,13 @@ public class PixelChatCommand implements CommandExecutor {
                 JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
                 // Extract the content string from the first choice's message
                 String contentString = jsonObject.get("id").getAsString();
-                return UUID.fromString(contentString.replaceFirst("(.{8})(.{4})(.{4})(.{4})(.{12})", "$1-$2-$3-$4-$5"));
+
+                UUID uuid = UUID.fromString(contentString.replaceFirst("(.{8})(.{4})(.{4})(.{4})(.{12})", "$1-$2-$3-$4-$5"));
+
+                // Debug logger message
+                plugin.getLoggingHelper().debug("The uuid of the player " + playerName + " is: " + uuid);
+
+                return uuid;
             }
         } catch (Exception e) {
             plugin.getLoggingHelper().error(e.getMessage());
