@@ -5,7 +5,7 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 
 ### Compatibility
 
-**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.1** on both **Spigot** and **Paper**.
+**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.2** on both **Spigot** and **Paper**.
 
 ## Features
 
@@ -13,7 +13,9 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
   messages.
 - **Advanced Link Filtering**: Prevent spam and harmful links from cluttering your chat.
 - **Emoji Support**: Allow players to express themselves with a wide range of emojis.
+- **Chat Codes Support**: Allows players to use the Minecraft chat codes.
 - **Customizable Settings**: Tailor the plugin's moderation settings to suit your server's needs.
+- **Compatibility with other Chat Plugins**: Our plugin is designed to work seamlessly alongside other chat plugins, allowing you to integrate and use it with your existing setup.
 
 ## Installation
 
@@ -49,6 +51,8 @@ improve!
 - [Pull Requests](https://github.com/PixelMindMC/PixelChatGuardian/pulls)
 - [Changelog](https://github.com/PixelMindMC/PixelChatGuardian/blob/master/CHANGELOG.md)
 - [Modrinth Project](https://modrinth.com/plugin/pixelchatguardian/)
+- [SpigotMC Resource](https://www.spigotmc.org/resources/pixelchat-guardian.120146/)
+- [Paper Plugin Hangar](https://hangar.papermc.io/PixelMindMC/PixelChat_Guardian)
 - [bStats Statistics](https://www.bstats.org/plugin/bukkit/PixelChat%20Guardian/23371)
 
 ## License
