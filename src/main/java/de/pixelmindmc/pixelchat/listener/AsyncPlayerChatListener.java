@@ -80,7 +80,7 @@ public class AsyncPlayerChatListener implements Listener {
     private boolean setupCarbonChatIntegration() {
         try {
             Class.forName("net.draycia.carbon.api.CarbonChatProvider");
-            carbonChatIntegration = new CarbonChatIntegration(plugin);
+            carbonChatIntegration = new CarbonChatIntegration(plugin, this);
 
             // Debug logger message
             plugin.getLoggingHelper().debug("Using CarbonChat integration");
@@ -140,17 +140,29 @@ public class AsyncPlayerChatListener implements Listener {
         if (blockMessage) event.setCancelled(true);
         else event.setMessage("*".repeat(message.length()));
 
+        notifyAndStrikeplayer(player, message, classification, blockMessage);
+
+        return true;
+    }
+
+    /**
+     * Notifies the player of their message being blocked, logs the block itself, and also applies the strike system
+     *
+     * @param player The player that sent the message
+     * @param userMessage The message that the user sent
+     * @param classification The classification of the message
+     * @param blockMessage Whether the message should be blocked ({@code true}) or censored ({@code false})
+     */
+    public void notifyAndStrikeplayer(Player player, String userMessage, MessageClassification classification, boolean blockMessage) {
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
             player.sendMessage(chatguardPrefix + plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
 
-        plugin.getLoggingHelper().info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + message);
+        plugin.getLoggingHelper().info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + userMessage);
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(player, classification.reason());
         } else
             executeCommand(plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player, classification.reason());
-
-        return true;
     }
 
     /**
@@ -245,7 +257,7 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Helper method to convert color and format codes with :codename: format to minecraft chad codes
+     * Helper method to convert color and format codes with :codename: format to minecraft chat codes
      *
      * @param message The original message
      * @return The message with replaced color and format codes
