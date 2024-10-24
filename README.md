@@ -15,7 +15,8 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 - **Emoji Support**: Allow players to express themselves with a wide range of emojis.
 - **Chat Codes Support**: Allows players to use the Minecraft chat codes.
 - **Customizable Settings**: Tailor the plugin's moderation settings to suit your server's needs.
-- **Compatibility with other Chat Plugins**: Our plugin is designed to work seamlessly alongside other chat plugins, allowing you to integrate and use it with your existing setup.
+- **Compatibility with other Chat Plugins**: Our plugin is designed to work seamlessly alongside other chat plugins,
+  allowing you to integrate and use it with your existing setup.
 
 ## Installation
 

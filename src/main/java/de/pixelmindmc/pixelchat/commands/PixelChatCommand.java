@@ -10,6 +10,7 @@ import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
+import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -25,8 +26,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.UUID;
-
-import static de.pixelmindmc.pixelchat.utils.ChatGuardHelper.runStrikeSystem;
 
 /**
  * CommandExecutor for handling the "pixelchat" command, the main command for the plugin
@@ -212,9 +211,7 @@ public class PixelChatCommand implements CommandExecutor {
         } else playerUUID = getOfflinePlayerUUID(args[1]);
 
 
-        assert playerUUID != null;
-        Player player = Bukkit.getPlayer(playerUUID);
-        if (player != null) runStrikeSystem(plugin, player, args[2]);
+        ChatGuardHelper.runStrikeSystem(plugin, playerUUID, args[1], args[2]);
 
         // Send a message after successfully struck a player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
