@@ -145,11 +145,13 @@ public class AsyncPlayerChatListener implements Listener {
      */
     private String convertAsciiToEmojis(String message) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
-            message = message.replace(entry.getKey(), entry.getValue());
-        }
+            if (message.contains(entry.getKey())) {
+                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
-        // Debug logger message
-        plugin.getLoggingHelper().debug("Ascii code converted into an emoji");
+                // Update newMessage with each replacement
+                message = message.replaceAll(entry.getKey(), entry.getValue());
+            }
+        }
 
         return message;
     }
@@ -162,11 +164,13 @@ public class AsyncPlayerChatListener implements Listener {
      */
     private String convertChatCodesToMinecraftChatCodes(String message) {
         for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
-            message = message.replace(entry.getKey(), entry.getValue());
-        }
+            if (message.contains(entry.getKey())) {
+                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
-        // Debug logger message
-        plugin.getLoggingHelper().debug("Converted a chat code into a Minecraft chat code");
+                // Update newMessage with each replacement
+                message = message.replaceAll(entry.getKey(), entry.getValue());
+            }
+        }
 
         return message;
     }
