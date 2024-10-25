@@ -125,7 +125,7 @@ public class ChatGuardHelper {
      */
     private static void executeCommand(PixelChat plugin, String command, String playerName, String reason) {
         // Replace placeholders with actual values
-        String processedCommand = command.replace("<player>", playerName.replace("<reason>", reason));
+        String processedCommand = command.replace("<player>", playerName).replace("<reason>", reason);
 
         // Schedule to execute the task on the next server tick, as it cannot run from an async context (where we are now)
         Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));

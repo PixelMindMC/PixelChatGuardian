@@ -96,14 +96,14 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Emoji module
         if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
-            String newMessage = convertAsciiToEmojis(message);
-            event.setMessage(newMessage);
+            message = convertAsciiToEmojis(message);
+            event.setMessage(message);
         }
 
         // Color module
         if (chatCodesEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
-            String newMessage = convertChatCodesToMinecraftChatCodes(message);
-            event.setMessage(newMessage);
+            message = convertChatCodesToMinecraftChatCodes(message);
+            event.setMessage(message);
         }
     }
 
@@ -149,7 +149,7 @@ public class AsyncPlayerChatListener implements Listener {
                 plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Update newMessage with each replacement
-                message = message.replaceAll(entry.getKey(), entry.getValue());
+                message = message.replace(entry.getKey(), entry.getValue());
             }
         }
 
@@ -168,7 +168,7 @@ public class AsyncPlayerChatListener implements Listener {
                 plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Update newMessage with each replacement
-                message = message.replaceAll(entry.getKey(), entry.getValue());
+                message = message.replace(entry.getKey(), entry.getValue());
             }
         }
 
