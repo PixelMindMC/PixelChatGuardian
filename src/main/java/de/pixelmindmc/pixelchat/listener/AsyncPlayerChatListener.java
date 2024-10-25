@@ -96,13 +96,13 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Emoji module
         if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
-            message = convertAsciiToEmojis(message);
+            message = replaceMessagePlaceholders(message, emojiMap);
             event.setMessage(message);
         }
 
         // Color module
         if (chatCodesEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
-            message = convertChatCodesToMinecraftChatCodes(message);
+            message = replaceMessagePlaceholders(message, chatCodesMap);
             event.setMessage(message);
         }
     }
@@ -138,36 +138,19 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Helper method to convert ascii to emojis
+     * Helper method to apply a given map of placeholders to replacements to the given string.
+     * Each occurance of a key (placeholder) in the given string will be replaced by the key's value (replacement).
      *
-     * @param message The original message
-     * @return The message with replaced emojis
+     * @param message        The original message
+     * @param replacementMap The map of placeholders and replacements
+     * @return The message with the applied replacements
      */
-    private String convertAsciiToEmojis(String message) {
-        for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
+    private String replaceMessagePlaceholders(String message, Map<String, String> replacementMap) {
+        for (Map.Entry<String, String> entry : replacementMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
-                // Update newMessage with each replacement
-                message = message.replace(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return message;
-    }
-
-    /**
-     * Helper method to convert color and format codes with :codename: format to minecraft chat codes
-     *
-     * @param message The original message
-     * @return The message with replaced color and format codes
-     */
-    private String convertChatCodesToMinecraftChatCodes(String message) {
-        for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
-            if (message.contains(entry.getKey())) {
-                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
-
-                // Update newMessage with each replacement
+                // Replace each occurance of the placeholder (key) in the string with its value
                 message = message.replace(entry.getKey(), entry.getValue());
             }
         }
