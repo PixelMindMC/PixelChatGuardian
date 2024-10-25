@@ -42,20 +42,23 @@ public class AsyncPlayerChatListener implements Listener {
     public AsyncPlayerChatListener(PixelChat plugin) {
         this.plugin = plugin;
 
+        // Initialize CarbonChat integration if available
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
+            carbonChatIntegration.registerCarbonChatListener();
+
+        // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
             String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
             this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
-
-            // Initialize CarbonChat integration if available
-            if (chatGuardEnabled && plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
-                carbonChatIntegration.registerCarbonChatListener();
         }
 
+        // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
             emojiEnabled = true;
             emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
         }
 
+        // Chat codes module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
             chatCodesEnabled = true;
             chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
@@ -90,34 +93,37 @@ public class AsyncPlayerChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        // AI based chat guard
-        if (chatGuardEnabled && carbonChatIntegration == null && !player.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION) && isMessageBlocked(event, message, player))
-            return;
+        boolean chatGuardMessageBlocked = false;
+
+        // AI based chat guard module
+        if (chatGuardEnabled && carbonChatIntegration == null && !player.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION))
+            chatGuardMessageBlocked = checkIfMessageShouldBeBLocked(event, message, player);
 
         // Emoji module
-        if (emojiEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
+        if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
             message = replaceMessagePlaceholders(message, emojiMap);
             event.setMessage(message);
         }
 
-        // Color module
-        if (chatCodesEnabled && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
+        // Chat codes module
+        if (chatCodesEnabled && !chatGuardMessageBlocked && carbonChatIntegration == null && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
             message = replaceMessagePlaceholders(message, chatCodesMap);
             event.setMessage(message);
         }
     }
 
     /**
-     * Checks whether a message should be blocked or allowed through into the chat, and takes appropriate actions
+     * Checks whether a message should be blocked or censored and takes appropriate actions
      *
      * @param event   The message event
      * @param message The message to check
      * @param player  The player that sent the message
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
-    private boolean isMessageBlocked(AsyncPlayerChatEvent event, String message, Player player) {
+    private boolean checkIfMessageShouldBeBLocked(AsyncPlayerChatEvent event, String message, Player player) {
         // Debug logger message
         plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked");
+
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
@@ -138,8 +144,7 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Helper method to apply a given map of placeholders to replacements to the given string.
-     * Each occurance of a key (placeholder) in the given string will be replaced by the key's value (replacement).
+     * Helper method to apply a given map of placeholders to replacements to the given string
      *
      * @param message        The original message
      * @param replacementMap The map of placeholders and replacements
@@ -148,9 +153,10 @@ public class AsyncPlayerChatListener implements Listener {
     private String replaceMessagePlaceholders(String message, Map<String, String> replacementMap) {
         for (Map.Entry<String, String> entry : replacementMap.entrySet()) {
             if (message.contains(entry.getKey())) {
+                // Debug logger message
                 plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
-                // Replace each occurance of the placeholder (key) in the string with its value
+                // Replace each occurrence of the placeholder (key) in the string with its value
                 message = message.replace(entry.getKey(), entry.getValue());
             }
         }

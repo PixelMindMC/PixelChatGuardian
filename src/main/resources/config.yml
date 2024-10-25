@@ -48,8 +48,8 @@ modules:
 # API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
 api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
-# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: gemma2-9b-it]
-ai-model: "gemma2-9b-it"
+# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.1-70b-versatile]
+ai-model: "llama-3.1-70b-versatile"
 
 # API key for authentication with the endpoint.
 api-key: "API-KEY"
