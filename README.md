@@ -5,7 +5,7 @@ link filtering, along with robust emoji support, ensuring a safe and enjoyable e
 
 ### Compatibility
 
-**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.2** on both **Spigot** and **Paper**.
+**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.3** on both **Spigot** and **Paper**.
 
 ## Features
 

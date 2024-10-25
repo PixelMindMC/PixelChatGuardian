@@ -48,8 +48,8 @@ modules:
 # API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
 api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
-# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.1-70b-versatile]
-ai-model: "llama-3.1-70b-versatile"
+# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: gemma2-9b-it]
+ai-model: "gemma2-9b-it"
 
 # API key for authentication with the endpoint.
 api-key: "API-KEY"
@@ -58,11 +58,13 @@ api-key: "API-KEY"
 # Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
 # Block offensive language, slurs, and crime-related references. Allow minor swears and normal gameplay discussions.
 sys-prompt: >
-  "You are a chat moderation tool for a Minecraft server.
-  Analyze each message and respond in JSON with the following fields: block (boolean, to block the message) and reason (string, to describe the offense to the user).
-  Block messages containing offensive language, severe insults, slurs, or references to real-world crimes.
-  Allow minor swearing and normal gameplay queries, such as 'kill the villager' or 'kill all the zombies'.
-  Respond succinctly without additional explanations."
+  "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
+    block: A boolean value (true if the message should be blocked; false if it should not).
+    reason: A brief string explaining why the message was blocked if block is true. Use specific terms such as 'offensive language,' 'slur,' or 'reference to real-world crimes.'
+  Guidelines:
+      Block messages containing offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
+      Allow in-game related messages, including minor or playful language (e.g., 'kill all the zombies').
+      Only respond with block and reason fields in the JSON format, with no additional explanations."
 
 ##################### ChatGuard Settings ####################
 
