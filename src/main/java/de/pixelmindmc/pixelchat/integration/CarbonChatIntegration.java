@@ -15,8 +15,13 @@ import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,6 +30,9 @@ import java.util.regex.Pattern;
  */
 public class CarbonChatIntegration {
     private final PixelChat plugin;
+    private boolean chatCodesEnabled = false;
+
+    private Map<String, String> chatCodesMap = new HashMap<>();
 
     /**
      * Constructs a CarbonChatIntegration object
@@ -33,6 +41,12 @@ public class CarbonChatIntegration {
      */
     public CarbonChatIntegration(PixelChat plugin) {
         this.plugin = plugin;
+
+        // Chat codes module
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
+            chatCodesEnabled = true;
+            chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
+        }
     }
 
     /**
@@ -53,9 +67,9 @@ public class CarbonChatIntegration {
                 chatGuardMessageBlocked = checkIfMessageShouldBeBLocked(event, messageComponent);
 
             // Chat codes module
-            if (!chatGuardMessageBlocked && carbonPlayer.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
-                messageComponent = convertChatCodes(messageComponent);
-                if (messageComponent != null) event.message(messageComponent);
+            if (chatCodesEnabled && !chatGuardMessageBlocked && carbonPlayer.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
+                messageComponent = replaceMessageChatCodes(messageComponent, chatCodesMap);
+                event.message(messageComponent);
             }
         });
     }
@@ -63,7 +77,7 @@ public class CarbonChatIntegration {
     /**
      * Checks whether a message should be blocked or censored and takes appropriate actions for CarbonChat
      *
-     * @param event     The CarbonChatEvent
+     * @param event            The CarbonChatEvent
      * @param messageComponent The component to check
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
@@ -78,7 +92,8 @@ public class CarbonChatIntegration {
         if (content == null) return false;
 
         // Debug logger message
-        plugin.getLoggingHelper().debug("Check if the message '" + content + "' should be blocked for the CarbonChat integration");
+        plugin.getLoggingHelper()
+                .debug("Check if the message '" + content + "' should be blocked for the CarbonChat integration");
 
         MessageClassification classification;
         try {
@@ -90,11 +105,13 @@ public class CarbonChatIntegration {
 
         if (!classification.block()) return false;
 
-        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
+        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
+                .equals("BLOCK");
         if (blockMessage) event.cancelled(true);
         else event.message(Component.text("*".repeat(content.length())));
 
-        ChatGuardHelper.notifyAndStrikePlayer(plugin, Bukkit.getPlayer(event.sender().uuid()), content, classification, blockMessage);
+        ChatGuardHelper.notifyAndStrikePlayer(plugin, Bukkit.getPlayer(event.sender()
+                .uuid()), content, classification, blockMessage);
 
         return true;
     }
@@ -103,11 +120,96 @@ public class CarbonChatIntegration {
      * Helper method to convert color and format codes with :codename: format to a formatted message component
      *
      * @param messageComponent The original message component
+     * @param chatCodesMap     The map of chat codes and replacements
      * @return The message component with the formatting
      */
-    private Component convertChatCodes(Component messageComponent) {
-        // TODO
+    private Component replaceMessageChatCodes(Component messageComponent, Map<String, String> chatCodesMap) {
+        // Map of color codes
+        Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(
+                Map.entry("black", NamedTextColor.BLACK),
+                Map.entry("dark_blue", NamedTextColor.DARK_BLUE),
+                Map.entry("dark_green", NamedTextColor.DARK_GREEN),
+                Map.entry("dark_aqua", NamedTextColor.DARK_AQUA),
+                Map.entry("dark_red", NamedTextColor.DARK_RED),
+                Map.entry("dark_purple", NamedTextColor.DARK_PURPLE),
+                Map.entry("gold", NamedTextColor.GOLD),
+                Map.entry("gray", NamedTextColor.GRAY),
+                Map.entry("dark_gray", NamedTextColor.DARK_GRAY),
+                Map.entry("blue", NamedTextColor.BLUE),
+                Map.entry("green", NamedTextColor.GREEN),
+                Map.entry("aqua", NamedTextColor.AQUA),
+                Map.entry("red", NamedTextColor.RED),
+                Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE),
+                Map.entry("yellow", NamedTextColor.YELLOW),
+                Map.entry("white", NamedTextColor.WHITE)
+        );
 
-        return messageComponent;
+        // Map of formatting codes
+        Map<String, TextDecoration> formattedTextDecorationCodesMap = Map.ofEntries(
+                Map.entry("obfuscated", TextDecoration.OBFUSCATED),
+                Map.entry("bold", TextDecoration.BOLD),
+                Map.entry("strikethrough", TextDecoration.STRIKETHROUGH),
+                Map.entry("underline", TextDecoration.UNDERLINED),
+                Map.entry("italic", TextDecoration.ITALIC)
+        );
+
+        String content = ((TextComponent) messageComponent).content();
+        TextComponent.Builder builder = Component.text(); // Builder for the new component message
+
+        int lastIndex = 0; // Track the last processed index in the content string
+        Pattern pattern = Pattern.compile(":(\\w+):"); // Pattern to find color and format codes like :blue:
+        Matcher matcher = pattern.matcher(content);
+
+        while (matcher.find()) {
+            String codeKey = matcher.group(1); // Extract the code key
+            int startIndex = matcher.start();
+
+            // Add unformatted text before the matched code
+            if (startIndex > lastIndex) {
+                builder.append(Component.text(content.substring(lastIndex, startIndex)));
+            }
+
+            // Check if the codeKey is a color or a text decoration
+            if (formattedColorCodesMap.containsKey(codeKey)) {
+                NamedTextColor textColor = formattedColorCodesMap.get(codeKey);
+
+                // Get the text following the code and add it with the specified color
+                int textStart = matcher.end();
+                int nextSpaceIndex = content.indexOf(' ', textStart);
+                String colorText = content.substring(textStart);
+
+                builder.append(Component.text(colorText).color(textColor));
+                lastIndex = textStart + colorText.length();
+
+                // Debug logger message
+                plugin.getLoggingHelper()
+                        .debug("Replacing: " + codeKey + " with: " + textColor);
+            } else if (formattedTextDecorationCodesMap.containsKey(codeKey)) {
+                // Handle text decoration similarly if needed
+                TextDecoration textDecoration = formattedTextDecorationCodesMap.get(codeKey);
+                // Apply decoration and move lastIndex appropriately
+                int textStart = matcher.end();
+                int nextSpaceIndex = content.indexOf(' ', textStart);
+                String decoratedText = (content.substring(textStart));
+
+                builder.append(Component.text(decoratedText).decorate(textDecoration));
+                lastIndex = textStart + decoratedText.length();
+
+                // Debug logger message
+                plugin.getLoggingHelper()
+                        .debug("Replacing: " + codeKey + " with: " + textDecoration);
+            } else {
+                // If the code is not recognized, append as plain text
+                builder.append(Component.text(matcher.group(0)));
+                lastIndex = matcher.end();
+            }
+        }
+
+        // Append any remaining text after the last processed code
+        if (lastIndex < content.length()) {
+            builder.append(Component.text(content.substring(lastIndex)));
+        }
+
+        return builder.build();
     }
 }

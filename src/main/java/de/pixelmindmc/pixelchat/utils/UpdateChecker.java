@@ -84,6 +84,13 @@ public class UpdateChecker {
         }
     }
 
+    /**
+     * Compares two version strings
+     *
+     * @param currentVersion The current version string
+     * @param latestVersion  The latest version string
+     * @return A boolean that indicates whether the last version is newer than the current version
+     */
     private boolean isNewerVersion(String currentVersion, String latestVersion) {
         String[] currentParts = currentVersion.split("\\.");
         String[] latestParts = latestVersion.split("\\.");
