@@ -43,18 +43,22 @@ public class ChatGuardHelper {
         String chatguardPrefix;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX)) {
-            chatguardPrefix = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
+            chatguardPrefix = plugin.getConfigHelper()
+                    .getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
         } else chatguardPrefix = LangConstants.PLUGIN_PREFIX;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
-            player.sendMessage(chatguardPrefix + plugin.getConfigHelperLanguage().getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
+            player.sendMessage(chatguardPrefix + plugin.getConfigHelperLanguage()
+                    .getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
 
-        plugin.getLoggingHelper().info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + userMessage);
+        plugin.getLoggingHelper()
+                .info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + userMessage);
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(plugin, player.getUniqueId(), player.getName(), classification.reason());
         } else
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(), classification.reason());
+            executeCommand(plugin, plugin.getConfigHelper()
+                    .getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(), classification.reason());
     }
 
     /**
@@ -63,7 +67,7 @@ public class ChatGuardHelper {
      *
      * @param playerUUID The player uuid to run the strike system on
      * @param playerName The player name to run the strike system on
-     * @param reason The reason why the player's message has been blocked or censored
+     * @param reason     The reason why the player's message has been blocked or censored
      */
     public static void runStrikeSystem(PixelChat plugin, UUID playerUUID, String playerName, String reason) {
         // Debug logger message
@@ -86,15 +90,21 @@ public class ChatGuardHelper {
         // Check if the player has reached the threshold for punishment
         if (strikes >= strikesToKick && strikes < strikesToTempBan) {
             // Player has enough strikes to be kicked
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper()
+                    .getString(ConfigConstants.CHATGUARD_KICK_COMMAND), playerName, plugin.getConfigHelperLanguage()
+                    .getString(LangConstants.PLAYER_KICK) + " " + reason);
             action = "KICK";
         } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
             // Player has enough strikes to be temporarily banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper()
+                    .getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), playerName, plugin.getConfigHelperLanguage()
+                    .getString(LangConstants.PLAYER_BAN_TEMPORARY) + " " + reason);
             action = "TEMP-BAN";
         } else if (strikes >= strikesToBan) {
             // Player has enough strikes to be permanently banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper()
+                    .getString(ConfigConstants.CHATGUARD_BAN_COMMAND), playerName, plugin.getConfigHelperLanguage()
+                    .getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + reason);
             action = "BAN";
         }
 
@@ -113,22 +123,24 @@ public class ChatGuardHelper {
         configHelperPlayerStrikes.set(strikePath + ".action", action);
 
         // Log the new strike count for debugging
-        plugin.getLoggingHelper().info(playerName + " got a Strike for " + reason + " and now has " + strikes + " strike(s)");
+        plugin.getLoggingHelper()
+                .info(playerName + " got a Strike for " + reason + " and now has " + strikes + " strike(s)");
     }
 
     /**
      * Helper method to allow for command execution in async contexts
      *
-     * @param command The command to execute
-     * @param playerName  The player name to execute the command on
-     * @param reason  The reason for the command
+     * @param command    The command to execute
+     * @param playerName The player name to execute the command on
+     * @param reason     The reason for the command
      */
     private static void executeCommand(PixelChat plugin, String command, String playerName, String reason) {
         // Replace placeholders with actual values
         String processedCommand = command.replace("<player>", playerName).replace("<reason>", reason);
 
         // Schedule to execute the task on the next server tick, as it cannot run from an async context (where we are now)
-        Bukkit.getScheduler().runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));
+        Bukkit.getScheduler()
+                .runTask(plugin, () -> Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), processedCommand));
 
         // Debug logger message
         plugin.getLoggingHelper().debug("Executed the command: " + processedCommand);

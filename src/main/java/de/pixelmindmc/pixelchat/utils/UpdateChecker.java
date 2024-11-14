@@ -31,7 +31,7 @@ public class UpdateChecker {
      */
     public UpdateChecker(PixelChat plugin, URL apiUrl) {
         this.plugin = plugin;
-        url = apiUrl;
+        this.url = apiUrl;
     }
 
     /**
@@ -40,7 +40,7 @@ public class UpdateChecker {
      * @return The JSON response of the request
      * @throws IOException If any issue happens, an exception is thrown
      */
-    public JsonObject getLatestReleaseFromGitHub() throws IOException {
+    private JsonObject getLatestReleaseFromGitHub() throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
 
@@ -57,7 +57,8 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+            throw new IOException(plugin.getConfigHelperLanguage()
+                    .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
     }
 
     /**
@@ -73,11 +74,32 @@ public class UpdateChecker {
             String latestVersion = latestRelease.get("tag_name").getAsString();
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
-            if (!isPreRelease && !currentVersion.equals(latestVersion)) {
-                return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/plugin/pixelchatguardian/";
+            if (!isPreRelease && isNewerVersion(currentVersion, latestVersion)) {
+                return plugin.getConfigHelperLanguage()
+                        .getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/plugin/pixelchatguardian/";
             } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
         } catch (Exception e) {
-            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
+            throw new IOException(plugin.getConfigHelperLanguage()
+                    .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
         }
+    }
+
+    private boolean isNewerVersion(String currentVersion, String latestVersion) {
+        String[] currentParts = currentVersion.split("\\.");
+        String[] latestParts = latestVersion.split("\\.");
+
+        for (int i = 0; i < Math.min(currentParts.length, latestParts.length); i++) {
+            int currentPart = Integer.parseInt(currentParts[i]);
+            int latestPart = Integer.parseInt(latestParts[i]);
+
+            if (currentPart < latestPart) {
+                return true; // Current version is older
+            } else if (currentPart > latestPart) {
+                return false; // Current version is newer
+            }
+        }
+
+        // If versions are the same length and no difference was found
+        return currentParts.length < latestParts.length; // Newer if latest has more sub-parts
     }
 }

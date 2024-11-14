@@ -281,12 +281,4 @@ public final class PixelChat extends JavaPlugin {
         return loggingHelper;
     }
 
-    /**
-     * Retrieves the AsyncPlayerChatListener instance
-     *
-     * @return The AsyncPlayerChatListener instance
-     */
-    public AsyncPlayerChatListener getAsyncPlayerChatListener() {
-        return asyncPlayerChatListener;
-    }
 }

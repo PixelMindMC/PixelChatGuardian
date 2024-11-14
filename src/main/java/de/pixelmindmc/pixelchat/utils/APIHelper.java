@@ -119,14 +119,17 @@ public class APIHelper {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
         // Extract the content string from the first choice's message
-        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
+        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message")
+                .get("content").getAsString();
 
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
         // Extract fields from the parsed content
-        boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY).isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
-        String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
+        boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY)
+                .isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
+        String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY)
+                .isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
 
         return new MessageClassification(block, reason);
     }
