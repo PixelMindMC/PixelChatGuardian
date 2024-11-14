@@ -12,6 +12,7 @@ import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.integration.CarbonChatIntegration;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,13 +44,15 @@ public class AsyncPlayerChatListener implements Listener {
         this.plugin = plugin;
 
         // Initialize CarbonChat integration if available
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
+        if (plugin.getConfigHelper()
+                .getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
             carbonChatIntegration.registerCarbonChatListener();
 
-        // Emoji module
+        // Chatguard module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
             String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
+            this.chatGuardEnabled = plugin.getConfigHelper()
+                    .getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") && apiKey != null;
         }
 
         // Emoji module
@@ -101,13 +104,13 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Emoji module
         if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
-            message = replaceMessagePlaceholders(message, emojiMap);
+            message = replaceMessageEmojis(message, emojiMap);
             event.setMessage(message);
         }
 
         // Chat codes module
         if (chatCodesEnabled && !chatGuardMessageBlocked && carbonChatIntegration == null && player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
-            message = replaceMessagePlaceholders(message, chatCodesMap);
+            message = replaceMessageChatCodes(message, chatCodesMap);
             event.setMessage(message);
         }
     }
@@ -134,7 +137,8 @@ public class AsyncPlayerChatListener implements Listener {
 
         if (!classification.block()) return false;
 
-        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
+        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
+                .equals("BLOCK");
         if (blockMessage) event.setCancelled(true);
         else event.setMessage("*".repeat(message.length()));
 
@@ -144,20 +148,72 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Helper method to apply a given map of placeholders to replacements to the given string
+     * Helper method to apply a given map of emojis to replacements to the given string
      *
-     * @param message        The original message
-     * @param replacementMap The map of placeholders and replacements
+     * @param message  The original message
+     * @param emojiMap The map of emojis and replacements
      * @return The message with the applied replacements
      */
-    private String replaceMessagePlaceholders(String message, Map<String, String> replacementMap) {
-        for (Map.Entry<String, String> entry : replacementMap.entrySet()) {
+    private String replaceMessageEmojis(String message, Map<String, String> emojiMap) {
+        for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 // Debug logger message
                 plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Replace each occurrence of the placeholder (key) in the string with its value
                 message = message.replace(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return message;
+    }
+
+    /**
+     * Helper method to convert color and format codes with :codename: format to a formatted message
+     *
+     * @param message      The original message
+     * @param chatCodesMap The map of chat codes and replacements
+     * @return The message with the formatting
+     */
+    private String replaceMessageChatCodes(String message, Map<String, String> chatCodesMap) {
+        Map<String, ChatColor> formattedChatCodesMap = Map.ofEntries(
+                // Color codes
+                Map.entry("black", ChatColor.BLACK),
+                Map.entry("dark_blue", ChatColor.DARK_BLUE),
+                Map.entry("dark_green", ChatColor.DARK_GREEN),
+                Map.entry("dark_aqua", ChatColor.DARK_AQUA),
+                Map.entry("dark_red", ChatColor.DARK_RED),
+                Map.entry("dark_purple", ChatColor.DARK_PURPLE),
+                Map.entry("gold", ChatColor.GOLD),
+                Map.entry("gray", ChatColor.GRAY),
+                Map.entry("dark_gray", ChatColor.DARK_GRAY),
+                Map.entry("blue", ChatColor.BLUE),
+                Map.entry("green", ChatColor.GREEN),
+                Map.entry("aqua", ChatColor.AQUA),
+                Map.entry("red", ChatColor.RED),
+                Map.entry("light_purple", ChatColor.LIGHT_PURPLE),
+                Map.entry("yellow", ChatColor.YELLOW),
+                Map.entry("white", ChatColor.WHITE),
+
+                // Formatting codes
+                Map.entry("obfuscated", ChatColor.MAGIC),
+                Map.entry("bold", ChatColor.BOLD),
+                Map.entry("strikethrough", ChatColor.STRIKETHROUGH),
+                Map.entry("underline", ChatColor.UNDERLINE),
+                Map.entry("italic", ChatColor.ITALIC),
+                Map.entry("reset", ChatColor.RESET)
+        );
+
+        // Iterate through each chat code replacement
+        for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
+            if (message.contains(entry.getValue())) {
+                // Debug logger message
+                plugin.getLoggingHelper()
+                        .debug("Replacing: " + entry.getValue() + " with: " + formattedChatCodesMap.get(entry.getKey()));
+
+                // Replace each occurrence of the placeholder (key) in the string with its value
+                message = message.replace(entry.getValue(),
+                        formattedChatCodesMap.get(entry.getKey()).toString());
             }
         }
 
