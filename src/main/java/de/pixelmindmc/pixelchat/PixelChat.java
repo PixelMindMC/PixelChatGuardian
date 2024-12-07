@@ -82,14 +82,14 @@ public final class PixelChat extends JavaPlugin {
 
         configHelper = new ConfigHelper(this, "config.yml");
         configHelperPlayerStrikes = new ConfigHelper(this, "player_strikes.yml");
-        configHelperLangCustom = new ConfigHelper(this, "languages/lang_custom.yml");
-        configHelperLangGerman = new ConfigHelper(this, "languages/lang_de.yml");
-        configHelperLangEnglish = new ConfigHelper(this, "languages/lang_en.yml");
-        configHelperLangSpanish = new ConfigHelper(this, "languages/lang_es.yml");
-        configHelperLangFrench = new ConfigHelper(this, "languages/lang_fr.yml");
-        configHelperLangDutch = new ConfigHelper(this, "languages/lang_nl.yml");
-        configHelperLangSimplifiedChinese = new ConfigHelper(this, "languages/lang_zh-cn.yml");
-        configHelperLangTraditionalChinese = new ConfigHelper(this, "languages/lang_zh-tw.yml");
+        configHelperLangCustom = new ConfigHelper(this, "locale/locale_custom.yml");
+        configHelperLangGerman = new ConfigHelper(this, "locale/locale_de.yml");
+        configHelperLangEnglish = new ConfigHelper(this, "locale/locale_en.yml");
+        configHelperLangSpanish = new ConfigHelper(this, "locale/locale_es.yml");
+        configHelperLangFrench = new ConfigHelper(this, "locale/locale_fr.yml");
+        configHelperLangDutch = new ConfigHelper(this, "locale/locale_nl.yml");
+        configHelperLangSimplifiedChinese = new ConfigHelper(this, "locale/locale_zh-cn.yml");
+        configHelperLangTraditionalChinese = new ConfigHelper(this, "locale/locale_zh-tw.yml");
 
         // Check config versions
         String version = getDescription().getVersion();
