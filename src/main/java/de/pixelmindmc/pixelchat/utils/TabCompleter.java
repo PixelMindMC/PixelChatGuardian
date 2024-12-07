@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
      * @return A list of possible completions based on input and permissions
      */
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         // Clear previous results to avoid stale completions
         results.clear();
 
@@ -39,14 +40,16 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
             if (args.length == 1) {
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) results.add("version");
                 if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
-                if (sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
-                    results.add("remove-strikes");
-                if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) results.add("strike");
-            } else if (args.length == 2) {
-                if (args[0].equals("remove-strikes") || args[0].equals("remove-strike") || args[0].equals("removestrikes") || args[0].equals("removestrike") || args[0].equals("rmstrikes") || args[0].equals("rmstrike"))
+            }
+        } else if (cmd.getLabel().equalsIgnoreCase("remove-strikes")) {
+            if (args.length == 1) if (sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
+                addOnlinePlayerCompletions();
+        } else if (cmd.getLabel().equalsIgnoreCase("strike")) {
+            if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
+                if (args.length == 1) {
                     addOnlinePlayerCompletions();
-                if (args[0].equals("strike")) addOnlinePlayerCompletions();
-            } else if (args.length == 3) if (args[0].equals("strike")) results.add("<reason>");
+                } else if (args.length == 2) results.add("<reason>");
+            }
         }
 
         return results;

@@ -10,16 +10,14 @@ import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
-import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import org.apache.commons.lang3.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,26 +36,26 @@ public class PixelChatCommand implements CommandExecutor {
      *
      * @param plugin The plugin instance
      */
-    public PixelChatCommand(PixelChat plugin) {
+    public PixelChatCommand(@NotNull PixelChat plugin) {
         this.plugin = plugin;
     }
 
     /**
      * Handles the execution of the "pixelchat" command
      *
-     * @param sender The source of the command (player or console)
-     * @param cmd    The command being executed
-     * @param label  The alias used to invoke the command
-     * @param args   The arguments provided with the command
+     * @param sender  The source of the command (player or console)
+     * @param command The command being executed
+     * @param label   The alias used to invoke the command
+     * @param args    The arguments provided with the command
      * @return true to indicate the command was processed
      */
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
 
         // Display usage information if no arguments are provided
         if (args.length == 0) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload|remove-strikes|strike>");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <version|reload>");
             return true;
         }
 
@@ -65,11 +63,8 @@ public class PixelChatCommand implements CommandExecutor {
         switch (args[0].toLowerCase()) {
             case "version" -> handleVersionSubcommand(sender, label, args, configHelperLanguage);
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
-            case "remove-strikes", "removestrikes", "rmstrikes" ->
-                    handleRemoveStrikesSubcommand(sender, label, args, plugin.getConfigHelperPlayerStrikes(), configHelperLanguage);
-            case "strike" -> handleStrikeSubcommand(sender, label, args, configHelperLanguage);
             default ->
-                    sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload|remove-strikes|strike>");
+                    sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " <version|reload>");
         }
 
         return true;
@@ -83,7 +78,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args       The arguments
      * @param langConfig The ConfigHelper for the languageConfig
      */
-    private void handleVersionSubcommand(CommandSender sender, String label, String[] args, ConfigHelper langConfig) {
+    private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args, @NotNull ConfigHelper langConfig) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) {
             sender.sendMessage(ChatColor.RED + langConfig.getString(LangConstants.NO_PERMISSION));
@@ -127,7 +122,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args                 The arguments
      * @param configHelperLanguage The ConfigHelper for the languageConfig
      */
-    private void handleReloadSubcommand(CommandSender sender, String label, String[] args, ConfigHelper configHelperLanguage) {
+    private void handleReloadSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args, @NotNull ConfigHelper configHelperLanguage) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
@@ -150,83 +145,12 @@ public class PixelChatCommand implements CommandExecutor {
     }
 
     /**
-     * Handles the "remove-strikes" subcommand to remove strikes from a specific player
-     *
-     * @param sender                    The command sender
-     * @param label                     The label
-     * @param args                      The arguments
-     * @param configHelperPlayerStrikes The ConfigHelper for the languageConfig
-     * @param configHelperLanguage      The ConfigHelper for the languageConfig
-     */
-    private void handleRemoveStrikesSubcommand(CommandSender sender, String label, String[] args, ConfigHelper configHelperPlayerStrikes, ConfigHelper configHelperLanguage) {
-        // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES)) {
-            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
-            return;
-        }
-
-        // Check if the command syntax is correct
-        if (args.length != 2) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " remove-strikes <player>");
-            return;
-        }
-
-        Player onlinePlayer = Bukkit.getPlayer(args[1]);
-        UUID playerUUID;
-        if (onlinePlayer != null) {
-            playerUUID = onlinePlayer.getUniqueId();
-        } else playerUUID = getOfflinePlayerUUID(args[1]);
-
-
-        if (playerUUID != null && configHelperPlayerStrikes.contains(playerUUID.toString()))
-            // Reset the player's strike count to 0
-            configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
-
-        // Send a message after successfully remove player strikes from a specific player
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_REMOVED_PLAYER_STRIKES) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
-    }
-
-    /**
-     * Handles the "strike" subcommand to strike a player
-     *
-     * @param sender               The command sender
-     * @param label                The label
-     * @param args                 The arguments
-     * @param configHelperLanguage The ConfigHelper for the languageConfig
-     */
-    private void handleStrikeSubcommand(CommandSender sender, String label, String[] args, ConfigHelper configHelperLanguage) {
-        // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
-            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
-            return;
-        }
-
-        // Check if the command syntax is correct
-        if (args.length != 3) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " strike <player> <reason>");
-            return;
-        }
-
-        Player onlinePlayer = Bukkit.getPlayer(args[1]);
-        UUID playerUUID;
-        if (onlinePlayer != null) {
-            playerUUID = onlinePlayer.getUniqueId();
-        } else playerUUID = getOfflinePlayerUUID(args[1]);
-
-
-        ChatGuardHelper.runStrikeSystem(plugin, playerUUID, args[1], args[2]);
-
-        // Send a message after successfully struck a player
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[1] + ChatColor.RESET + ".");
-    }
-
-    /**
      * Method for retrieving the UUID of an offline player with the Mojang api
      *
      * @param playerName The specific player name
      * @return a player uuid of an offline player
      */
-    private UUID getOfflinePlayerUUID(String playerName) {
+    public UUID getOfflinePlayerUUID(String playerName) {
         try {
             String url = "https://api.mojang.com/users/profiles/minecraft/" + playerName;
             HttpURLConnection connection = (HttpURLConnection) new URI(url).toURL().openConnection();

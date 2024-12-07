@@ -19,6 +19,8 @@
 package de.pixelmindmc.pixelchat;
 
 import de.pixelmindmc.pixelchat.commands.PixelChatCommand;
+import de.pixelmindmc.pixelchat.commands.RemoveStrikesCommand;
+import de.pixelmindmc.pixelchat.commands.StrikeCommand;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
@@ -53,7 +55,7 @@ public final class PixelChat extends JavaPlugin {
     private ConfigHelper configHelperLangSimplifiedChinese;
     private ConfigHelper configHelperLangTraditionalChinese;
 
-    private AsyncPlayerChatListener asyncPlayerChatListener;
+    private PixelChatCommand pixelChatCommand;
 
     private APIHelper apiHelper;
 
@@ -221,7 +223,7 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register listeners");
 
-        pluginManager.registerEvents(asyncPlayerChatListener = new AsyncPlayerChatListener(this), this);
+        pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
     }
 
 
@@ -232,7 +234,9 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register commands");
 
-        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(new PixelChatCommand(this));
+        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(pixelChatCommand = new PixelChatCommand(this));
+        Objects.requireNonNull(getCommand("strike")).setExecutor(new StrikeCommand(this));
+        Objects.requireNonNull(getCommand("remove-strikes")).setExecutor(new RemoveStrikesCommand(this));
     }
 
     /**
@@ -281,4 +285,8 @@ public final class PixelChat extends JavaPlugin {
         return loggingHelper;
     }
 
+    // Retrieves the PixelChatCommand instance
+    public PixelChatCommand getPixelChatCommand() {
+        return pixelChatCommand;
+    }
 }

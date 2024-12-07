@@ -10,6 +10,7 @@ import de.pixelmindmc.pixelchat.constants.LangConstants;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ConfigHelper {
      * @param plugin The plugin instance
      * @param path   The path of the configuration file
      */
-    public ConfigHelper(PixelChat plugin, String path) {
+    public ConfigHelper(@NotNull PixelChat plugin, @NotNull String path) {
         this.plugin = plugin;
         this.path = path;
         saveDefaultConfig();

@@ -7,6 +7,7 @@ package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -24,7 +25,7 @@ public class LoggingHelper {
      * @param plugin The plugin instance
      * @throws NullPointerException if the log level in the configuration is null
      */
-    public LoggingHelper(PixelChat plugin) {
+    public LoggingHelper(@NotNull PixelChat plugin) {
         this.logger = plugin.getLogger();
         setLogLevel(Objects.requireNonNull(plugin.getConfig().getString(ConfigConstants.LOG_LEVEL)));
     }

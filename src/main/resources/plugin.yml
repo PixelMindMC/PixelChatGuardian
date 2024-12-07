@@ -10,9 +10,16 @@ softdepend: [ CarbonChat ]
 
 commands:
   pixelchat:
-    description: The main command for PixelChat Guardian, used for version info and reloading.
-    usage: /<command> [version|reload|remove-strikes|strike]
+    description: The main command for PixelChat Guardian.
+    usage: /<command> [version|reload]
     aliases: [ pc, pixelchatguardian, pcg, chatguard, chatguardian ]
+  strike:
+    description: The command used to strike a player.
+    usage: /<command> <player> <reason>
+  remove-strikes:
+    description: The command used to remove strikes from a player.
+    usage: /<command> <player>
+    aliases: [ removestrikes, rmstrikes ]
 
 permissions:
   pixelchat.*:
@@ -45,11 +52,11 @@ permissions:
     default: true
 
   pixelchat.remove-player-strikes:
-    description: Allows the use of the /pixelchat remove-strikes subcommand.
+    description: Allows the use of the /remove-strikes subcommand.
     default: op
 
   pixelchat.strike-player:
-    description: Allows the use of the /pixelchat strike subcommand.
+    description: Allows the use of the /strike subcommand.
     default: op
 
   pixelchat.bypass-chat-moderation:
