@@ -87,18 +87,18 @@ public class CarbonChatIntegration {
         Pattern pattern = Pattern.compile("content=\"(.*?)\"");
         Matcher matcher = pattern.matcher(messageComponent.toString());
 
-        String content = null;
-        if (matcher.find()) content = matcher.group(1);  // Extracts the content
+        String message = null;
+        if (matcher.find()) message = matcher.group(1);  // Extracts the content
 
-        if (content == null) return false;
+        if (message == null) return false;
 
         // Debug logger message
         plugin.getLoggingHelper()
-                .debug("Check if the message '" + content + "' should be blocked for the CarbonChat integration");
+                .debug("Check if the message '" + message + "' should be blocked for the CarbonChat integration");
 
         MessageClassification classification;
         try {
-            classification = plugin.getAPIHelper().classifyMessage(content);
+            classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException exception) {
             plugin.getLoggingHelper().error(exception.toString());
             return false; //Don't block message if there was an error while classifying it
@@ -109,10 +109,10 @@ public class CarbonChatIntegration {
         boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
                 .equals("BLOCK");
         if (blockMessage) event.cancelled(true);
-        else event.message(Component.text("*".repeat(content.length())));
+        else event.message(Component.text("*".repeat(message.length())));
 
         ChatGuardHelper.notifyAndStrikePlayer(plugin, Bukkit.getPlayer(event.sender()
-                .uuid()), content, classification, blockMessage);
+                .uuid()), message, classification, blockMessage);
 
         return true;
     }

@@ -53,14 +53,14 @@ public class APIHelper {
     /**
      * Classifies player messages using AI
      *
-     * @param prompt The message to classify
+     * @param message The message to classify
      * @return A {@link MessageClassification} object filled with the results of the AI-classification
      * @throws MessageClassificationException If the classification failed in any way
      */
-    public MessageClassification classifyMessage(String prompt) throws MessageClassificationException {
+    public MessageClassification classifyMessage(String message) throws MessageClassificationException {
         try {
             HttpURLConnection connection = createConnection();
-            sendRequest(connection, prompt);
+            sendRequest(connection, message);
             int responseCode = connection.getResponseCode(); // HTTP code of the response
 
             if (responseCode >= 200 && responseCode < 300) {
@@ -102,13 +102,17 @@ public class APIHelper {
      * Sends an OpenAI-API-compliant API request to the given connection, pre-filled with the given user prompt
      *
      * @param connection The connection to send the request to
-     * @param prompt     The user message / prompt
+     * @param message    The user message
      * @throws IOException If any issue happens, an exception is thrown
      */
-    private void sendRequest(HttpURLConnection connection, String prompt) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY, sysPrompt), Map.of("role", "user", APIConstants.CONTENT_KEY, prompt)}, "response_format", Map.of("type", "json_object"));
+    private void sendRequest(HttpURLConnection connection, String message) throws IOException {
+        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY, sysPrompt + "Language: " + plugin.getConfigHelper()
+                .getString(ConfigConstants.LANGUAGE)), Map.of("role", "user", APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
+
+        // Debug logger message
+        plugin.getLoggingHelper().debug("Json request: " + jsonInputString);
 
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -136,9 +140,8 @@ public class APIHelper {
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY)
                 .isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
-        boolean isOffensiveLanguage =
-                message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY)
-                        .isJsonNull() && message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
+        boolean isOffensiveLanguage = message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY)
+                .isJsonNull() && message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
         boolean isUsername = message.has(APIConstants.ISUSERNAME_KEY) && !message.get(APIConstants.ISUSERNAME_KEY)
                 .isJsonNull() && message.get(APIConstants.ISUSERNAME_KEY).getAsBoolean();
         boolean isPassword = message.has(APIConstants.ISPASSWORD_KEY) && !message.get(APIConstants.ISPASSWORD_KEY)
@@ -152,8 +155,7 @@ public class APIHelper {
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY)
                 .isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
 
-        return new MessageClassification(block, isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress,
-                isWebsite, reason);
+        return new MessageClassification(block, isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
     }
 
     /**
