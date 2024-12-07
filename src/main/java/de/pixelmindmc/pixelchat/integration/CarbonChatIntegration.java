@@ -19,6 +19,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,13 +40,13 @@ public class CarbonChatIntegration {
      *
      * @param plugin The plugin instance
      */
-    public CarbonChatIntegration(PixelChat plugin) {
+    public CarbonChatIntegration(@NotNull PixelChat plugin) {
         this.plugin = plugin;
 
         // Chat codes module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
-            chatCodesEnabled = true;
-            chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
+            this.chatCodesEnabled = true;
+            this.chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
         }
     }
 
@@ -125,33 +126,10 @@ public class CarbonChatIntegration {
      */
     private Component replaceMessageChatCodes(Component messageComponent, Map<String, String> chatCodesMap) {
         // Map of color codes
-        Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(
-                Map.entry("black", NamedTextColor.BLACK),
-                Map.entry("dark_blue", NamedTextColor.DARK_BLUE),
-                Map.entry("dark_green", NamedTextColor.DARK_GREEN),
-                Map.entry("dark_aqua", NamedTextColor.DARK_AQUA),
-                Map.entry("dark_red", NamedTextColor.DARK_RED),
-                Map.entry("dark_purple", NamedTextColor.DARK_PURPLE),
-                Map.entry("gold", NamedTextColor.GOLD),
-                Map.entry("gray", NamedTextColor.GRAY),
-                Map.entry("dark_gray", NamedTextColor.DARK_GRAY),
-                Map.entry("blue", NamedTextColor.BLUE),
-                Map.entry("green", NamedTextColor.GREEN),
-                Map.entry("aqua", NamedTextColor.AQUA),
-                Map.entry("red", NamedTextColor.RED),
-                Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE),
-                Map.entry("yellow", NamedTextColor.YELLOW),
-                Map.entry("white", NamedTextColor.WHITE)
-        );
+        Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(Map.entry("black", NamedTextColor.BLACK), Map.entry("dark_blue", NamedTextColor.DARK_BLUE), Map.entry("dark_green", NamedTextColor.DARK_GREEN), Map.entry("dark_aqua", NamedTextColor.DARK_AQUA), Map.entry("dark_red", NamedTextColor.DARK_RED), Map.entry("dark_purple", NamedTextColor.DARK_PURPLE), Map.entry("gold", NamedTextColor.GOLD), Map.entry("gray", NamedTextColor.GRAY), Map.entry("dark_gray", NamedTextColor.DARK_GRAY), Map.entry("blue", NamedTextColor.BLUE), Map.entry("green", NamedTextColor.GREEN), Map.entry("aqua", NamedTextColor.AQUA), Map.entry("red", NamedTextColor.RED), Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE), Map.entry("yellow", NamedTextColor.YELLOW), Map.entry("white", NamedTextColor.WHITE));
 
         // Map of formatting codes
-        Map<String, TextDecoration> formattedTextDecorationCodesMap = Map.ofEntries(
-                Map.entry("obfuscated", TextDecoration.OBFUSCATED),
-                Map.entry("bold", TextDecoration.BOLD),
-                Map.entry("strikethrough", TextDecoration.STRIKETHROUGH),
-                Map.entry("underline", TextDecoration.UNDERLINED),
-                Map.entry("italic", TextDecoration.ITALIC)
-        );
+        Map<String, TextDecoration> formattedTextDecorationCodesMap = Map.ofEntries(Map.entry("obfuscated", TextDecoration.OBFUSCATED), Map.entry("bold", TextDecoration.BOLD), Map.entry("strikethrough", TextDecoration.STRIKETHROUGH), Map.entry("underline", TextDecoration.UNDERLINED), Map.entry("italic", TextDecoration.ITALIC));
 
         String content = ((TextComponent) messageComponent).content();
         TextComponent.Builder builder = Component.text(); // Builder for the new component message
@@ -182,8 +160,7 @@ public class CarbonChatIntegration {
                 lastIndex = textStart + colorText.length();
 
                 // Debug logger message
-                plugin.getLoggingHelper()
-                        .debug("Replacing: " + codeKey + " with: " + textColor);
+                plugin.getLoggingHelper().debug("Replacing: " + ":" + codeKey + ":" + " with: " + textColor);
             } else if (formattedTextDecorationCodesMap.containsKey(codeKey)) {
                 // Handle text decoration similarly if needed
                 TextDecoration textDecoration = formattedTextDecorationCodesMap.get(codeKey);
@@ -196,8 +173,7 @@ public class CarbonChatIntegration {
                 lastIndex = textStart + decoratedText.length();
 
                 // Debug logger message
-                plugin.getLoggingHelper()
-                        .debug("Replacing: " + codeKey + " with: " + textDecoration);
+                plugin.getLoggingHelper().debug("Replacing: " + ":" + codeKey + ":" + " with: " + textDecoration);
             } else {
                 // If the code is not recognized, append as plain text
                 builder.append(Component.text(matcher.group(0)));

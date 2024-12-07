@@ -34,31 +34,32 @@ public class ChatGuardHelper {
      * @param player         The player that sent the message
      * @param userMessage    The message that the user sent
      * @param classification The classification of the message
-     * @param blockMessage   Whether the message should be blocked ({@code true}) or censored ({@code false})
+     * @param blockOrCensor  Whether the message should be blocked ({@code true}) or censored ({@code false})
      */
-    public static void notifyAndStrikePlayer(PixelChat plugin, Player player, String userMessage, MessageClassification classification, boolean blockMessage) {
+    public static void notifyAndStrikePlayer(PixelChat plugin, Player player, String userMessage, MessageClassification classification, boolean blockOrCensor) {
         // Debug logger message
-        plugin.getLoggingHelper().debug("Notify and strike player");
+        plugin.getLoggingHelper().debug("Notify player");
 
-        String chatguardPrefix;
+        String chatGuardPrefix;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX)) {
-            chatguardPrefix = plugin.getConfigHelper()
+            chatGuardPrefix = plugin.getConfigHelper()
                     .getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
-        } else chatguardPrefix = LangConstants.PLUGIN_PREFIX;
+        } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
-            player.sendMessage(chatguardPrefix + plugin.getConfigHelperLanguage()
-                    .getString(blockMessage ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
+            player.sendMessage(chatGuardPrefix + plugin.getConfigHelperLanguage()
+                    .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason());
 
         plugin.getLoggingHelper()
-                .info("Message by " + player.getName() + (blockMessage ? " has been blocked: " : " has been censored: ") + userMessage);
+                .info("Message by " + player.getName() + (blockOrCensor ? " has been blocked: " : " has been censored: ") + userMessage);
+
+        if (!classification.isOffensiveLanguage()) return;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(plugin, player.getUniqueId(), player.getName(), classification.reason());
-        } else
-            executeCommand(plugin, plugin.getConfigHelper()
-                    .getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(), classification.reason());
+        } else executeCommand(plugin, plugin.getConfigHelper()
+                .getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(), classification.reason());
     }
 
     /**

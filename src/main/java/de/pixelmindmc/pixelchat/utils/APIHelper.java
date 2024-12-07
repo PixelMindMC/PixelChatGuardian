@@ -13,6 +13,7 @@ import de.pixelmindmc.pixelchat.constants.APIConstants;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,6 +30,8 @@ import java.util.Map;
  * A collection of methods to aid with the AI requests to the AI API
  */
 public class APIHelper {
+    private final PixelChat plugin;
+
     private final String aiModel;
     private final String apiUrl;
     private final String apiKey;
@@ -39,11 +42,12 @@ public class APIHelper {
      *
      * @param plugin The plugin instance
      */
-    public APIHelper(PixelChat plugin) {
-        aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
-        apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
-        sysPrompt = plugin.getConfig().getString(ConfigConstants.SYSTEM_PROMPT);
-        apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
+    public APIHelper(@NotNull PixelChat plugin) {
+        this.plugin = plugin;
+        this.aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
+        this.apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
+        this.sysPrompt = plugin.getConfig().getString(ConfigConstants.SYSTEM_PROMPT);
+        this.apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
     }
 
     /**
@@ -61,6 +65,10 @@ public class APIHelper {
 
             if (responseCode >= 200 && responseCode < 300) {
                 String jsonResponse = decodeResponse(connection); // Entire JSON response
+
+                // Debug logger message
+                plugin.getLoggingHelper().debug("Json response: " + jsonResponse);
+
                 return processResponse(jsonResponse);
             } else {
                 String errorResponse = decodeResponse(connection);
@@ -128,10 +136,24 @@ public class APIHelper {
         // Extract fields from the parsed content
         boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY)
                 .isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
+        boolean isOffensiveLanguage =
+                message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY)
+                        .isJsonNull() && message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
+        boolean isUsername = message.has(APIConstants.ISUSERNAME_KEY) && !message.get(APIConstants.ISUSERNAME_KEY)
+                .isJsonNull() && message.get(APIConstants.ISUSERNAME_KEY).getAsBoolean();
+        boolean isPassword = message.has(APIConstants.ISPASSWORD_KEY) && !message.get(APIConstants.ISPASSWORD_KEY)
+                .isJsonNull() && message.get(APIConstants.ISPASSWORD_KEY).getAsBoolean();
+        boolean isHomeAddress = message.has(APIConstants.ISHOMEADDRESS_KEY) && !message.get(APIConstants.ISHOMEADDRESS_KEY)
+                .isJsonNull() && message.get(APIConstants.ISHOMEADDRESS_KEY).getAsBoolean();
+        boolean isEmailAddress = message.has(APIConstants.ISEMAILADDRESS_KEY) && !message.get(APIConstants.ISEMAILADDRESS_KEY)
+                .isJsonNull() && message.get(APIConstants.ISEMAILADDRESS_KEY).getAsBoolean();
+        boolean isWebsite = message.has(APIConstants.ISWEBSITE_KEY) && !message.get(APIConstants.ISWEBSITE_KEY)
+                .isJsonNull() && message.get(APIConstants.ISWEBSITE_KEY).getAsBoolean();
         String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY)
                 .isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
 
-        return new MessageClassification(block, reason);
+        return new MessageClassification(block, isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress,
+                isWebsite, reason);
     }
 
     /**

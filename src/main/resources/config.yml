@@ -60,8 +60,22 @@ api-key: "API-KEY"
 sys-prompt: >
   "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
     block: A boolean value (true if the message should be blocked; false if it should not).
-    reason: A brief string explaining why the message was blocked if block is true. Use specific terms such as 'offensive language,' 'slur,' or 'reference to real-world crimes.'
-  Guidelines:
+    isOffensiveLanguage: A boolean value(true if the message contains offensive language, severe insults, hate 
+    speech, slurs, real-world crime references, or other forms of harmful language; false if not)
+    isUsername: A boolean value (true if the message contains a username or player identifier; false if not).
+    isPassword: A boolean value (true if the message appears to include a password or sensitive login information; false if not).
+    isHomeAddress: A boolean value (true if the message contains a physical address or location; false if not).
+    isEmail: A boolean value (true if the message includes an email address; false if not).
+    isWebsite: A boolean value (true if the message contains a website link or URL; false if not).
+    reason: A brief string explaining why the message was blocked, if block is true. Use precise terms such as:
+        "Offensive language"
+        "Hate speech or slur"
+        "Severe insult"
+        "Reference to real-world crimes"
+        "Other forms of harmful language"
+        "Sensitive personal information"
+        "Not allowed websites"
+  Guidelines for Blocking Messages:
       Block messages containing offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
       Allow in-game related messages, including minor or playful language (e.g., 'kill all the zombies').
       Only respond with block and reason fields in the JSON format, with no additional explanations."

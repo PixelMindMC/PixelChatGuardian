@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class AsyncPlayerChatListener implements Listener {
      *
      * @param plugin The plugin instance
      */
-    public AsyncPlayerChatListener(PixelChat plugin) {
+    public AsyncPlayerChatListener(@NotNull PixelChat plugin) {
         this.plugin = plugin;
 
         // Initialize CarbonChat integration if available
@@ -57,14 +58,14 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
-            emojiEnabled = true;
-            emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
+            this.emojiEnabled = true;
+            this.emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
         }
 
         // Chat codes module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
-            chatCodesEnabled = true;
-            chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
+            this.chatCodesEnabled = true;
+            this.chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
         }
     }
 
@@ -137,12 +138,12 @@ public class AsyncPlayerChatListener implements Listener {
 
         if (!classification.block()) return false;
 
-        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
+        boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
                 .equals("BLOCK");
-        if (blockMessage) event.setCancelled(true);
+        if (blockOrCensor) event.setCancelled(true);
         else event.setMessage("*".repeat(message.length()));
 
-        ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockMessage);
+        ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
 
         return true;
     }
@@ -178,31 +179,10 @@ public class AsyncPlayerChatListener implements Listener {
     private String replaceMessageChatCodes(String message, Map<String, String> chatCodesMap) {
         Map<String, ChatColor> formattedChatCodesMap = Map.ofEntries(
                 // Color codes
-                Map.entry("black", ChatColor.BLACK),
-                Map.entry("dark_blue", ChatColor.DARK_BLUE),
-                Map.entry("dark_green", ChatColor.DARK_GREEN),
-                Map.entry("dark_aqua", ChatColor.DARK_AQUA),
-                Map.entry("dark_red", ChatColor.DARK_RED),
-                Map.entry("dark_purple", ChatColor.DARK_PURPLE),
-                Map.entry("gold", ChatColor.GOLD),
-                Map.entry("gray", ChatColor.GRAY),
-                Map.entry("dark_gray", ChatColor.DARK_GRAY),
-                Map.entry("blue", ChatColor.BLUE),
-                Map.entry("green", ChatColor.GREEN),
-                Map.entry("aqua", ChatColor.AQUA),
-                Map.entry("red", ChatColor.RED),
-                Map.entry("light_purple", ChatColor.LIGHT_PURPLE),
-                Map.entry("yellow", ChatColor.YELLOW),
-                Map.entry("white", ChatColor.WHITE),
+                Map.entry("black", ChatColor.BLACK), Map.entry("dark_blue", ChatColor.DARK_BLUE), Map.entry("dark_green", ChatColor.DARK_GREEN), Map.entry("dark_aqua", ChatColor.DARK_AQUA), Map.entry("dark_red", ChatColor.DARK_RED), Map.entry("dark_purple", ChatColor.DARK_PURPLE), Map.entry("gold", ChatColor.GOLD), Map.entry("gray", ChatColor.GRAY), Map.entry("dark_gray", ChatColor.DARK_GRAY), Map.entry("blue", ChatColor.BLUE), Map.entry("green", ChatColor.GREEN), Map.entry("aqua", ChatColor.AQUA), Map.entry("red", ChatColor.RED), Map.entry("light_purple", ChatColor.LIGHT_PURPLE), Map.entry("yellow", ChatColor.YELLOW), Map.entry("white", ChatColor.WHITE),
 
                 // Formatting codes
-                Map.entry("obfuscated", ChatColor.MAGIC),
-                Map.entry("bold", ChatColor.BOLD),
-                Map.entry("strikethrough", ChatColor.STRIKETHROUGH),
-                Map.entry("underline", ChatColor.UNDERLINE),
-                Map.entry("italic", ChatColor.ITALIC),
-                Map.entry("reset", ChatColor.RESET)
-        );
+                Map.entry("obfuscated", ChatColor.MAGIC), Map.entry("bold", ChatColor.BOLD), Map.entry("strikethrough", ChatColor.STRIKETHROUGH), Map.entry("underline", ChatColor.UNDERLINE), Map.entry("italic", ChatColor.ITALIC), Map.entry("reset", ChatColor.RESET));
 
         // Iterate through each chat code replacement
         for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
@@ -212,8 +192,7 @@ public class AsyncPlayerChatListener implements Listener {
                         .debug("Replacing: " + entry.getValue() + " with: " + formattedChatCodesMap.get(entry.getKey()));
 
                 // Replace each occurrence of the placeholder (key) in the string with its value
-                message = message.replace(entry.getValue(),
-                        formattedChatCodesMap.get(entry.getKey()).toString());
+                message = message.replace(entry.getValue(), formattedChatCodesMap.get(entry.getKey()).toString());
             }
         }
 

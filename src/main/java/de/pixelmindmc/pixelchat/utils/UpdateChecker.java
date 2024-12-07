@@ -9,6 +9,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class UpdateChecker {
      * @param plugin The plugin instance
      * @param apiUrl The URL pointing to the GitHub API endpoint for checking updates
      */
-    public UpdateChecker(PixelChat plugin, URL apiUrl) {
+    public UpdateChecker(@NotNull PixelChat plugin, @NotNull URL apiUrl) {
         this.plugin = plugin;
         this.url = apiUrl;
     }
@@ -56,9 +57,8 @@ public class UpdateChecker {
             in.close();
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
-        } else
-            throw new IOException(plugin.getConfigHelperLanguage()
-                    .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+        } else throw new IOException(plugin.getConfigHelperLanguage()
+                .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
     }
 
     /**
