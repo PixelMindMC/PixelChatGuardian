@@ -107,8 +107,8 @@ public class APIHelper {
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
         Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY,
-                sysPrompt + "Language: " + plugin.getConfigHelper()
-                        .getString(ConfigConstants.LANGUAGE)), Map.of("role", "user", APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
+                sysPrompt + "Language: " + plugin.getConfigHelper().getString(ConfigConstants.LANGUAGE)), Map.of("role", "user",
+                APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
@@ -153,9 +153,8 @@ public class APIHelper {
                         message.get(APIConstants.ISEMAILADDRESS_KEY).getAsBoolean();
         boolean isWebsite = message.has(APIConstants.ISWEBSITE_KEY) && !message.get(APIConstants.ISWEBSITE_KEY).isJsonNull() &&
                 message.get(APIConstants.ISWEBSITE_KEY).getAsBoolean();
-        String reason = message.has(APIConstants.REASON_KEY) &&
-                !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY)
-                .getAsString() : "No reason provided";
+        String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(
+                APIConstants.REASON_KEY).getAsString() : "No reason provided";
 
         return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
     }

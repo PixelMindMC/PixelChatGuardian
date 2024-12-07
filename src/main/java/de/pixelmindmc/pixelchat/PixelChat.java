@@ -270,7 +270,8 @@ public final class PixelChat extends JavaPlugin {
     private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_FOR_UPDATES));
-            updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
+            updateChecker = new UpdateChecker(this,
+                    new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);
         }
     }

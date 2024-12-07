@@ -137,10 +137,19 @@ public class CarbonChatIntegration {
      */
     private Component replaceMessageChatCodes(@NotNull Component messageComponent, @NotNull Map<String, String> chatCodesMap) {
         // Map of color codes
-        Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(Map.entry("black", NamedTextColor.BLACK), Map.entry("dark_blue", NamedTextColor.DARK_BLUE), Map.entry("dark_green", NamedTextColor.DARK_GREEN), Map.entry("dark_aqua", NamedTextColor.DARK_AQUA), Map.entry("dark_red", NamedTextColor.DARK_RED), Map.entry("dark_purple", NamedTextColor.DARK_PURPLE), Map.entry("gold", NamedTextColor.GOLD), Map.entry("gray", NamedTextColor.GRAY), Map.entry("dark_gray", NamedTextColor.DARK_GRAY), Map.entry("blue", NamedTextColor.BLUE), Map.entry("green", NamedTextColor.GREEN), Map.entry("aqua", NamedTextColor.AQUA), Map.entry("red", NamedTextColor.RED), Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE), Map.entry("yellow", NamedTextColor.YELLOW), Map.entry("white", NamedTextColor.WHITE));
+        Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(Map.entry("black", NamedTextColor.BLACK),
+                Map.entry("dark_blue", NamedTextColor.DARK_BLUE), Map.entry("dark_green", NamedTextColor.DARK_GREEN),
+                Map.entry("dark_aqua", NamedTextColor.DARK_AQUA), Map.entry("dark_red", NamedTextColor.DARK_RED),
+                Map.entry("dark_purple", NamedTextColor.DARK_PURPLE), Map.entry("gold", NamedTextColor.GOLD),
+                Map.entry("gray", NamedTextColor.GRAY), Map.entry("dark_gray", NamedTextColor.DARK_GRAY),
+                Map.entry("blue", NamedTextColor.BLUE), Map.entry("green", NamedTextColor.GREEN), Map.entry("aqua", NamedTextColor.AQUA),
+                Map.entry("red", NamedTextColor.RED), Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE),
+                Map.entry("yellow", NamedTextColor.YELLOW), Map.entry("white", NamedTextColor.WHITE));
 
         // Map of formatting codes
-        Map<String, TextDecoration> formattedTextDecorationCodesMap = Map.ofEntries(Map.entry("obfuscated", TextDecoration.OBFUSCATED), Map.entry("bold", TextDecoration.BOLD), Map.entry("strikethrough", TextDecoration.STRIKETHROUGH), Map.entry("underline", TextDecoration.UNDERLINED), Map.entry("italic", TextDecoration.ITALIC));
+        Map<String, TextDecoration> formattedTextDecorationCodesMap = Map.ofEntries(Map.entry("obfuscated", TextDecoration.OBFUSCATED),
+                Map.entry("bold", TextDecoration.BOLD), Map.entry("strikethrough", TextDecoration.STRIKETHROUGH),
+                Map.entry("underline", TextDecoration.UNDERLINED), Map.entry("italic", TextDecoration.ITALIC));
 
         String content = ((TextComponent) messageComponent).content();
         TextComponent.Builder builder = Component.text(); // Builder for the new component message
