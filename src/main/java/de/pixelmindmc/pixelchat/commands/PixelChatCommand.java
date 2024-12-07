@@ -99,11 +99,14 @@ public class PixelChatCommand implements CommandExecutor {
         PluginDescriptionFile description = plugin.getDescription();
         String headerFooter = ChatColor.DARK_GRAY.toString() + ChatColor.BOLD + StringUtils.repeat("-", 36);
 
+        String authors = description.getAuthors().toString();
+        authors = authors.replace("[", "").replace("]", "");
+
         // Display plugin information
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_VERSION) + " " + ChatColor.WHITE + description.getVersion());
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_DEVELOPER) + " " + ChatColor.WHITE + description.getAuthors());
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_DEVELOPER) + " " + ChatColor.WHITE + authors);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_PLUGIN_WEBSITE));
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + langConfig.getString(LangConstants.PIXELCHAT_REPORT_BUGS));
