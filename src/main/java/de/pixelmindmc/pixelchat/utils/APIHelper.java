@@ -57,7 +57,7 @@ public class APIHelper {
      * @return A {@link MessageClassification} object filled with the results of the AI-classification
      * @throws MessageClassificationException If the classification failed in any way
      */
-    public MessageClassification classifyMessage(String message) throws MessageClassificationException {
+    public MessageClassification classifyMessage(@NotNull String message) throws MessageClassificationException {
         try {
             HttpURLConnection connection = createConnection();
             sendRequest(connection, message);
@@ -105,9 +105,10 @@ public class APIHelper {
      * @param message    The user message
      * @throws IOException If any issue happens, an exception is thrown
      */
-    private void sendRequest(HttpURLConnection connection, String message) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY, sysPrompt + "Language: " + plugin.getConfigHelper()
-                .getString(ConfigConstants.LANGUAGE)), Map.of("role", "user", APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
+    private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
+        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY,
+                sysPrompt + "Language: " + plugin.getConfigHelper()
+                        .getString(ConfigConstants.LANGUAGE)), Map.of("role", "user", APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
@@ -126,36 +127,37 @@ public class APIHelper {
      * @param jsonResponse The raw JSON string to decode
      * @return The filled {@code} MessageClassification object
      */
-    private MessageClassification processResponse(String jsonResponse) {
+    private MessageClassification processResponse(@NotNull String jsonResponse) {
         // Parse the outer JSON response
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
         // Extract the content string from the first choice's message
-        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message")
-                .get("content").getAsString();
+        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message").get("content")
+                .getAsString();
 
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
         // Extract fields from the parsed content
-        boolean block = message.has(APIConstants.BLOCK_KEY) && !message.get(APIConstants.BLOCK_KEY)
-                .isJsonNull() && message.get(APIConstants.BLOCK_KEY).getAsBoolean();
-        boolean isOffensiveLanguage = message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY)
-                .isJsonNull() && message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
-        boolean isUsername = message.has(APIConstants.ISUSERNAME_KEY) && !message.get(APIConstants.ISUSERNAME_KEY)
-                .isJsonNull() && message.get(APIConstants.ISUSERNAME_KEY).getAsBoolean();
-        boolean isPassword = message.has(APIConstants.ISPASSWORD_KEY) && !message.get(APIConstants.ISPASSWORD_KEY)
-                .isJsonNull() && message.get(APIConstants.ISPASSWORD_KEY).getAsBoolean();
-        boolean isHomeAddress = message.has(APIConstants.ISHOMEADDRESS_KEY) && !message.get(APIConstants.ISHOMEADDRESS_KEY)
-                .isJsonNull() && message.get(APIConstants.ISHOMEADDRESS_KEY).getAsBoolean();
-        boolean isEmailAddress = message.has(APIConstants.ISEMAILADDRESS_KEY) && !message.get(APIConstants.ISEMAILADDRESS_KEY)
-                .isJsonNull() && message.get(APIConstants.ISEMAILADDRESS_KEY).getAsBoolean();
-        boolean isWebsite = message.has(APIConstants.ISWEBSITE_KEY) && !message.get(APIConstants.ISWEBSITE_KEY)
-                .isJsonNull() && message.get(APIConstants.ISWEBSITE_KEY).getAsBoolean();
-        String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY)
-                .isJsonNull() ? message.get(APIConstants.REASON_KEY).getAsString() : "No reason provided";
+        boolean isOffensiveLanguage =
+                message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).isJsonNull() &&
+                        message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
+        boolean isUsername = message.has(APIConstants.ISUSERNAME_KEY) && !message.get(APIConstants.ISUSERNAME_KEY).isJsonNull() &&
+                message.get(APIConstants.ISUSERNAME_KEY).getAsBoolean();
+        boolean isPassword = message.has(APIConstants.ISPASSWORD_KEY) && !message.get(APIConstants.ISPASSWORD_KEY).isJsonNull() &&
+                message.get(APIConstants.ISPASSWORD_KEY).getAsBoolean();
+        boolean isHomeAddress = message.has(APIConstants.ISHOMEADDRESS_KEY) && !message.get(APIConstants.ISHOMEADDRESS_KEY).isJsonNull() &&
+                message.get(APIConstants.ISHOMEADDRESS_KEY).getAsBoolean();
+        boolean isEmailAddress =
+                message.has(APIConstants.ISEMAILADDRESS_KEY) && !message.get(APIConstants.ISEMAILADDRESS_KEY).isJsonNull() &&
+                        message.get(APIConstants.ISEMAILADDRESS_KEY).getAsBoolean();
+        boolean isWebsite = message.has(APIConstants.ISWEBSITE_KEY) && !message.get(APIConstants.ISWEBSITE_KEY).isJsonNull() &&
+                message.get(APIConstants.ISWEBSITE_KEY).getAsBoolean();
+        String reason = message.has(APIConstants.REASON_KEY) &&
+                !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(APIConstants.REASON_KEY)
+                .getAsString() : "No reason provided";
 
-        return new MessageClassification(block, isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
+        return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
     }
 
     /**
@@ -165,7 +167,7 @@ public class APIHelper {
      * @return The final JSON string
      * @throws IOException If any issue appears, an exception is thrown
      */
-    private String decodeResponse(HttpURLConnection connection) throws IOException {
+    private String decodeResponse(@NotNull HttpURLConnection connection) throws IOException {
         StringBuilder response = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
             String responseLine;

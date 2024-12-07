@@ -57,8 +57,8 @@ public class UpdateChecker {
             in.close();
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
-        } else throw new IOException(plugin.getConfigHelperLanguage()
-                .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+        } else
+            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
     }
 
     /**
@@ -75,12 +75,11 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && isNewerVersion(currentVersion, latestVersion)) {
-                return plugin.getConfigHelperLanguage()
-                        .getString(LangConstants.UPDATE_AVAILABLE) + " https://modrinth.com/plugin/pixelchatguardian/";
+                return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) +
+                        " https://modrinth.com/plugin/pixelchatguardian/";
             } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
         } catch (Exception e) {
-            throw new IOException(plugin.getConfigHelperLanguage()
-                    .getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
+            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
         }
     }
 
@@ -91,7 +90,7 @@ public class UpdateChecker {
      * @param latestVersion  The latest version string
      * @return A boolean that indicates whether the last version is newer than the current version
      */
-    private boolean isNewerVersion(String currentVersion, String latestVersion) {
+    private boolean isNewerVersion(@NotNull String currentVersion, @NotNull String latestVersion) {
         String[] currentParts = currentVersion.split("\\.");
         String[] latestParts = latestVersion.split("\\.");
 

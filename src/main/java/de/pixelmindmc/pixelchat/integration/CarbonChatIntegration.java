@@ -19,6 +19,7 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -82,7 +83,7 @@ public class CarbonChatIntegration {
      * @param messageComponent The component to check
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
-    private boolean checkIfMessageShouldBeBLocked(CarbonChatEvent event, Component messageComponent) {
+    private boolean checkIfMessageShouldBeBLocked(@NotNull CarbonChatEvent event, @NotNull Component messageComponent) {
         // Regular expression to extract the content
         Pattern pattern = Pattern.compile("content=\"(.*?)\"");
         Matcher matcher = pattern.matcher(messageComponent.toString());
@@ -93,8 +94,7 @@ public class CarbonChatIntegration {
         if (message == null) return false;
 
         // Debug logger message
-        plugin.getLoggingHelper()
-                .debug("Check if the message '" + message + "' should be blocked for the CarbonChat integration");
+        plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked for the CarbonChat integration");
 
         MessageClassification classification;
         try {
@@ -104,17 +104,28 @@ public class CarbonChatIntegration {
             return false; //Don't block message if there was an error while classifying it
         }
 
-        if (!classification.block()) return false;
+        // Retrieve chatguard-rules
+        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
+        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_USERNAMES);
+        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_PASSWORDS);
+        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_HOME_ADDRESSES);
+        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
+        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_WEBSITES);
 
-        boolean blockMessage = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING)
-                .equals("BLOCK");
-        if (blockMessage) event.cancelled(true);
-        else event.message(Component.text("*".repeat(message.length())));
+        // Check if classification matches any enabled blocking rules
+        if ((classification.isOffensiveLanguage() && blockOffensiveLanguage) || (classification.isUsername() && blockUsernames) ||
+                (classification.isPassword() && blockPasswords) || (classification.isHomeAddress() && blockHomeAddresses) ||
+                (classification.isEmailAddress() && blockEmailAddresses) || (classification.isWebsite() && blockWebsites)) {
+            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
+            if (blockOrCensor) event.cancelled(true);
+            else event.message(Component.text("*".repeat(message.length())));
 
-        ChatGuardHelper.notifyAndStrikePlayer(plugin, Bukkit.getPlayer(event.sender()
-                .uuid()), message, classification, blockMessage);
+            Player player = Bukkit.getPlayer(event.sender().uuid());
+            ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
 
-        return true;
+            return true; // Message has been blocked or censored
+        }
+        return false;
     }
 
     /**
@@ -124,7 +135,7 @@ public class CarbonChatIntegration {
      * @param chatCodesMap     The map of chat codes and replacements
      * @return The message component with the formatting
      */
-    private Component replaceMessageChatCodes(Component messageComponent, Map<String, String> chatCodesMap) {
+    private Component replaceMessageChatCodes(@NotNull Component messageComponent, @NotNull Map<String, String> chatCodesMap) {
         // Map of color codes
         Map<String, NamedTextColor> formattedColorCodesMap = Map.ofEntries(Map.entry("black", NamedTextColor.BLACK), Map.entry("dark_blue", NamedTextColor.DARK_BLUE), Map.entry("dark_green", NamedTextColor.DARK_GREEN), Map.entry("dark_aqua", NamedTextColor.DARK_AQUA), Map.entry("dark_red", NamedTextColor.DARK_RED), Map.entry("dark_purple", NamedTextColor.DARK_PURPLE), Map.entry("gold", NamedTextColor.GOLD), Map.entry("gray", NamedTextColor.GRAY), Map.entry("dark_gray", NamedTextColor.DARK_GRAY), Map.entry("blue", NamedTextColor.BLUE), Map.entry("green", NamedTextColor.GREEN), Map.entry("aqua", NamedTextColor.AQUA), Map.entry("red", NamedTextColor.RED), Map.entry("light_purple", NamedTextColor.LIGHT_PURPLE), Map.entry("yellow", NamedTextColor.YELLOW), Map.entry("white", NamedTextColor.WHITE));
 

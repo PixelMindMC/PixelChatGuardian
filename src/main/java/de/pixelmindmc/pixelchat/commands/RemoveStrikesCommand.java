@@ -56,7 +56,9 @@ public class RemoveStrikesCommand implements CommandExecutor {
 
         // Check if the command syntax is correct
         if (args.length != 1) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <player>");
+            sender.sendMessage(
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <player>");
             return true;
         }
 
@@ -72,7 +74,9 @@ public class RemoveStrikesCommand implements CommandExecutor {
             configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
 
         // Send a message after successfully remove player strikes from a specific player
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_REMOVED_PLAYER_STRIKES) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
+        sender.sendMessage(
+                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_REMOVED_PLAYER_STRIKES) + " " +
+                        ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
         return true;
     }
 }

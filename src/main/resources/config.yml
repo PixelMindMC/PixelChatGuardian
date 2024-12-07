@@ -5,7 +5,7 @@
 #############################################################
 
 # Configuration file for PixelChat Guardian.
-# Generated for version ${project.version}.
+# Generated for version 1.1.0.
 # Ensure to update this file when updating the plugin!
 
 # For support or inquiries, please contact us via GitHub, Discord or Modrinth.
@@ -36,7 +36,7 @@ plugin-support:
 
 # Toggle specific plugin modules on/off.
 modules:
-  # Chat guardian module. [Default: true]
+  # ChatGuard module. [Default: true]
   chatguard: true
   # Emoji replacement module. [Default: true]
   emojis: true
@@ -59,7 +59,6 @@ api-key: "API-KEY"
 # Block offensive language, slurs, and crime-related references. Allow minor swears and normal gameplay discussions.
 sys-prompt: >
   "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
-    block: A boolean value (true if the message should be blocked; false if it should not).
     isOffensiveLanguage: A boolean value(true if the message contains offensive language, severe insults, hate 
     speech, slurs, real-world crime references, or other forms of harmful language; false if not)
     isUsername: A boolean value (true if the message contains a username or player identifier; false if not).
@@ -85,7 +84,7 @@ sys-prompt: >
 
 # Enable or disable the custom ChatGuard prefix. [Default: false]
 enable-custom-chatguard-prefix: false
-# Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixe§9lChat§r§8]]
+# Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixel§9Chat§r§8]]
 custom-chatguard-prefix: "§8[§c§lPixe§9lChat§r§8]"
 
 # Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
@@ -93,6 +92,21 @@ message-handling: CENSOR
 
 # Notify the user if their message is blocked. [Default: true]
 notify-user: true
+
+# ChatGuard rules for blocking offensive language and sensitive personal information.
+chatguard-rules:
+  # Blocks any form of offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
+  blockOffensiveLanguage: true
+  # Prevents users from sharing their usernames to safeguard their online identity.
+  blockUsernames: true
+  # Blocks users from sharing passwords, ensuring sensitive credentials are not exposed accidentally or maliciously.
+  blockPasswords: true
+  # Prevents users from sharing full or partial home addresses, safeguarding their physical location and privacy.
+  blockHomeAddresses: true
+  # Detects and blocks the sharing of email addresses to prevent phishing attempts or unwanted communications.
+  blockEmailAddresses: true
+  # Restricts users from sharing website URLs to avoid spreading malicious links or inappropriate content.
+  blockWebsites: false
 
 # Use the built-in strike system for managing player behavior. [Default: true]
 use-built-in-strike-system: true

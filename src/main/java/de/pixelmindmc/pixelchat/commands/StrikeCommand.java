@@ -56,7 +56,10 @@ public class StrikeCommand implements CommandExecutor {
 
         // Check if the command syntax is correct
         if (args.length != 2) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <player> <reason>");
+            sender.sendMessage(
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label +
+                            " <player> <reason>");
             return true;
         }
 
@@ -69,7 +72,9 @@ public class StrikeCommand implements CommandExecutor {
         ChatGuardHelper.runStrikeSystem(plugin, playerUUID, args[0], args[1]);
 
         // Send a message after successfully struck a player
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
+        sender.sendMessage(
+                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_STRUCK_PLAYER) + " " + ChatColor.RED +
+                        ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
 
         return true;
     }

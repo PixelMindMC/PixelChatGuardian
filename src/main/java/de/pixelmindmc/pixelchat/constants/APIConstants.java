@@ -10,7 +10,6 @@ package de.pixelmindmc.pixelchat.constants;
  */
 public class APIConstants {
     public static final String CONTENT_KEY = "content";
-    public static final String BLOCK_KEY = "block";
     public static final String ISOFFENSIVELANGUAGE_KEY = "isOffensiveLanguage";
     public static final String ISUSERNAME_KEY = "isUsername";
     public static final String ISPASSWORD_KEY = "isPassword";

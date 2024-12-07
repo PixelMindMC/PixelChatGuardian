@@ -72,8 +72,7 @@ public class ConfigHelper {
             fileConfiguration.save(file);
             loadConfig();
         } catch (IOException e) {
-            plugin.getLoggingHelper()
-                    .error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
+            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
     }
 
@@ -100,7 +99,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The value
      */
-    public boolean contains(String path) {
+    public boolean contains(@NotNull String path) {
         return fileConfiguration.contains(path);
     }
 
@@ -110,7 +109,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The value, or a "Message not found" message
      */
-    public String getString(String path) {
+    public String getString(@NotNull String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
 
@@ -132,7 +131,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The value
      */
-    public boolean getBoolean(String path) {
+    public boolean getBoolean(@NotNull String path) {
         return fileConfiguration.getBoolean(path);
     }
 
@@ -142,7 +141,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The value
      */
-    public int getInt(String path) {
+    public int getInt(@NotNull String path) {
         return fileConfiguration.getInt(path);
     }
 
@@ -152,7 +151,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The string map
      */
-    public Map<String, String> getStringMap(String path) {
+    public Map<String, String> getStringMap(@NotNull String path) {
         Map<String, String> resultMap = new HashMap<>();
         ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
 
@@ -189,7 +188,7 @@ public class ConfigHelper {
      * @param path The path of the section, or empty string ("") for root
      * @return A set of all keys found in that section or root
      */
-    public Set<String> getKeys(String path) {
+    public Set<String> getKeys(@NotNull String path) {
         ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
         return (section != null) ? section.getKeys(false) : new HashSet<>();
     }

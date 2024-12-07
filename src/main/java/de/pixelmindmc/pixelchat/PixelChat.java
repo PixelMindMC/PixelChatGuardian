@@ -28,6 +28,7 @@ import de.pixelmindmc.pixelchat.utils.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -106,8 +107,7 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
 
         // Reset the strike count of every player if enabled
-        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART))
-            resetPlayerStrikesOnServerStart();
+        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) resetPlayerStrikesOnServerStart();
     }
 
     /**
@@ -210,7 +210,7 @@ public final class PixelChat extends JavaPlugin {
      *
      * @return The plugin's APIHelper
      */
-    public APIHelper getAPIHelper() {
+    public @NotNull APIHelper getAPIHelper() {
         return apiHelper;
     }
 
@@ -276,17 +276,17 @@ public final class PixelChat extends JavaPlugin {
     }
 
     // Retrieves the string updateChecker
-    public String updateChecker() {
+    public @NotNull String updateChecker() {
         return updateChecker;
     }
 
     // Retrieves the LoggingHelper instance
-    public LoggingHelper getLoggingHelper() {
+    public @NotNull LoggingHelper getLoggingHelper() {
         return loggingHelper;
     }
 
     // Retrieves the PixelChatCommand instance
-    public PixelChatCommand getPixelChatCommand() {
+    public @NotNull PixelChatCommand getPixelChatCommand() {
         return pixelChatCommand;
     }
 }

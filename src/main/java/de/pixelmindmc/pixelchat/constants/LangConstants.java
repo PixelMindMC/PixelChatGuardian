@@ -12,7 +12,9 @@ import org.bukkit.ChatColor;
  */
 public class LangConstants {
     public static final String LANGUAGE_CONFIG_VERSION = "version";
-    public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
+    public static final String PLUGIN_PREFIX =
+            ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET +
+                    ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
     // Global
     public static final String METRICS_ENABLED = "metrics-enabled";
     public static final String CHECKING_FOR_UPDATES = "checking-for-updates";

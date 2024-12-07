@@ -35,7 +35,7 @@ public class LoggingHelper {
      *
      * @param message The message to log
      */
-    public void info(String message) {
+    public void info(@NotNull String message) {
         if (isLogLevel(Level.INFO)) {
             log(Level.INFO, message);
         }
@@ -46,7 +46,7 @@ public class LoggingHelper {
      *
      * @param message The message to log
      */
-    public void warning(String message) {
+    public void warning(@NotNull String message) {
         if (isLogLevel(Level.WARNING)) {
             log(Level.WARNING, message);
         }
@@ -57,7 +57,7 @@ public class LoggingHelper {
      *
      * @param message The message to log
      */
-    public void error(String message) {
+    public void error(@NotNull String message) {
         if (isLogLevel(Level.SEVERE)) {
             log(Level.SEVERE, message);
         }
@@ -69,7 +69,7 @@ public class LoggingHelper {
      *
      * @param message The message to log
      */
-    public void debug(String message) {
+    public void debug(@NotNull String message) {
         if (isLogLevel(Level.CONFIG)) {
             log(Level.INFO, "[DEBUG] " + message);
         }
@@ -81,7 +81,7 @@ public class LoggingHelper {
      *
      * @param level The log level as a string
      */
-    public void setLogLevel(String level) {
+    public void setLogLevel(@NotNull String level) {
         Level logLevel = switch (level.toUpperCase()) {
             case "DEBUG" -> Level.CONFIG;
             case "ERROR" -> Level.SEVERE;
@@ -97,7 +97,7 @@ public class LoggingHelper {
      * @param level   The log level at which to log the message
      * @param message The message to log
      */
-    private void log(Level level, String message) {
+    private void log(@NotNull Level level, @NotNull String message) {
         logger.log(level, message);
     }
 
@@ -107,7 +107,7 @@ public class LoggingHelper {
      * @param level The log level to check
      * @return True if the given log level is enabled, false otherwise
      */
-    private boolean isLogLevel(Level level) {
+    private boolean isLogLevel(@NotNull Level level) {
         return logger.isLoggable(level);
     }
 }
