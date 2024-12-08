@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - TBD
+## [1.1.0] - Latest stable release (08.12.2024)
 
 ### Added
 
@@ -18,12 +18,14 @@ All notable changes to this project will be documented in this file.
 - Strike system and saving
 - Debugging system
 - Update dependencies
+- Update checker
+- Enhance sys-prompt
 
 ### Fixed
 
 - Several minor bugs
 
-## [1.0.1] - Latest Stable Release (11.10.2024)
+## [1.0.1] - (11.10.2024)
 
 ### Added
 
