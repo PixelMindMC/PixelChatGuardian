@@ -19,8 +19,6 @@ import java.util.List;
  * A class to provide tab completion for commands
  */
 public class TabCompleter implements org.bukkit.command.TabCompleter {
-    private final List<String> results = new ArrayList<>();
-
     /**
      * Handles tab completion for the "pixelchat" command
      *
@@ -32,35 +30,51 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
      */
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
-        // Clear previous results to avoid stale completions
-        results.clear();
+        List<String> results = new ArrayList<>();
 
-        // Handle tab completion for the "pixelchat" command
-        if (cmd.getLabel().equalsIgnoreCase("pixelchat")) {
-            if (args.length == 1) {
-                if (sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) results.add("version");
-                if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
-            }
-        } else if (cmd.getLabel().equalsIgnoreCase("remove-strikes")) {
-            if (args.length == 1)
-                if (sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES)) addOnlinePlayerCompletions();
-        } else if (cmd.getLabel().equalsIgnoreCase("strike")) {
-            if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
-                if (args.length == 1) {
-                    addOnlinePlayerCompletions();
-                } else if (args.length == 2) results.add("<reason>");
-            }
+        switch (cmd.getLabel()) {
+            case "pixelchat" -> handlePixelChatTabCompletion(sender, args, results);
+            case "remove-strikes" -> handleRemoveStrikesTabCompletion(sender, args, results);
+            case "strike" -> handleStrikeTabCompletion(sender, args, results);
         }
 
         return results;
     }
 
     /**
-     * Adds online players to the results list for player-based commands
+     * Handles tab completion for the "pixelchat" command.
      */
-    private void addOnlinePlayerCompletions() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            results.add(player.getName());
+    private void handlePixelChatTabCompletion(@NotNull CommandSender sender, @NotNull String[] args, @NotNull List<String> results) {
+        if (args.length == 1) {
+            if (sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) results.add("version");
+            if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
         }
+    }
+
+    /**
+     * Handles tab completion for the "remove-strikes" command.
+     */
+    private void handleRemoveStrikesTabCompletion(@NotNull CommandSender sender, @NotNull String[] args, @NotNull List<String> results) {
+        if (args.length == 1 && sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
+            addOnlinePlayerCompletions(results);
+    }
+
+    /**
+     * Handles tab completion for the "strike" command.
+     */
+    private void handleStrikeTabCompletion(@NotNull CommandSender sender, @NotNull String[] args, @NotNull List<String> results) {
+        if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
+            if (args.length == 1) {
+                addOnlinePlayerCompletions(results);
+            } else if (args.length == 2) results.add("<reason>");
+        }
+    }
+
+    /**
+     * Adds online players to the results list for player-based commands.
+     */
+    private void addOnlinePlayerCompletions(@NotNull List<String> results) {
+        for (Player player : Bukkit.getOnlinePlayers())
+            results.add(player.getName());
     }
 }

@@ -244,11 +244,13 @@ public final class PixelChat extends JavaPlugin {
      *
      * @param tabCompleter The {@code TabCompleter}
      */
-    private void registerTabCompleter(TabCompleter tabCompleter) {
+    private void registerTabCompleter(@NotNull TabCompleter tabCompleter) {
         // Debug logger message
         getLoggingHelper().debug("Register tabcompleter");
 
         Objects.requireNonNull(getCommand("pixelchat")).setTabCompleter(tabCompleter);
+        Objects.requireNonNull(getCommand("remove-strikes")).setTabCompleter(tabCompleter);
+        Objects.requireNonNull(getCommand("strike")).setTabCompleter(tabCompleter);
     }
 
     /**
