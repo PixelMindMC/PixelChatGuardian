@@ -1,32 +1,43 @@
 # PixelChat Guardian
 
 Enhance your Minecraft experience with our **AI-Powered Chat Moderation Plugin**! This plugin offers advanced chat and
-link filtering, along with robust emoji support, ensuring a safe and enjoyable environment for all players.
+link filtering, robust emoji support, and Minecraft chat codes, ensuring a safe and enjoyable environment for all
+players.
 
 ### Compatibility
 
-**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.3** on both **Spigot** and **Paper**.
+**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.4** on both **Spigot** and **Paper**.
 
 ## Features
 
 - **AI Chat Moderation**: Leverage artificial intelligence to automatically detect and filter inappropriate chat
-  messages.
+  messages, creating a safer environment for players worldwide.
 - **Advanced Link Filtering**: Prevent spam and harmful links from cluttering your chat.
-- **Emoji Support**: Allow players to express themselves with a wide range of emojis.
-- **Chat Codes Support**: Allows players to use the Minecraft chat codes.
-- **Customizable Settings**: Tailor the plugin's moderation settings to suit your server's needs.
-- **Compatibility with other Chat Plugins**: Our plugin is designed to work seamlessly alongside other chat plugins,
-  allowing you to integrate and use it with your existing setup.
+- **Emoji Support**: Enable players to express themselves with a diverse range of emojis, enhancing fun and universal
+  communication.
+- **Chat Codes Support**: Allow players to enhance their messages using Minecraft chat codes, including special
+  formatting and colors.
+- **Customizable Settings**: Tailor the plugin's moderation and language-specific settings to meet your server's unique
+  needs.
+- **Multilanguage Support**: Automatically detect and moderate chat messages in multiple languages to support global
+  player communities. The plugin interface itself is also fully localized, allowing server administrators to configure
+  and use it in their preferred language.
+- **Compatibility with other Chat Plugins**: Designed to work seamlessly alongside other chat plugins, our solution
+  integrates effortlessly into your existing setup.
 
 ## Installation
 
-1. **Download** the latest version from the [Modrinth](https://modrinth.com/plugin/pixelchatguardian/) page.
-2. **Place** the downloaded `.jar` file into the `plugins` folder of your Minecraft server.
-3. **Restart** your server to activate the plugin.
-4. **Create a free Groq account** and copy your API key.
-5. **Configure** the plugin settings in the `config.yml` file located in the `plugins/PixelChatGuardian` directory. Add
-   your API key under `api-key`. You can also configure a different API endpoint if preferred; Any OpenAI-API-compliant
-   endpoint works, but you may need to adjust the AI model string in the `config.yml`.
+1. **Download**: Get the latest version of the plugin from
+   the [Modrinth](https://modrinth.com/plugin/pixelchatguardian/) page.
+2. **Install**: Place the downloaded `.jar` file into the `plugins` folder of your Minecraft server.
+3. **Activate**: Restart your server to load and activate the plugin.
+4. **Create an Account**: Sign up for a free **Groq** account and retrieve your API key.
+5. **Configure**: Open the `config.yml` file located in the `plugins/PixelChatGuardian` directory.
+    - Add your API key under `api-key`.
+    - Optionally, specify a different API endpoint if needed. The plugin supports any OpenAI-API-compliant endpoint,
+      but you may need to adjust the AI model string in the `config.yml`.
+6. **Reload Configurations**: Use the appropriate command to reload the plugin's configuration, apply your API key, and
+   enjoy PixelChatGuardian's features!
 
 ## Important Notes
 
@@ -60,6 +71,5 @@ improve!
 
 This Minecraft plugin project is open-source and licensed under
 the [GNU General Public License v3.0](https://github.com/PixelMindMC/PixelChatGuardian/blob/master/LICENSE). This means
-the
-plugin is freely available for anyone to use, modify, and distribute, provided all copies and derivative works adhere to
-the same GPLv3 terms and give proper attribution to the original authors.
+the plugin is freely available for anyone to use, modify, and distribute, provided all copies and derivative works
+adhere to the same GPLv3 terms and give proper attribution to the original authors.
