@@ -151,12 +151,12 @@ public class ChatGuardHelper {
      * @return true if message violates an active block rule, false if no active block rules have been violated by the message
      */
     public static boolean messageMatchesEnabledRule(@NotNull PixelChat plugin, @NotNull MessageClassification classification) {
-        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
-        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_USERNAMES);
-        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_PASSWORDS);
-        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_HOME_ADDRESSES);
-        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
-        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_WEBSITES);
+        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
+        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_USERNAMES);
+        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_PASSWORDS);
+        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_HOME_ADDRESSES);
+        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
+        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_WEBSITES);
 
         if (blockOffensiveLanguage && classification.isOffensiveLanguage()) return true;
         if (blockUsernames && classification.isUsername()) return true;
