@@ -47,10 +47,11 @@ public class ChatGuardHelper {
             chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
         } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
-                plugin.getConfigHelperLanguage()
-                        .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " +
-                ChatColor.RED + classification.reason());
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
+            player.sendMessage(chatGuardPrefix +
+                    plugin.getConfigHelperLanguage()
+                            .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " +
+                    ChatColor.RED + classification.reason());
 
         plugin.getLoggingHelper()
                 .info("Message by " + player.getName() + (blockOrCensor ? " has been blocked: " : " has been censored: ") + userMessage);
@@ -141,5 +142,29 @@ public class ChatGuardHelper {
 
         // Debug logger message
         plugin.getLoggingHelper().debug("Executed the command: " + processedCommand);
+    }
+
+    /**
+     * Checks whether the message that was classified actually violates an active block rule
+     *
+     * @param classification The classification of the message
+     * @return true if message violates an active block rule, false if no active block rules have been violated by the message
+     */
+    public static boolean messageMatchesEnabledRule(@NotNull PixelChat plugin, @NotNull MessageClassification classification) {
+        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
+        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_USERNAMES);
+        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_PASSWORDS);
+        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_HOME_ADDRESSES);
+        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
+        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_WEBSITES);
+
+        if (blockOffensiveLanguage && classification.isOffensiveLanguage()) return true;
+        if (blockUsernames && classification.isUsername()) return true;
+        if (blockPasswords && classification.isPassword()) return true;
+        if (blockHomeAddresses && classification.isHomeAddress()) return true;
+        if (blockEmailAddresses && classification.isEmailAddress()) return true;
+        if (blockWebsites && classification.isWebsite()) return true;
+
+        return false;
     }
 }

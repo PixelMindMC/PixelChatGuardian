@@ -102,7 +102,7 @@ public class AsyncPlayerChatListener implements Listener {
         // AI based chat guard module
         if (chatGuardEnabled && carbonChatIntegration == null &&
                 !player.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION))
-            chatGuardMessageBlocked = checkIfMessageShouldBeBLocked(event, message, player);
+            chatGuardMessageBlocked = checkIfMessageShouldBeBlocked(event, message, player);
 
         // Emoji module
         if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
@@ -126,7 +126,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param player  The player that sent the message
      * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
      */
-    private boolean checkIfMessageShouldBeBLocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
+    private boolean checkIfMessageShouldBeBlocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
         // Debug logger message
         plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked");
 
@@ -138,18 +138,8 @@ public class AsyncPlayerChatListener implements Listener {
             return false; //Don't block message if there was an error while classifying it
         }
 
-        // Retrieve chatguard-rules
-        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
-        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_USERNAMES);
-        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_PASSWORDS);
-        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_HOME_ADDRESSES);
-        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
-        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_WEBSITES);
-
         // Check if classification matches any enabled blocking rules
-        if ((classification.isOffensiveLanguage() && blockOffensiveLanguage) || (classification.isUsername() && blockUsernames) ||
-                (classification.isPassword() && blockPasswords) || (classification.isHomeAddress() && blockHomeAddresses) ||
-                (classification.isEmailAddress() && blockEmailAddresses) || (classification.isWebsite() && blockWebsites)) {
+        if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
             boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
             if (blockOrCensor) event.setCancelled(true);
             else event.setMessage("*".repeat(message.length()));

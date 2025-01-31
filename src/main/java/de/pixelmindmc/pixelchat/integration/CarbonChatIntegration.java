@@ -50,7 +50,7 @@ public class CarbonChatIntegration {
 
             // AI based chat guard module
             if (!carbonPlayer.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION))
-                checkIfMessageShouldBeBLocked(event, messageComponent);
+                checkIfMessageShouldBeBlocked(event, messageComponent);
         });
     }
 
@@ -60,7 +60,7 @@ public class CarbonChatIntegration {
      * @param event            The CarbonChatEvent
      * @param messageComponent The component to check
      */
-    private void checkIfMessageShouldBeBLocked(@NotNull CarbonChatEvent event, @NotNull Component messageComponent) {
+    private void checkIfMessageShouldBeBlocked(@NotNull CarbonChatEvent event, @NotNull Component messageComponent) {
         // Regular expression to extract the content
         Pattern pattern = Pattern.compile("content=\"(.*?)\"");
         Matcher matcher = pattern.matcher(messageComponent.toString());
@@ -81,18 +81,8 @@ public class CarbonChatIntegration {
             return; //Don't block message if there was an error while classifying it
         }
 
-        // Retrieve chatguard-rules
-        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
-        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_USERNAMES);
-        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_PASSWORDS);
-        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_HOME_ADDRESSES);
-        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
-        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHTAGUARD_RULES_BLOCK_WEBSITES);
-
         // Check if classification matches any enabled blocking rules
-        if ((classification.isOffensiveLanguage() && blockOffensiveLanguage) || (classification.isUsername() && blockUsernames) ||
-                (classification.isPassword() && blockPasswords) || (classification.isHomeAddress() && blockHomeAddresses) ||
-                (classification.isEmailAddress() && blockEmailAddresses) || (classification.isWebsite() && blockWebsites)) {
+        if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
             boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
             if (blockOrCensor) event.cancelled(true);
             else event.message(Component.text("*".repeat(message.length())));
