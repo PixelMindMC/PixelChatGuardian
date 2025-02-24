@@ -1,6 +1,6 @@
 # English language configuration file for PixelChat Guardian.
 # Generated for version ${project.version}.
-# Language config by: PixelMindMC
+# Language configuration by PixelMindMC
 
 # Configuration Version
 version: 1.1.0
@@ -15,12 +15,12 @@ no-update-available: "You are using the latest version. No updates available."
 unable-check-for-updates: "Unable to check for updates."
 
 config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
-language-config-outdated: "Your language configuration is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
+language-config-outdated: "Your language configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
 failed-to-save-config: "Failed to save the configuration file."
 
-first-time-message: "It looks like this is your first time using this plugin. Please add your API key under 'api-key' in the configuration file. For further assistance, refer to the wiki."
+first-time-message: "It looks like this is your first time using the plugin. Please add your API key under 'api-key' in the configuration file. For more help, refer to the wiki."
 
-no-api-key-set: "No API key provided. The AI-based chat guardian module has been deactivated."
+no-api-key-set: "No API key provided. The AI-powered Chat Guardian module has been disabled."
 
 no-permission: "You do not have permission to use this command."
 invalid-syntax: "Invalid command syntax!"
@@ -32,18 +32,18 @@ pixelchat:
   version: "Plugin Version:"
   developer: "Developer:"
   plugin-website: "Plugin Website:"
-  report-bugs: "Report any bugs to:"
+  report-bugs: "Report bugs to:"
   reload: "Configuration files successfully reloaded."
-  removed-player-strikes: "Successfully removed strikes from the player"
-  struck-player: "Struck the player"
+  removed-player-strikes: "Successfully removed strikes from the player."
+  struck-player: "Player received a strike."
 
-##################### PixelChat Guardian #####################
+##################### PixelChat Guardian ####################
 
-cleared-strikes-on-server-restart: "Player strikes have been reset. To preserve them after server restarts, adjust the relevant setting in the configuration file."
+cleared-strikes-on-server-restart: "Player strikes have been reset. To retain them after server restarts, adjust the appropriate setting in the configuration file."
 
 player:
-  message-blocked: "Your message has been blocked. Reason:"
-  message-censored: "Your message has been censored. Reason:"
+  message-blocked: "Your message was blocked. Reason:"
+  message-censored: "Your message was censored. Reason:"
   kick: "You have been kicked from the server. Reason:"
   ban-temporary: "You have been temporarily banned from the server. Reason:"
   ban-permanent: "You have been permanently banned from the server. Reason:"

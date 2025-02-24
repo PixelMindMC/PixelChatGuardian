@@ -30,7 +30,7 @@ log-level: INFO
 # Enable or disable support for specific plugins. Set to true to enable support for a plugin.
 plugin-support:
   # Enable support for CarbonChat integration. [Default: true]
-  carbonchat: true
+  carbonchat: true # Tested with version 3.0.0-beta.28
 
 ###################### Module Settings ######################
 
