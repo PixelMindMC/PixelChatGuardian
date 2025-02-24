@@ -206,7 +206,7 @@ public final class PixelChat extends JavaPlugin {
     }
 
     /**
-     * Retries the API helper
+     * Retrieves the API helper
      *
      * @return The plugin's APIHelper
      */
@@ -278,17 +278,29 @@ public final class PixelChat extends JavaPlugin {
         }
     }
 
-    // Retrieves the string updateChecker
+    /**
+     * Retrieves the UpdateChecker instance
+     *
+     * @return The UpdateChecker instance
+     */
     public @NotNull String updateChecker() {
         return updateChecker;
     }
 
-    // Retrieves the LoggingHelper instance
+    /**
+     * Retrieves the LoggingHelper instance
+     *
+     * @return The LoggingHelper instance
+     */
     public @NotNull LoggingHelper getLoggingHelper() {
         return loggingHelper;
     }
 
-    // Retrieves the PixelChatCommand instance
+    /**
+     * Retrieves the PixelChatCommand instance
+     *
+     * @return The PixelChatCommand instance
+     */
     public @NotNull PixelChatCommand getPixelChatCommand() {
         return pixelChatCommand;
     }

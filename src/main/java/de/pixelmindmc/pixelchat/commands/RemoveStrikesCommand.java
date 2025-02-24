@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 /**
- * CommandExecutor for handling the "remove-strikes" command, the main command for the plugin
+ * CommandExecutor for handling the "remove-strikes" command
  */
 public class RemoveStrikesCommand implements CommandExecutor {
     private final PixelChat plugin;

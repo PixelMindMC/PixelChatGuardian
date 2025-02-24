@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.UUID;
 
 /**
- * CommandExecutor for handling the "strike" command, the main command for the plugin
+ * CommandExecutor for handling the "strike" command
  */
 public class StrikeCommand implements CommandExecutor {
     private final PixelChat plugin;
