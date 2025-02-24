@@ -9,6 +9,7 @@ package de.pixelmindmc.pixelchat.constants;
  * Constant class for holding constant values that are used for the permissions
  */
 public class PermissionConstants {
+    public static final String PIXELCHAT_FULL_PERMISSIONS = "pixelchat.*";
     public static final String PIXELCHAT_BYPASS_CHAT_MODERATION = "pixelchat.bypass-chat-moderation";
     public static final String PIXELCHAT_CHAT_CODES = "pixelchat.chat-codes";
     public static final String PIXELCHAT_EMOJIS = "pixelchat.emojis";

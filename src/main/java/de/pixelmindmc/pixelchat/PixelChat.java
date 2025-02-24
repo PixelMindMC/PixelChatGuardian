@@ -24,6 +24,7 @@ import de.pixelmindmc.pixelchat.commands.StrikeCommand;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.listener.AsyncPlayerChatListener;
+import de.pixelmindmc.pixelchat.listener.PlayerJoinListener;
 import de.pixelmindmc.pixelchat.utils.*;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.plugin.PluginManager;
@@ -102,7 +103,7 @@ public final class PixelChat extends JavaPlugin {
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
 
-        // Check if it is the first time using this plugin
+        // Check if the config file exists for the first time message
         if (!getConfigHelper().getFileExist())
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
 
@@ -196,8 +197,11 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register API helper");
 
+        // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
+
         if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
+        // Check if the config file exists and API key is either unset or still at its default value
         if (getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY") || apiKey == null) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
@@ -223,6 +227,7 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register listeners");
 
+        pluginManager.registerEvents(new PlayerJoinListener(this), this);
         pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
     }
 
