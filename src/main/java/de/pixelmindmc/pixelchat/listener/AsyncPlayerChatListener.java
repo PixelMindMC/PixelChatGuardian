@@ -18,6 +18,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +28,14 @@ import java.util.Objects;
  * Listener for handling player chat events asynchronously
  */
 public class AsyncPlayerChatListener implements Listener {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
     private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
     private boolean chatCodesEnabled = false;
 
-    private Map<String, String> emojiMap = new HashMap<>();
-    private Map<String, String> chatCodesMap = new HashMap<>();
-    private CarbonChatIntegration carbonChatIntegration = null;
+    private @NotNull Map<String, String> emojiMap = new HashMap<>();
+    private @NotNull Map<String, String> chatCodesMap = new HashMap<>();
+    private @Nullable CarbonChatIntegration carbonChatIntegration = null;
 
     /**
      * Constructs an AsyncPlayerChatListener object
@@ -51,9 +52,8 @@ public class AsyncPlayerChatListener implements Listener {
         // Chatguard module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
             String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-            this.chatGuardEnabled =
-                    plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !Objects.equals(apiKey, "API-KEY") &&
-                            apiKey != null;
+            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !apiKey.isEmpty() &&
+                    !Objects.equals(apiKey, "API-KEY");
         }
 
         // Emoji module
@@ -158,7 +158,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param emojiMap The map of emojis and replacements
      * @return The message with the applied replacements
      */
-    private String replaceMessageEmojis(String message, @NotNull Map<String, String> emojiMap) {
+    private String replaceMessageEmojis(@NotNull String message, @NotNull Map<String, String> emojiMap) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 // Debug logger message
@@ -179,7 +179,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param chatCodesMap The map of chat codes and replacements
      * @return The message with the formatting
      */
-    private String replaceMessageChatCodes(String message, @NotNull Map<String, String> chatCodesMap) {
+    private String replaceMessageChatCodes(@NotNull String message, @NotNull Map<String, String> chatCodesMap) {
         Map<String, ChatColor> formattedChatCodesMap = Map.ofEntries(
                 // Color codes
                 Map.entry("black", ChatColor.BLACK), Map.entry("dark_blue", ChatColor.DARK_BLUE),

@@ -2,7 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - Latest stable release (08.12.2024)
+## [1.1.1] - Latest stable release (09.04.2025)
+
+### Added
+
+- Ingame notification for missing API-KEY
+
+### Enhanced
+
+- Correct typos and improve language files
+- Update dependencies
+- Improve performance
+- Fix bugs
+
+## [1.1.0]
 
 ### Added
 

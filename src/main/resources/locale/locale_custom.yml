@@ -1,11 +1,11 @@
 # Custom language configuration file for PixelChat Guardian.
 # Use this file to translate the plugin to your preferred language.
 # If you'd like to contribute your translations, please send me your language config file for inclusion in the plugin.
-# Generated for version ${project.version}.
+# Generated for version ${version}
 # Language config by:
 
 # Configuration Version
-version: 1.1.0
+version: ${version}
 
 ########################## Global ###########################
 

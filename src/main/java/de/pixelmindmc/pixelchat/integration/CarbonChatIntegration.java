@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * Handles integration with CarbonChat
  */
 public class CarbonChatIntegration {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     /**
      * Constructs a CarbonChatIntegration object
@@ -88,8 +88,7 @@ public class CarbonChatIntegration {
             else event.message(Component.text("*".repeat(message.length())));
 
             Player player = Bukkit.getPlayer(event.sender().uuid());
-            ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
-
+            if (player != null) ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
         }
     }
 }

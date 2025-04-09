@@ -23,8 +23,8 @@ import java.util.Set;
  * Utility class for managing configuration files
  */
 public class ConfigHelper {
-    private final PixelChat plugin;
-    private final String path;
+    private final @NotNull PixelChat plugin;
+    private final @NotNull String path;
     private FileConfiguration fileConfiguration;
     private File file;
     private boolean fileExist = true;
@@ -88,7 +88,7 @@ public class ConfigHelper {
     /**
      * Method to set a specified path with the given value
      */
-    public void set(String path, Object value) {
+    public void set(@NotNull String path, Object value) {
         fileConfiguration.set(path, value);
         saveConfig();
     }
@@ -109,7 +109,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The value, or a "Message not found" message
      */
-    public String getString(@NotNull String path) {
+    public @NotNull String getString(@NotNull String path) {
         // Get the value from the current language config
         String message = fileConfiguration.getString(path);
 
@@ -151,7 +151,7 @@ public class ConfigHelper {
      * @param path The path of the value
      * @return The string map
      */
-    public Map<String, String> getStringMap(@NotNull String path) {
+    public @NotNull Map<String, String> getStringMap(@NotNull String path) {
         Map<String, String> resultMap = new HashMap<>();
         ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
 
@@ -188,7 +188,7 @@ public class ConfigHelper {
      * @param path The path of the section, or empty string ("") for root
      * @return A set of all keys found in that section or root
      */
-    public Set<String> getKeys(@NotNull String path) {
+    public @NotNull Set<String> getKeys(@NotNull String path) {
         ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
         return (section != null) ? section.getKeys(false) : new HashSet<>();
     }

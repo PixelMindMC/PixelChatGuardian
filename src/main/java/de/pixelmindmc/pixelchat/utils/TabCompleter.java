@@ -19,7 +19,7 @@ import java.util.List;
  * A class to provide tab completion for commands
  */
 public class TabCompleter implements org.bukkit.command.TabCompleter {
-    List<String> results = new ArrayList<>();
+    @NotNull List<String> results = new ArrayList<>();
 
     /**
      * Handles tab completion for the "pixelchat" command
@@ -31,7 +31,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
      * @return A list of possible completions based on input and permissions
      */
     @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String @NotNull [] args) {
 
         switch (cmd.getLabel()) {
             case "pixelchat" -> handlePixelChatTabCompletion(sender, args);
@@ -45,7 +45,7 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     /**
      * Handles tab completion for the "pixelchat" command
      */
-    private void handlePixelChatTabCompletion(@NotNull CommandSender sender, @NotNull String[] args) {
+    private void handlePixelChatTabCompletion(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length == 1) {
             if (sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) results.add("version");
             if (sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) results.add("reload");
@@ -55,15 +55,14 @@ public class TabCompleter implements org.bukkit.command.TabCompleter {
     /**
      * Handles tab completion for the "remove-strikes" command
      */
-    private void handleRemoveStrikesTabCompletion(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (args.length == 1 && sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES))
-            addOnlinePlayerCompletions();
+    private void handleRemoveStrikesTabCompletion(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
+        if (args.length == 1 && sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES)) addOnlinePlayerCompletions();
     }
 
     /**
      * Handles tab completion for the "strike" command
      */
-    private void handleStrikeTabCompletion(@NotNull CommandSender sender, @NotNull String[] args) {
+    private void handleStrikeTabCompletion(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (sender.hasPermission(PermissionConstants.PIXELCHAT_STRIKE_PLAYER)) {
             if (args.length == 1) {
                 addOnlinePlayerCompletions();

@@ -30,7 +30,7 @@ import java.util.Map;
  * A collection of methods to aid with the AI requests to the AI API
  */
 public class APIHelper {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     private final String aiModel;
     private final String apiUrl;
@@ -57,7 +57,7 @@ public class APIHelper {
      * @return A {@link MessageClassification} object filled with the results of the AI-classification
      * @throws MessageClassificationException If the classification failed in any way
      */
-    public MessageClassification classifyMessage(@NotNull String message) throws MessageClassificationException {
+    public @NotNull MessageClassification classifyMessage(@NotNull String message) throws MessageClassificationException {
         try {
             HttpURLConnection connection = createConnection();
             sendRequest(connection, message);
@@ -88,7 +88,7 @@ public class APIHelper {
      * @throws IOException        If any issue happens, an exception is thrown
      * @throws URISyntaxException Thrown if the set API URL isn't valid
      */
-    private HttpURLConnection createConnection() throws IOException, URISyntaxException {
+    private @NotNull HttpURLConnection createConnection() throws IOException, URISyntaxException {
         URL url = new URI(apiUrl).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
@@ -127,7 +127,7 @@ public class APIHelper {
      * @param jsonResponse The raw JSON string to decode
      * @return The filled {@code} MessageClassification object
      */
-    private MessageClassification processResponse(@NotNull String jsonResponse) {
+    private @NotNull MessageClassification processResponse(@NotNull String jsonResponse) {
         // Parse the outer JSON response
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
@@ -166,7 +166,7 @@ public class APIHelper {
      * @return The final JSON string
      * @throws IOException If any issue appears, an exception is thrown
      */
-    private String decodeResponse(@NotNull HttpURLConnection connection) throws IOException {
+    private @NotNull String decodeResponse(@NotNull HttpURLConnection connection) throws IOException {
         StringBuilder response = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
             String responseLine;

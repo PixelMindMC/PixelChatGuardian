@@ -1,9 +1,9 @@
 # Nederlandse taalspecificatie voor PixelChat Guardian.
-# Genereerd voor versie ${project.version}.
+# Genereerd voor versie ${version}
 # Taalconfiguratie gemaakt met AI.
 
 # Configuratieversie
-version: 1.1.0
+version: ${version}
 
 ########################## Global ###########################
 

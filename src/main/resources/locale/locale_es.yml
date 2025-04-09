@@ -1,9 +1,9 @@
 # Archivo de configuración de idioma en español para PixelChat Guardian.
-# Generado para la versión ${project.version}.
+# Generado para la versión ${version}
 # Configuración de idioma creada con IA.
 
 # Versión de configuración
-version: 1.1.0
+version: ${version}
 
 ########################## Global ###########################
 

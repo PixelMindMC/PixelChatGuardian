@@ -22,8 +22,8 @@ import java.net.URL;
  * A utility class for checking updates for the plugin by querying the GitHub API
  */
 public class UpdateChecker {
-    private final PixelChat plugin;
-    private final URL url;
+    private final @NotNull PixelChat plugin;
+    private final @NotNull URL url;
 
     /**
      * Constructs a UpdateChecker object

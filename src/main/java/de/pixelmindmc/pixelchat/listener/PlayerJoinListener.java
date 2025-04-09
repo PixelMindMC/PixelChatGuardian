@@ -23,7 +23,7 @@ import java.util.Objects;
  * Listener for handling player join events
  */
 public class PlayerJoinListener implements Listener {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     /**
      * Constructs an PlayerJoinListener object
@@ -54,7 +54,7 @@ public class PlayerJoinListener implements Listener {
         if (!configHelper.getFileExist()) {
             player.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED +
                     plugin.getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
-        } else if (configHelper.getFileExist() && Objects.equals(apiKey, "API-KEY") || apiKey == null) player.sendMessage(
+        } else if (apiKey.isEmpty() || configHelper.getFileExist() && Objects.equals(apiKey, "API-KEY")) player.sendMessage(
                 LangConstants.PLUGIN_PREFIX + ChatColor.RED + plugin.getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
     }
 }

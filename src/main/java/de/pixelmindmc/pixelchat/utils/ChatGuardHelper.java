@@ -47,11 +47,10 @@ public class ChatGuardHelper {
             chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
         } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER))
-            player.sendMessage(chatGuardPrefix +
-                    plugin.getConfigHelperLanguage()
-                            .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " +
-                    ChatColor.RED + classification.reason());
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
+                plugin.getConfigHelperLanguage()
+                        .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " +
+                ChatColor.RED + classification.reason());
 
         plugin.getLoggingHelper()
                 .info("Message by " + player.getName() + (blockOrCensor ? " has been blocked: " : " has been censored: ") + userMessage);
@@ -60,8 +59,8 @@ public class ChatGuardHelper {
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(plugin, player.getUniqueId(), player.getName(), classification.reason());
-        } else executeCommand(plugin, plugin.getConfigHelper()
-                .getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(), classification.reason());
+        } else executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(),
+                classification.reason());
     }
 
     /**
@@ -158,13 +157,8 @@ public class ChatGuardHelper {
         boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
         boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_WEBSITES);
 
-        if (blockOffensiveLanguage && classification.isOffensiveLanguage()) return true;
-        if (blockUsernames && classification.isUsername()) return true;
-        if (blockPasswords && classification.isPassword()) return true;
-        if (blockHomeAddresses && classification.isHomeAddress()) return true;
-        if (blockEmailAddresses && classification.isEmailAddress()) return true;
-        if (blockWebsites && classification.isWebsite()) return true;
-
-        return false;
+        return blockOffensiveLanguage && classification.isOffensiveLanguage() || blockUsernames && classification.isUsername() ||
+                blockPasswords && classification.isPassword() || blockHomeAddresses && classification.isHomeAddress() ||
+                blockEmailAddresses && classification.isEmailAddress() || blockWebsites && classification.isWebsite();
     }
 }

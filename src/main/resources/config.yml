@@ -5,7 +5,7 @@
 #############################################################
 
 # Configuration file for PixelChat Guardian.
-# Generated for version 1.1.0
+# Generated for version ${version}
 # Ensure to update this file when updating the plugin!
 
 # For support or inquiries, please contact us via GitHub, Discord or Modrinth.
@@ -13,7 +13,7 @@
 ###################### General Settings #####################
 
 # Configuration version
-version: 1.1.0
+version: ${version}
 
 # Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
 language: en
@@ -85,7 +85,7 @@ sys-prompt: >
 # Enable or disable the custom ChatGuard prefix. [Default: false]
 enable-custom-chatguard-prefix: false
 # Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixel§9Chat§r§8]]
-custom-chatguard-prefix: "§8[§c§lPixe§9lChat§r§8]"
+custom-chatguard-prefix: "§8[§c§lPixel§9lChat§r§8]"
 
 # Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
 message-handling: CENSOR

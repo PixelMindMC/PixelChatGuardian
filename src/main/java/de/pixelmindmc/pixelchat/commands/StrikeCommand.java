@@ -24,7 +24,7 @@ import java.util.UUID;
  * CommandExecutor for handling the "strike" command
  */
 public class StrikeCommand implements CommandExecutor {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     /**
      * Constructs a PixelChatCommand object
@@ -45,7 +45,7 @@ public class StrikeCommand implements CommandExecutor {
      * @return true to indicate the command was processed
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
 
         // Check if the player has the required permission

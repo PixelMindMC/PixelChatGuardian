@@ -29,7 +29,7 @@ import java.util.UUID;
  * CommandExecutor for handling the "pixelchat" command, the main command for the plugin
  */
 public class PixelChatCommand implements CommandExecutor {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     /**
      * Constructs a PixelChatCommand object
@@ -50,7 +50,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @return true to indicate the command was processed
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
 
         // Display usage information if no arguments are provided
@@ -83,7 +83,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args                 The arguments
      * @param configHelperLanguage The ConfigHelper for the languageConfig
      */
-    private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args, @NotNull ConfigHelper configHelperLanguage) {
+    private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args, @NotNull ConfigHelper configHelperLanguage) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
@@ -136,7 +136,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args                 The arguments
      * @param configHelperLanguage The ConfigHelper for the languageConfig
      */
-    private void handleReloadSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args, @NotNull ConfigHelper configHelperLanguage) {
+    private void handleReloadSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args, @NotNull ConfigHelper configHelperLanguage) {
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));

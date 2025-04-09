@@ -23,7 +23,7 @@ import java.util.UUID;
  * CommandExecutor for handling the "remove-strikes" command
  */
 public class RemoveStrikesCommand implements CommandExecutor {
-    private final PixelChat plugin;
+    private final @NotNull PixelChat plugin;
 
     /**
      * Constructs a PixelChatCommand object
@@ -44,7 +44,7 @@ public class RemoveStrikesCommand implements CommandExecutor {
      * @return true to indicate the command was processed
      */
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
 

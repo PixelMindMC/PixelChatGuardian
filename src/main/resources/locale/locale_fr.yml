@@ -1,9 +1,9 @@
 # Fichier de configuration de langue français pour PixelChat Guardian.
-# Généré pour la version ${project.version}.
+# Généré pour la version ${version}
 # Configuration de langue créée avec IA.
 
 # Version de configuration
-version: 1.1.0
+version: ${version}
 
 ########################## Global ###########################
 

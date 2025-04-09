@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * A utility class for handling logging
  */
 public class LoggingHelper {
-    final Logger logger;
+    final @NotNull Logger logger;
 
     /**
      * Constructs a LoggingHelper object

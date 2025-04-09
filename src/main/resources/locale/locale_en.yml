@@ -1,9 +1,9 @@
 # English language configuration file for PixelChat Guardian.
-# Generated for version ${project.version}.
+# Generated for version ${version}
 # Language configuration by PixelMindMC
 
 # Configuration Version
-version: 1.1.0
+version: 1.1.1
 
 ########################## Global ###########################
 

@@ -202,7 +202,7 @@ public final class PixelChat extends JavaPlugin {
 
         if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
         // Check if the config file exists and API key is either unset or still at its default value
-        if (getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY") || apiKey == null) {
+        if (apiKey.isEmpty() || getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY")) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
             return;
         }
@@ -223,7 +223,7 @@ public final class PixelChat extends JavaPlugin {
      *
      * @param pluginManager The plugin manager to register the events to
      */
-    private void registerListeners(PluginManager pluginManager) {
+    private void registerListeners(@NotNull PluginManager pluginManager) {
         // Debug logger message
         getLoggingHelper().debug("Register listeners");
 

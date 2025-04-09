@@ -1,9 +1,9 @@
 # 简体中文语言配置文件 for PixelChat Guardian.
-# 为版本 ${project.version} 生成。
+# 为版本 ${version} 生成。
 # 语言配置由 AI 创建。
 
 # 配置版本
-version: 1.1.0
+version: ${version}
 
 ########################## Global ###########################
 
