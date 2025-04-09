@@ -13,7 +13,10 @@ All notable changes to this project will be documented in this file.
 - Correct typos and improve language files
 - Update dependencies
 - Improve performance
-- Fix bugs
+
+### Fixed
+
+- Several minor bugs
 
 ## [1.1.0]
 

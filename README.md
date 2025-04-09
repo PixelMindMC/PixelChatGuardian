@@ -6,7 +6,7 @@ players.
 
 ### Compatibility
 
-**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.4** on both **Spigot** and **Paper**.
+**PixelChat Guardian** is compatible with Minecraft versions **1.17 to 1.21.5** on both **Spigot** and **Paper**.
 
 ## Features
 
