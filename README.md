@@ -43,7 +43,7 @@ players.
 
 - Always **create or update** your configuration files when updating the plugin to prevent any issues.
 - By default, the plugin collects **anonymous statistics**. You can view these
-  on [bStats](https://www.bstats.org/plugin/bukkit/PixelChat%20Guardian/23371).
+  on [bStats](https://bstats.org/plugin/bukkit/PixelChat%20Guardian/23371).
 
 ## Need Help or Have Suggestions?
 
