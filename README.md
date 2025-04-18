@@ -65,7 +65,8 @@ improve!
 - [Modrinth Project](https://modrinth.com/plugin/pixelchatguardian/)
 - [SpigotMC Resource](https://www.spigotmc.org/resources/pixelchat-guardian.120146/)
 - [Paper Plugin Hangar](https://hangar.papermc.io/PixelMindMC/PixelChat_Guardian)
-- [bStats Statistics](https://www.bstats.org/plugin/bukkit/PixelChat%20Guardian/23371)
+- [CurseForge](https://www.curseforge.com/minecraft/bukkit-plugins/pixelchat-guardian)
+- [bStats Statistics](https://bstats.org/plugin/bukkit/PixelChat%20Guardian/23371)
 
 ## License
 
