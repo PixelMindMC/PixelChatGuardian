@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
  * @param isWebsite           Whether the message contains a possible website
  * @param reason              The reason why the message should be blocked
  */
-public record MessageClassification(@NotNull boolean isOffensiveLanguage, @NotNull boolean isUsername, @NotNull boolean isPassword,
-                                    @NotNull boolean isHomeAddress, @NotNull boolean isEmailAddress, @NotNull boolean isWebsite,
+public record MessageClassification(boolean isOffensiveLanguage, boolean isUsername, boolean isPassword,
+                                    boolean isHomeAddress, boolean isEmailAddress, boolean isWebsite,
                                     @NotNull String reason) {
 }

@@ -43,7 +43,7 @@ import java.util.Set;
  */
 public final class PixelChat extends JavaPlugin {
     private final LoggingHelper loggingHelper = new LoggingHelper(this);
-    public String updateChecker;
+    private String updateChecker;
 
     // ConfigHelper instances
     private ConfigHelper configHelper;
@@ -68,7 +68,7 @@ public final class PixelChat extends JavaPlugin {
         registerAPIHelper();
         registerListeners(getServer().getPluginManager());
         registerCommands();
-        registerTabCompleter(new TabCompleter());
+        registerTabCompleter(new PixelChatTabCompleter());
         initializeMetrics();
         try {
             checkForUpdates();
@@ -169,8 +169,6 @@ public final class PixelChat extends JavaPlugin {
      * Resets the strike count of every player to 0 on server start
      */
     private void resetPlayerStrikesOnServerStart() {
-        ConfigHelper configHelperPlayerStrikes = getConfigHelperPlayerStrikes();
-
         // Get all the top-level keys in the config (assuming these are player UUIDs)
         Set<String> playerUUIDs = configHelperPlayerStrikes.getKeys("");
 
@@ -239,7 +237,8 @@ public final class PixelChat extends JavaPlugin {
         // Debug logger message
         getLoggingHelper().debug("Register commands");
 
-        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(pixelChatCommand = new PixelChatCommand(this));
+        pixelChatCommand = new PixelChatCommand(this);
+        Objects.requireNonNull(getCommand("pixelchat")).setExecutor(pixelChatCommand);
         Objects.requireNonNull(getCommand("strike")).setExecutor(new StrikeCommand(this));
         Objects.requireNonNull(getCommand("remove-strikes")).setExecutor(new RemoveStrikesCommand(this));
     }
@@ -249,7 +248,7 @@ public final class PixelChat extends JavaPlugin {
      *
      * @param tabCompleter The {@code TabCompleter}
      */
-    private void registerTabCompleter(@NotNull TabCompleter tabCompleter) {
+    private void registerTabCompleter(@NotNull PixelChatTabCompleter tabCompleter) {
         // Debug logger message
         getLoggingHelper().debug("Register tabcompleter");
 

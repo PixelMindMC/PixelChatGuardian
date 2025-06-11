@@ -18,8 +18,8 @@ import java.util.List;
 /**
  * A class to provide tab completion for commands
  */
-public class TabCompleter implements org.bukkit.command.TabCompleter {
-    @NotNull List<String> results = new ArrayList<>();
+public class PixelChatTabCompleter implements org.bukkit.command.TabCompleter {
+    @NotNull final List<String> results = new ArrayList<>();
 
     /**
      * Handles tab completion for the "pixelchat" command

@@ -37,7 +37,7 @@ public class ChatGuardHelper {
      * @param classification The classification of the message
      * @param blockOrCensor  Whether the message should be blocked ({@code true}) or censored ({@code false})
      */
-    public static void notifyAndStrikePlayer(@NotNull PixelChat plugin, @NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, @NotNull boolean blockOrCensor) {
+    public static void notifyAndStrikePlayer(@NotNull PixelChat plugin, @NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, boolean blockOrCensor) {
         // Debug logger message
         plugin.getLoggingHelper().debug("Notify player");
 
@@ -144,10 +144,10 @@ public class ChatGuardHelper {
     }
 
     /**
-     * Checks whether the message that was classified actually violates an active block rule
+     * Checks whether the classified message actually violates an active block rule
      *
      * @param classification The classification of the message
-     * @return true if message violates an active block rule, false if no active block rules have been violated by the message
+     * @return true if the message violates an active block rule, false if no active block rules have been violated by the message
      */
     public static boolean messageMatchesEnabledRule(@NotNull PixelChat plugin, @NotNull MessageClassification classification) {
         boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
