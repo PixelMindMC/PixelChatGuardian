@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.exceptions;

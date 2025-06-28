@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) $today.year PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  *
  * PixelChatGuardian is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -98,17 +98,18 @@ public final class PixelChat extends JavaPlugin {
         // Check config versions
         String version = getDescription().getVersion();
         if (!version.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.CONFIG_VERSION)))
-            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.CONFIG_OUTDATED));
+            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.CONFIG_OUTDATED));
 
         if (!version.equalsIgnoreCase(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_VERSION)))
-            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.LANGUAGE_CONFIG_OUTDATED));
+            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.LANGUAGE_CONFIG_OUTDATED));
 
         // Check if the config file exists for the first time message
         if (!getConfigHelper().getFileExist())
-            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
+            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
 
         // Reset the strike count of every player if enabled
-        if (getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_CLEAR_STRIKES_ON_SERVER_RESTART)) resetPlayerStrikesOnServerStart();
+        if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_STRIKES_ON_SERVER_RESTART))
+            resetPlayerStrikesOnServerStart();
     }
 
     /**
@@ -135,7 +136,7 @@ public final class PixelChat extends JavaPlugin {
      * @return The config helper for the language set in the configuration
      */
     public ConfigHelper getConfigHelperLanguage() {
-        String language = getConfigHelper().getString(ConfigConstants.LANGUAGE);
+        String language = getConfigHelper().getString(ConfigConstants.General.LANGUAGE);
 
         switch (language.toLowerCase()) {
             case "custom" -> {
@@ -185,7 +186,7 @@ public final class PixelChat extends JavaPlugin {
         }
 
         // Log the completion of strike reset
-        getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CLEARED_STRIKES_ON_SERVER_RESTART));
+        getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.ChatGuard.CLEARED_STRIKES_ON_SERVER_RESTART));
     }
 
     /**
@@ -196,12 +197,12 @@ public final class PixelChat extends JavaPlugin {
         getLoggingHelper().debug("Register API helper");
 
         // Retrieve API key from config
-        String apiKey = getConfigHelper().getString(ConfigConstants.API_KEY);
+        String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
 
-        if (!getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) return;
+        if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) return;
         // Check if the config file exists and API key is either unset or still at its default value
         if (apiKey.isEmpty() || getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY")) {
-            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
+            getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.NO_API_KEY_SET));
             return;
         }
         apiHelper = new APIHelper(this);
@@ -261,8 +262,8 @@ public final class PixelChat extends JavaPlugin {
      * Initializes the bStats metrics for the plugin
      */
     private void initializeMetrics() {
-        if (getConfig().getBoolean(ConfigConstants.METRICS_ENABLED)) {
-            getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.METRICS_ENABLED));
+        if (getConfig().getBoolean(ConfigConstants.General.METRICS_ENABLED)) {
+            getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.Global.METRICS_ENABLED));
             new Metrics(this, 23371);
         }
     }
@@ -274,8 +275,8 @@ public final class PixelChat extends JavaPlugin {
      * @throws MalformedURLException If the set URL is invalid
      */
     private void checkForUpdates() throws URISyntaxException, IOException {
-        if (getConfig().getBoolean(ConfigConstants.CHECK_FOR_UPDATES)) {
-            getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.CHECKING_FOR_UPDATES));
+        if (getConfig().getBoolean(ConfigConstants.General.CHECK_FOR_UPDATES)) {
+            getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.Global.CHECKING_FOR_UPDATES));
             updateChecker = new UpdateChecker(this,
                     new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);

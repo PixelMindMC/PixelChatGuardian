@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -43,24 +43,24 @@ public class ChatGuardHelper {
 
         String chatGuardPrefix;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_ENABLE_CUSTOM_CHATGUARD_PREFIX)) {
-            chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_CHATGUARD_PREFIX) + ChatColor.RESET + " ";
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.ENABLE_CUSTOM_PREFIX)) {
+            chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.CUSTOM_PREFIX) + ChatColor.RESET + " ";
         } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
                 plugin.getConfigHelperLanguage()
-                        .getString(blockOrCensor ? LangConstants.PLAYER_MESSAGE_BLOCKED : LangConstants.PLAYER_MESSAGE_CENSORED) + " " +
-                ChatColor.RED + classification.reason());
+                        .getString(blockOrCensor ? LangConstants.ChatGuard.MESSAGE_BLOCKED : LangConstants.ChatGuard.MESSAGE_CENSORED) +
+                " " + ChatColor.RED + classification.reason());
 
         plugin.getLoggingHelper()
                 .info("Message by " + player.getName() + (blockOrCensor ? " has been blocked: " : " has been censored: ") + userMessage);
 
         if (!classification.isOffensiveLanguage()) return;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_USE_BUILT_IN_STRIKE_SYSTEM)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.USE_BUILT_IN_STRIKE_SYSTEM)) {
             runStrikeSystem(plugin, player.getUniqueId(), player.getName(), classification.reason());
-        } else executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_CUSTOM_STRIKE_COMMAND), player.getName(),
-                classification.reason());
+        } else executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.CUSTOM_STRIKE_COMMAND),
+                player.getName(), classification.reason());
     }
 
     /**
@@ -85,25 +85,25 @@ public class ChatGuardHelper {
         strikes++;
 
         // Get the thresholds for kick, temp ban, and permanent ban
-        int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_KICK);
-        int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_TEMP_BAN);
-        int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.CHATGUARD_STRIKES_BEFORE_BAN);
+        int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_KICK);
+        int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_TEMP_BAN);
+        int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_BAN);
 
         // Check if the player has reached the threshold for punishment
         if (strikes >= strikesToKick && strikes < strikesToTempBan) {
             // Player has enough strikes to be kicked
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_KICK_COMMAND), playerName,
-                    plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_KICK) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.KICK_COMMAND), playerName,
+                    plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_KICK) + " " + reason);
             action = "KICK";
         } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
             // Player has enough strikes to be temporarily banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_TEMP_BAN_COMMAND), playerName,
-                    plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_TEMPORARY) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.TEMP_BAN_COMMAND), playerName,
+                    plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_TEMP_BAN) + " " + reason);
             action = "TEMP-BAN";
         } else if (strikes >= strikesToBan) {
             // Player has enough strikes to be permanently banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_BAN_COMMAND), playerName,
-                    plugin.getConfigHelperLanguage().getString(LangConstants.PLAYER_BAN_PERMANENT) + " " + reason);
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.BAN_COMMAND), playerName,
+                    plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_PERM_BAN) + " " + reason);
             action = "BAN";
         }
 
@@ -150,12 +150,12 @@ public class ChatGuardHelper {
      * @return true if the message violates an active block rule, false if no active block rules have been violated by the message
      */
     public static boolean messageMatchesEnabledRule(@NotNull PixelChat plugin, @NotNull MessageClassification classification) {
-        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_OFFENSIVE_LANGUAGE);
-        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_USERNAMES);
-        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_PASSWORDS);
-        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_HOME_ADDRESSES);
-        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_EMAIL_ADDRESSES);
-        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.CHATGUARD_RULES_BLOCK_WEBSITES);
+        boolean blockOffensiveLanguage = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_OFFENSIVE_LANGUAGE);
+        boolean blockUsernames = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_USERNAMES);
+        boolean blockPasswords = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_PASSWORDS);
+        boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_HOME_ADDRESSES);
+        boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_EMAIL_ADDRESSES);
+        boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_WEBSITES);
 
         return blockOffensiveLanguage && classification.isOffensiveLanguage() || blockUsernames && classification.isUsername() ||
                 blockPasswords && classification.isPassword() || blockHomeAddresses && classification.isHomeAddress() ||

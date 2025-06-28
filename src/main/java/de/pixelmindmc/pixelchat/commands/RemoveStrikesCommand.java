@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChatGuardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.commands;
@@ -49,16 +49,18 @@ public class RemoveStrikesCommand implements CommandExecutor {
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
 
         // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_REMOVE_PLAYER_STRIKES)) {
-            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
+        if (!sender.hasPermission(PermissionConstants.Moderation.REMOVE_PLAYER_STRIKES)) {
+            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
             return true;
         }
 
         // Check if the command syntax is correct
         if (args.length != 1) {
             sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label + " <player>");
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
+                            " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label + " " +
+                            "<player>");
             return true;
         }
 
@@ -75,7 +77,7 @@ public class RemoveStrikesCommand implements CommandExecutor {
 
         // Send a message after successfully remove player strikes from a specific player
         sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PIXELCHAT_REMOVED_PLAYER_STRIKES) + " " +
+                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.REMOVED_PLAYER_STRIKES) + " " +
                         ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
         return true;
     }

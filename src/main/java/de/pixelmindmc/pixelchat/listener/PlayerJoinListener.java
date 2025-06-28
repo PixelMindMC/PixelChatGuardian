@@ -45,16 +45,17 @@ public class PlayerJoinListener implements Listener {
         Player player = event.getPlayer();
 
         // Check if the player has the required permission
-        if (!player.isOp() || !player.hasPermission(PermissionConstants.PIXELCHAT_FULL_PERMISSIONS)) return;
+        if (!player.isOp() || !player.hasPermission(PermissionConstants.FULL_PERMISSIONS)) return;
 
         // Retrieve API key from config
-        String apiKey = configHelper.getString(ConfigConstants.API_KEY);
+        String apiKey = configHelper.getString(ConfigConstants.API.KEY);
 
         // Check if config file exists
         if (!configHelper.getFileExist()) {
             player.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED +
-                    plugin.getConfigHelperLanguage().getString(LangConstants.FIRST_TIME_MESSAGE));
+                    plugin.getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
         } else if (apiKey.isEmpty() || configHelper.getFileExist() && Objects.equals(apiKey, "API-KEY")) player.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED + plugin.getConfigHelperLanguage().getString(LangConstants.NO_API_KEY_SET));
+                LangConstants.PLUGIN_PREFIX + ChatColor.RED +
+                        plugin.getConfigHelperLanguage().getString(LangConstants.Global.NO_API_KEY_SET));
     }
 }

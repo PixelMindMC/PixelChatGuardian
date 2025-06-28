@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -59,7 +59,8 @@ public class UpdateChecker {
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else
-            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + responseCode);
+            throw new IOException(
+                    plugin.getConfigHelperLanguage().getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + responseCode);
     }
 
     /**
@@ -76,11 +77,11 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && isNewerVersion(currentVersion, latestVersion)) {
-                return plugin.getConfigHelperLanguage().getString(LangConstants.UPDATE_AVAILABLE) +
+                return plugin.getConfigHelperLanguage().getString(LangConstants.Global.UPDATE_AVAILABLE) +
                         " https://modrinth.com/plugin/pixelchatguardian/";
-            } else return plugin.getConfigHelperLanguage().getString(LangConstants.NO_UPDATE_AVAILABLE);
+            } else return plugin.getConfigHelperLanguage().getString(LangConstants.Global.NO_UPDATE_AVAILABLE);
         } catch (Exception e) {
-            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.UNABLE_CHECK_FOR_UPDATES) + " " + e);
+            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + e);
         }
     }
 

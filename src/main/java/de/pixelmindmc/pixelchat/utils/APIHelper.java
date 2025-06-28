@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -44,10 +44,10 @@ public class APIHelper {
      */
     public APIHelper(@NotNull PixelChat plugin) {
         this.plugin = plugin;
-        this.aiModel = plugin.getConfig().getString(ConfigConstants.AI_MODEL);
-        this.apiKey = plugin.getConfig().getString(ConfigConstants.API_KEY);
-        this.sysPrompt = plugin.getConfig().getString(ConfigConstants.SYSTEM_PROMPT);
-        this.apiUrl = plugin.getConfig().getString(ConfigConstants.API_ENDPOINT);
+        this.apiUrl = plugin.getConfig().getString(ConfigConstants.API.ENDPOINT);
+        this.aiModel = plugin.getConfig().getString(ConfigConstants.API.MODEL);
+        this.apiKey = plugin.getConfig().getString(ConfigConstants.API.KEY);
+        this.sysPrompt = plugin.getConfig().getString(ConfigConstants.API.SYSTEM_PROMPT);
     }
 
     /**
@@ -106,9 +106,9 @@ public class APIHelper {
      * @throws IOException If any issue happens, an exception is thrown
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.CONTENT_KEY,
-                sysPrompt + "Language: " + plugin.getConfigHelper().getString(ConfigConstants.LANGUAGE)), Map.of("role", "user",
-                APIConstants.CONTENT_KEY, message)}, "response_format", Map.of("type", "json_object"));
+        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT,
+                sysPrompt + "Language: " + plugin.getConfigHelper().getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user",
+                APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
@@ -139,22 +139,27 @@ public class APIHelper {
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
         // Extract fields from the parsed content
-        boolean isOffensiveLanguage =
-                message.has(APIConstants.ISOFFENSIVELANGUAGE_KEY) && !message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).isJsonNull() &&
-                        message.get(APIConstants.ISOFFENSIVELANGUAGE_KEY).getAsBoolean();
-        boolean isUsername = message.has(APIConstants.ISUSERNAME_KEY) && !message.get(APIConstants.ISUSERNAME_KEY).isJsonNull() &&
-                message.get(APIConstants.ISUSERNAME_KEY).getAsBoolean();
-        boolean isPassword = message.has(APIConstants.ISPASSWORD_KEY) && !message.get(APIConstants.ISPASSWORD_KEY).isJsonNull() &&
-                message.get(APIConstants.ISPASSWORD_KEY).getAsBoolean();
-        boolean isHomeAddress = message.has(APIConstants.ISHOMEADDRESS_KEY) && !message.get(APIConstants.ISHOMEADDRESS_KEY).isJsonNull() &&
-                message.get(APIConstants.ISHOMEADDRESS_KEY).getAsBoolean();
+        boolean isOffensiveLanguage = message.has(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE) &&
+                !message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).getAsBoolean();
+        boolean isUsername = message.has(APIConstants.DetectionFlags.IS_USERNAME) &&
+                !message.get(APIConstants.DetectionFlags.IS_USERNAME).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_USERNAME).getAsBoolean();
+        boolean isPassword = message.has(APIConstants.DetectionFlags.IS_PASSWORD) &&
+                !message.get(APIConstants.DetectionFlags.IS_PASSWORD).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_PASSWORD).getAsBoolean();
+        boolean isHomeAddress = message.has(APIConstants.DetectionFlags.IS_HOME_ADDRESS) &&
+                !message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).getAsBoolean();
         boolean isEmailAddress =
-                message.has(APIConstants.ISEMAILADDRESS_KEY) && !message.get(APIConstants.ISEMAILADDRESS_KEY).isJsonNull() &&
-                        message.get(APIConstants.ISEMAILADDRESS_KEY).getAsBoolean();
-        boolean isWebsite = message.has(APIConstants.ISWEBSITE_KEY) && !message.get(APIConstants.ISWEBSITE_KEY).isJsonNull() &&
-                message.get(APIConstants.ISWEBSITE_KEY).getAsBoolean();
-        String reason = message.has(APIConstants.REASON_KEY) && !message.get(APIConstants.REASON_KEY).isJsonNull() ? message.get(
-                APIConstants.REASON_KEY).getAsString() : "No reason provided";
+                message.has(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS) &&
+                        !message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).isJsonNull() &&
+                        message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).getAsBoolean();
+        boolean isWebsite =
+                message.has(APIConstants.DetectionFlags.IS_WEBSITE) && !message.get(APIConstants.DetectionFlags.IS_WEBSITE).isJsonNull() &&
+                        message.get(APIConstants.DetectionFlags.IS_WEBSITE).getAsBoolean();
+        String reason = message.has(APIConstants.General.REASON) && !message.get(APIConstants.General.REASON).isJsonNull() ? message.get(
+                APIConstants.General.REASON).getAsString() : "No reason provided";
 
         return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
     }

@@ -4,29 +4,30 @@
 # Generated for version ${version}
 # Language config by:
 
-# Configuration Version
+# Configuration version
 version: ${version}
 
 ########################## Global ###########################
 
-metrics-enabled: ""
+global:
+  metrics-enabled: ""
 
-checking-for-updates: ""
-update-available: ""
-no-update-available: ""
-unable-check-for-updates: ""
+  checking-for-updates: ""
+  update-available: ""
+  no-update-available: ""
+  unable-to-check-for-updates: ""
 
-config-outdated: ""
-language-config-outdated: ""
-failed-to-save-config: ""
+  configuration-outdated: ""
+  language-configuration-outdated: ""
+  failed-to-save-configuration: ""
 
-first-time-message: ""
+  first-time-message: ""
 
-no-api-key-set: ""
+  no-api-key-set: ""
 
-no-permission: ""
-invalid-syntax: ""
-invalid-syntax-usage: ""
+  no-permission: ""
+  invalid-syntax: ""
+  invalid-syntax-usage: ""
 
 ##################### PixelChat Command #####################
 
@@ -36,16 +37,19 @@ pixelchat:
   plugin-website: ""
   report-bugs: ""
   reload: ""
-  removed-player-strikes: ""
-  struck-player: ""
 
-##################### PixelChat Guardian #####################
+  chat-guard:
+    removed-player-strikes: ""
+    struck-player: ""
 
-cleared-strikes-on-server-restart: ""
+##################### ChatGuard Module ######################
 
-player:
-  message-blocked: ""
-  message-censored: ""
-  kick: ""
-  ban-temporary: ""
-  ban-permanent: ""
+chat-guard:
+  cleared-strikes-on-server-restart: ""
+
+  player:
+    message-blocked: ""
+    message-censored: ""
+    kick: ""
+    ban-temporary: ""
+    ban-permanent: ""

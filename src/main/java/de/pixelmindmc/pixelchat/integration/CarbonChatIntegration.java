@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.integration;
@@ -49,7 +49,7 @@ public class CarbonChatIntegration {
             Component messageComponent = event.message();
 
             // AI based chat guard module
-            if (!carbonPlayer.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION))
+            if (!carbonPlayer.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION))
                 checkIfMessageShouldBeBlocked(event, messageComponent);
         });
     }
@@ -83,7 +83,7 @@ public class CarbonChatIntegration {
 
         // Check if classification matches any enabled blocking rules
         if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
+            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
             if (blockOrCensor) event.cancelled(true);
             else event.message(Component.text("*".repeat(message.length())));
 

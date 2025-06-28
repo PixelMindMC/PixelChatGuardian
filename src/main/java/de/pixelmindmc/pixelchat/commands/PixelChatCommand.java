@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.commands;
@@ -56,8 +56,9 @@ public class PixelChatCommand implements CommandExecutor {
         // Display usage information if no arguments are provided
         if (args.length == 0) {
             sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + label +
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
+                            " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label +
                             " <version|reload>");
             return true;
         }
@@ -67,8 +68,9 @@ public class PixelChatCommand implements CommandExecutor {
             case "version" -> handleVersionSubcommand(sender, label, args, configHelperLanguage);
             case "reload" -> handleReloadSubcommand(sender, label, args, configHelperLanguage);
             default -> sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label +
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
+                            " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + " " + label +
                             " <version|reload>");
         }
 
@@ -85,16 +87,17 @@ public class PixelChatCommand implements CommandExecutor {
      */
     private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args, @NotNull ConfigHelper configHelperLanguage) {
         // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_VERSION)) {
-            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
+        if (!sender.hasPermission(PermissionConstants.Commands.VERSION)) {
+            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
             return;
         }
 
         // Check if the command syntax is correct
         if (args.length != 1) {
             sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label +
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
+                            " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + " " + label +
                             " version");
             return;
         }
@@ -109,22 +112,24 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX);
         sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PIXELCHAT_VERSION) + " " +
+                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PixelChatCommand.VERSION) + " " +
                         ChatColor.WHITE + description.getVersion());
         sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PIXELCHAT_DEVELOPER) + " " +
+                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PixelChatCommand.DEVELOPER) +
+                        " " +
                         ChatColor.WHITE + authors);
         sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PIXELCHAT_PLUGIN_WEBSITE));
+                LangConstants.PLUGIN_PREFIX + ChatColor.RED +
+                        configHelperLanguage.getString(LangConstants.PixelChatCommand.PLUGIN_WEBSITE));
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
         sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PIXELCHAT_REPORT_BUGS));
+                LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PixelChatCommand.REPORT_BUGS));
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues");
         sender.sendMessage(LangConstants.PLUGIN_PREFIX);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
 
         // Send a message when an update is available
-        if (!plugin.updateChecker().equals(LangConstants.NO_UPDATE_AVAILABLE))
+        if (!plugin.updateChecker().equals(LangConstants.Global.NO_UPDATE_AVAILABLE))
             sender.sendMessage(LangConstants.PLUGIN_PREFIX + plugin.updateChecker());
     }
 
@@ -138,16 +143,19 @@ public class PixelChatCommand implements CommandExecutor {
      */
     private void handleReloadSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args, @NotNull ConfigHelper configHelperLanguage) {
         // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.PIXELCHAT_RELOAD)) {
-            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.NO_PERMISSION));
+        if (!sender.hasPermission(PermissionConstants.Commands.RELOAD)) {
+            sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
             return;
         }
 
         // Check if the command syntax is correct
         if (args.length != 1) {
             sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX) + " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.INVALID_SYNTAX_USAGE) + " " + label + " reload");
+                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
+                            " " +
+                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + " " + label +
+                            " " +
+                            "reload");
             return;
         }
 
@@ -157,7 +165,8 @@ public class PixelChatCommand implements CommandExecutor {
         plugin.getConfigHelperLanguage().loadConfig();
 
         // Send a message after successfully reloading the configurations
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.GREEN + configHelperLanguage.getString(LangConstants.PIXELCHAT_RELOAD));
+        sender.sendMessage(
+                LangConstants.PLUGIN_PREFIX + ChatColor.GREEN + configHelperLanguage.getString(LangConstants.PixelChatCommand.RELOAD));
     }
 
     /**

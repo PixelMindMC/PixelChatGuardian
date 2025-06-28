@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.listener;
@@ -46,26 +46,26 @@ public class AsyncPlayerChatListener implements Listener {
         this.plugin = plugin;
 
         // Initialize CarbonChat integration if available
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.PLUGIN_SUPPORT_CARBONCHAT) && setupCarbonChatIntegration())
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) && setupCarbonChatIntegration())
             carbonChatIntegration.registerCarbonChatListener();
 
         // Chatguard module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD)) {
-            String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API_KEY);
-            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHATGUARD) && !apiKey.isEmpty() &&
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
+            String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API.KEY);
+            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD) && !apiKey.isEmpty() &&
                     !Objects.equals(apiKey, "API-KEY");
         }
 
         // Emoji module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_EMOJIS)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.EMOJIS)) {
             this.emojiEnabled = true;
-            this.emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.EMOJI_LIST);
+            this.emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.Emoji.LIST);
         }
 
         // Chat codes module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.MODULE_CHAT_CODES)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHAT_CODES)) {
             this.chatCodesEnabled = true;
-            this.chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.CHAT_CODES_LIST);
+            this.chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.ChatCodes.LIST);
         }
     }
 
@@ -101,18 +101,18 @@ public class AsyncPlayerChatListener implements Listener {
 
         // AI based chat guard module
         if (chatGuardEnabled && carbonChatIntegration == null &&
-                !player.hasPermission(PermissionConstants.PIXELCHAT_BYPASS_CHAT_MODERATION))
+                !player.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION))
             chatGuardMessageBlocked = checkIfMessageShouldBeBlocked(event, message, player);
 
         // Emoji module
-        if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.PIXELCHAT_EMOJIS)) {
+        if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.Modules.EMOJIS)) {
             message = replaceMessageEmojis(message, emojiMap);
             event.setMessage(message);
         }
 
         // Chat codes module
         if (chatCodesEnabled && !chatGuardMessageBlocked && carbonChatIntegration == null &&
-                player.hasPermission(PermissionConstants.PIXELCHAT_CHAT_CODES)) {
+                player.hasPermission(PermissionConstants.Modules.CHAT_CODES)) {
             message = replaceMessageChatCodes(message, chatCodesMap);
             event.setMessage(message);
         }
@@ -140,7 +140,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Check if classification matches any enabled blocking rules
         if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.CHATGUARD_MESSAGE_HANDLING).equals("BLOCK");
+            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
             if (blockOrCensor) event.setCancelled(true);
             else event.setMessage("*".repeat(message.length()));
 

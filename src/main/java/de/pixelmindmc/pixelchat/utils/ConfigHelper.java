@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -72,7 +72,8 @@ public class ConfigHelper {
             fileConfiguration.save(file);
             loadConfig();
         } catch (IOException e) {
-            plugin.getLoggingHelper().error(plugin.getConfigHelperLanguage().getString(LangConstants.FAILED_TO_SAVE_CONFIG) + " " + e);
+            plugin.getLoggingHelper()
+                    .error(plugin.getConfigHelperLanguage().getString(LangConstants.Global.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
     }
 

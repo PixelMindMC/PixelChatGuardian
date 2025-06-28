@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2024 PixelMindMC
+ * Copyright (C) 2025 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -27,7 +27,7 @@ public class LoggingHelper {
      */
     public LoggingHelper(@NotNull PixelChat plugin) {
         this.logger = plugin.getLogger();
-        setLogLevel(Objects.requireNonNull(plugin.getConfig().getString(ConfigConstants.LOG_LEVEL)));
+        setLogLevel(Objects.requireNonNull(plugin.getConfig().getString(ConfigConstants.General.LOG_LEVEL)));
     }
 
     /**

@@ -10,32 +10,41 @@
 
 # For support or inquiries, please contact us via GitHub, Discord or Modrinth.
 
-###################### General Settings #####################
-
 # Configuration version
 version: ${version}
 
-# Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
-language: en
+###################### General Settings #####################
 
-# Enable or disable metrics collection. [Default: true]
-enable-metrics: true
+# General settings for the plugin.
+general:
 
-# Enable or disable update checking. [Default: true]
-check-for-updates: true
+  # Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
+  language: en
 
-# Plugin log level. Options: DEBUG, INFO, WARNING and ERROR. [Default: INFO]
-log-level: INFO
+  # Enable or disable metrics collection. [Default: true]
+  enable-metrics: true
+
+  # Enable or disable update checking. [Default: true]
+  check-for-updates: true
+
+  # Plugin log level. Options: DEBUG, INFO, WARNING and ERROR. [Default: INFO]
+  log-level: INFO
+
+
+################## Plugin Support Settings ##################
 
 # Enable or disable support for specific plugins. Set to true to enable support for a plugin.
 plugin-support:
+
   # Enable support for CarbonChat integration. [Default: true]
-  carbonchat: true # Tested with version 3.0.0-beta.28
+  carbonchat: true # Tested with version 3.0.0-beta.32
+
 
 ###################### Module Settings ######################
 
 # Toggle specific plugin modules on/off.
 modules:
+
   # ChatGuard module. [Default: true]
   chatguard: true
   # Emoji replacement module. [Default: true]
@@ -43,94 +52,107 @@ modules:
   # Color and format chat code replacement module. [Default: true]
   chat-codes: true
 
+
 #################### AI and API Settings ####################
 
-# API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
-api-endpoint: "https://api.groq.com/openai/v1/chat/completions"
+# AI and API related settings.
+api:
 
-# AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.3-70b-versatile]
-ai-model: "llama-3.3-70b-versatile"
+  # API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
+  endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
-# API key for authentication with the endpoint.
-api-key: "API-KEY"
+  # AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.3-70b-versatile]
+  ai-model: "llama-3.3-70b-versatile"
 
-# System prompt for automatic chat moderation.
-# Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
-# Block offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.in-game related messages, including minor or playful language.
-sys-prompt: >
-  "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
-    isOffensiveLanguage: A boolean value(true if the message contains offensive language, severe insults, hate 
-    speech, slurs, real-world crime references, or other forms of harmful language; false if not)
-    isUsername: A boolean value (true if the message contains a username or player identifier; false if not).
-    isPassword: A boolean value (true if the message appears to include a password or sensitive login information; false if not).
-    isHomeAddress: A boolean value (true if the message contains a physical address or location; false if not).
-    isEmail: A boolean value (true if the message includes an email address; false if not).
-    isWebsite: A boolean value (true if the message contains a website link or URL; false if not).
-    reason: A brief string explaining why the message was blocked translated in the given language, if block is true. Use precise 
-    terms such as:
-      "Offensive language"
-      "Hate speech or slur"
-      "Severe insult"
-      "Reference to real-world crimes"
-      "Other forms of harmful language"
-      "Sensitive personal information"
-      "Not allowed websites"
-  Guidelines for Blocking Messages:
-      Block messages containing offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
-      Allow in-game related messages, including minor or playful language (e.g. "kill all the zombies").
-      Only respond with block and reason fields in the JSON format, with no additional explanations."
+  # API key for authentication with the endpoint.
+  key: "API-KEY"
+
+  # System prompt for automatic chat moderation.
+  # Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
+  # Block offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.in-game related messages, including minor or playful language.
+  sys-prompt: >
+    "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
+      isOffensiveLanguage: A boolean value(true if the message contains offensive language, severe insults, hate 
+      speech, slurs, real-world crime references, or other forms of harmful language; false if not)
+      isUsername: A boolean value (true if the message contains a username or player identifier; false if not).
+      isPassword: A boolean value (true if the message appears to include a password or sensitive login information; false if not).
+      isHomeAddress: A boolean value (true if the message contains a physical address or location; false if not).
+      isEmail: A boolean value (true if the message includes an email address; false if not).
+      isWebsite: A boolean value (true if the message contains a website link or URL; false if not).
+      reason: A brief string explaining why the message was blocked translated in the given language, if block is true. Use precise 
+      terms such as:
+        "Offensive language"
+        "Hate speech or slur"
+        "Severe insult"
+        "Reference to real-world crimes"
+        "Other forms of harmful language"
+        "Sensitive personal information"
+        "Not allowed websites"
+    Guidelines for Blocking Messages:
+        Block messages containing offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
+        Allow in-game related messages, including minor or playful language (e.g. "kill all the zombies").
+        Only respond with block and reason fields in the JSON format, with no additional explanations."
+
 
 ##################### ChatGuard Settings ####################
 
-# Enable or disable the custom ChatGuard prefix. [Default: false]
-enable-custom-chatguard-prefix: false
-# Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixel§9Chat§r§8]]
-custom-chatguard-prefix: "§8[§c§lPixel§9lChat§r§8]"
+# ChatGuard related settings.
+chatguard:
 
-# Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
-message-handling: CENSOR
+  # Enable or disable the custom ChatGuard prefix. [Default: false]
+  enable-custom-prefix: false
+  # Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixel§9Chat§r§8]]
+  custom-prefix: "§8[§c§lPixel§9lChat§r§8]"
 
-# Notify the user if their message is blocked. [Default: true]
-notify-user: true
+  # Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
+  message-handling: CENSOR
 
-# ChatGuard rules for blocking offensive language and sensitive personal information.
-chatguard-rules:
-  # Blocks any form of offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
-  blockOffensiveLanguage: true
-  # Prevents users from sharing their usernames to safeguard their online identity.
-  blockUsernames: true
-  # Blocks users from sharing passwords, ensuring sensitive credentials are not exposed accidentally or maliciously.
-  blockPasswords: true
-  # Prevents users from sharing full or partial home addresses, safeguarding their physical location and privacy.
-  blockHomeAddresses: true
-  # Detects and blocks the sharing of email addresses to prevent phishing attempts or unwanted communications.
-  blockEmailAddresses: true
-  # Restricts users from sharing website URLs to avoid spreading malicious links or inappropriate content.
-  blockWebsites: false
+  # Notify the user if their message is blocked. [Default: true]
+  notify-user: true
 
-# Use the built-in strike system for managing player behavior. [Default: true]
-use-built-in-strike-system: true
+  # ChatGuard rules for blocking offensive language and sensitive personal information.
+  rules:
 
-# Reset player strikes on server restart. [Default: true]
-clear-strikes-on-server-restart: true
+    # Blocks any form of offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
+    blockOffensiveLanguage: true
+    # Prevents users from sharing their usernames to safeguard their online identity.
+    blockUsernames: true
+    # Blocks users from sharing passwords, ensuring sensitive credentials are not exposed accidentally or maliciously.
+    blockPasswords: true
+    # Prevents users from sharing full or partial home addresses, safeguarding their physical location and privacy.
+    blockHomeAddresses: true
+    # Detects and blocks the sharing of email addresses to prevent phishing attempts or unwanted communications.
+    blockEmailAddresses: true
+    # Restricts users from sharing website URLs to avoid spreading malicious links or inappropriate content.
+    blockWebsites: false
 
-# Custom command for issuing a strike to a player (requires an external plugin). [Default: /strike <player> <reason>]
-custom-strike-command: "strike <player> <reason>"
+  # Strike-System settings.
+  strike-system:
 
-# Number of strikes before the player is kicked. [Default: 3]
-strikes-before-kick: 3
-# Command to kick a player after reaching the strike limit. [Default: /kick <player> <reason>]
-kick-command: "kick <player> <reason>"
+    # Use the built-in strike system for managing player behavior. [Default: true]
+    use-built-in-strike-system: true
 
-# Number of strikes before issuing a temporary ban. [Default: 5]
-strikes-before-temp-ban: 5
-# Command to temporarily ban a player (requires an external plugin). [Default: /kick <player> <reason>]
-temp-ban-command: "kick <player> <reason>"
+    # Reset player strikes on server restart. [Default: true]
+    clear-strikes-on-server-restart: true
 
-# Number of strikes before a permanent ban. [Default: 6]
-strikes-before-ban: 6
-# Command to permanently ban a player. [Default: /ban <player> <reason>]
-ban-command: "ban <player> <reason>"
+    # Number of strikes before the player is kicked. [Default: 3]
+    strikes-before-kick: 3
+    # Command to kick a player after reaching the strike limit. [Default: /kick <player> <reason>]
+    kick-command: "kick <player> <reason>"
+
+    # Number of strikes before issuing a temporary ban. [Default: 5]
+    strikes-before-temp-ban: 5
+    # Command to temporarily ban a player (requires an external plugin). [Default: /kick <player> <reason>]
+    temp-ban-command: "kick <player> <reason>"
+
+    # Number of strikes before a permanent ban. [Default: 6]
+    strikes-before-ban: 6
+    # Command to permanently ban a player. [Default: /ban <player> <reason>]
+    ban-command: "ban <player> <reason>"
+
+    # Custom command for issuing a strike to a player (requires an external plugin). [Default: /strike <player> <reason>]
+    custom-strike-command: "strike <player> <reason>"
+
 
 ####################### Emoji Settings ######################
 
@@ -157,6 +179,7 @@ emoji-list:
   ":v:": "✌"
   ":watch:": "⌚"
   ":writing_hand:": "✍"
+
 
 #################### Chat codes Settings ####################
 
