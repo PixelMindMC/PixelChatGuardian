@@ -39,14 +39,14 @@ pixelchat:
   report-bugs: ""
   reload: ""
 
-  chat-guard:
+  chatguard:
     struck-player: ""
     removed-player-strikes: ""
 
 
 ##################### ChatGuard Module ######################
 
-chat-guard:
+chatguard:
   cleared-strikes-on-server-restart: ""
 
   player:

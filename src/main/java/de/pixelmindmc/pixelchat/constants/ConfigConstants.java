@@ -55,7 +55,7 @@ public final class ConfigConstants {
      * AI and API related configuration
      */
     public static final class API {
-        public static final String ENDPOINT = "api-endpoint";
+        public static final String ENDPOINT = "api.endpoint";
         public static final String MODEL = "api.ai-model";
         public static final String KEY = "api.key";
         public static final String SYSTEM_PROMPT = "api.sys-prompt";
@@ -83,6 +83,7 @@ public final class ConfigConstants {
             public static final String BLOCK_HOME_ADDRESSES = "chatguard.rules.blockHomeAddresses";
             public static final String BLOCK_EMAIL_ADDRESSES = "chatguard.rules.blockEmailAddresses";
             public static final String BLOCK_WEBSITES = "chatguard.rules.blockWebsites";
+            public static final String BLOCK_SEXUAL_CONTENT = "chatguard.rules.blockSexualContent";
 
             private Rules() {
             }

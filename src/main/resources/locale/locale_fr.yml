@@ -37,14 +37,14 @@ pixelchat:
   report-bugs: "Signalez tout bug à :"
   reload: "Fichiers de configuration rechargés avec succès."
 
-  chat-guard:
+  chatguard:
     removed-player-strikes: "Sanctions retirées avec succès du joueur."
     struck-player: "A frappé le joueur"
 
 
 ##################### ChatGuard Module ######################
 
-chat-guard:
+chatguard:
   cleared-strikes-on-server-restart: "Les sanctions des joueurs ont été réinitialisées. Pour les conserver après les redémarrages du serveur, ajustez le paramètre pertinent dans le fichier de configuration."
 
   player:

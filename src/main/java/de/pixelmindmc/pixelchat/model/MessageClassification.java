@@ -14,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
  * @param isUsername          Whether the message contains a possible username
  * @param isPassword          Whether the message contains a possible password
  * @param isHomeAddress       Whether the message contains a possible home address
- * @param isEmailAddress      Whether the message contains a possible email address
- * @param isWebsite           Whether the message contains a possible website
+ * @param isEmailAddress      Whether the message contains an email address
+ * @param isWebsite           Whether the message contains a website
+ * @param isSexualContent     Whether the message contains sexual content
  * @param reason              The reason why the message should be blocked
  */
-public record MessageClassification(boolean isOffensiveLanguage, boolean isUsername, boolean isPassword,
-                                    boolean isHomeAddress, boolean isEmailAddress, boolean isWebsite,
-                                    @NotNull String reason) {
+public record MessageClassification(boolean isOffensiveLanguage, boolean isUsername, boolean isPassword, boolean isHomeAddress,
+                                    boolean isEmailAddress, boolean isWebsite, boolean isSexualContent, @NotNull String reason) {
 }

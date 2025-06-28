@@ -37,14 +37,14 @@ pixelchat:
   report-bugs: "报告任何错误至："
   reload: "配置文件成功重新加载。"
 
-  chat-guard:
+  chatguard:
     removed-player-strikes: "成功从玩家中移除处罚。"
     struck-player: "击中了玩家"
 
 
 ##################### ChatGuard Module ######################
 
-chat-guard:
+chatguard:
   cleared-strikes-on-server-restart: "玩家的处罚已重置。要在服务器重启后保留它们，请在配置文件中调整相关设置。"
 
   player:

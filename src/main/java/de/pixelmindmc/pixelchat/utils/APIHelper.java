@@ -151,17 +151,20 @@ public class APIHelper {
         boolean isHomeAddress = message.has(APIConstants.DetectionFlags.IS_HOME_ADDRESS) &&
                 !message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).isJsonNull() &&
                 message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).getAsBoolean();
-        boolean isEmailAddress =
-                message.has(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS) &&
-                        !message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).isJsonNull() &&
-                        message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).getAsBoolean();
+        boolean isEmailAddress = message.has(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS) &&
+                !message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).getAsBoolean();
         boolean isWebsite =
                 message.has(APIConstants.DetectionFlags.IS_WEBSITE) && !message.get(APIConstants.DetectionFlags.IS_WEBSITE).isJsonNull() &&
                         message.get(APIConstants.DetectionFlags.IS_WEBSITE).getAsBoolean();
+        boolean isSexualContent = message.has(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT) &&
+                !message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).isJsonNull() &&
+                message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).getAsBoolean();
         String reason = message.has(APIConstants.General.REASON) && !message.get(APIConstants.General.REASON).isJsonNull() ? message.get(
                 APIConstants.General.REASON).getAsString() : "No reason provided";
 
-        return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, reason);
+        return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite,
+                isSexualContent, reason);
     }
 
     /**

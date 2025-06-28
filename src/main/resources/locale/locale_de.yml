@@ -37,14 +37,14 @@ pixelchat:
   report-bugs: "Fehler melden unter:"
   reload: "Konfigurationsdateien erfolgreich neu geladen."
 
-  chat-guard:
+  chatguard:
     struck-player: "Spieler wurde gestriked."
     removed-player-strikes: "Spielerstrikes erfolgreich entfernt."
 
 
 ##################### ChatGuard Module ######################
 
-chat-guard:
+chatguard:
   cleared-strikes-on-server-restart: "Die Strikes der Spieler wurden zurückgesetzt. Um sie nach einem Serverneustart zu speichern, passen Sie die entsprechende Einstellung in der Konfigurationsdatei an."
 
   player:

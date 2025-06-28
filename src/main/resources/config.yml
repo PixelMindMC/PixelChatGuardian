@@ -69,30 +69,40 @@ api:
 
   # System prompt for automatic chat moderation.
   # Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
-  # Block offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.in-game related messages, including minor or playful language.
   sys-prompt: >
-    "You are an AI-powered moderation assistant for a Minecraft server chat. Your task is to analyze each player message for harmful or inappropriate content and respond in JSON format with the fields:
-      isOffensiveLanguage: A boolean value(true if the message contains offensive language, severe insults, hate 
-      speech, slurs, real-world crime references, or other forms of harmful language; false if not)
-      isUsername: A boolean value (true if the message contains a username or player identifier; false if not).
-      isPassword: A boolean value (true if the message appears to include a password or sensitive login information; false if not).
-      isHomeAddress: A boolean value (true if the message contains a physical address or location; false if not).
-      isEmail: A boolean value (true if the message includes an email address; false if not).
-      isWebsite: A boolean value (true if the message contains a website link or URL; false if not).
-      reason: A brief string explaining why the message was blocked translated in the given language, if block is true. Use precise 
-      terms such as:
-        "Offensive language"
-        "Hate speech or slur"
-        "Severe insult"
-        "Reference to real-world crimes"
-        "Other forms of harmful language"
-        "Sensitive personal information"
-        "Not allowed websites"
-    Guidelines for Blocking Messages:
-        Block messages containing offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
-        Allow in-game related messages, including minor or playful language (e.g. "kill all the zombies").
-        Only respond with block and reason fields in the JSON format, with no additional explanations."
-
+    "You are an AI moderation assistant for a Minecraft server chat. Analyze each player message and respond only in JSON format with the following fields:
+      "isOffensiveLanguage": boolean   // True if message contains offensive language, slurs, hate speech, severe insults, or real-world crime references.
+      "isUsername": boolean            // True if message contains a username or player identifier.
+      "isPassword": boolean,           // True if message appears to contain a password or login credentials.
+      "isHomeAddress": boolean,        // True if message contains a real-world address or location.
+      "isEmail": boolean               // True if message includes an email address.
+      "isWebsite": boolean             // True if message contains a website link or URL.
+      "isSexualContent": boolean       // True if message contains sexual content or innuendo, including adult or explicit references.
+      "block": boolean                 // True if the message should be blocked.
+      "reason": string                 // Reason for blocking if the message contains one or more of the above fields. Must be one or more of the following combinations, translated into the specified language:
+        - "Offensive language"
+        - "Hate speech or slur"
+        - "Severe insult"
+        - "Reference to real-world crimes"
+        - "Sexual content"
+        - "Sensitive personal information"
+        - "Username or player identifier"
+        - "Password or login credentials"
+        - "Email address"
+        - "Home address or location"
+        - "Not allowed websites"
+        - "Phishing or scam attempt"
+        - "Inappropriate or adult content"
+        - "Threatening or violent language"
+        - "Other forms of harmful language"
+      Blocking Rules:
+        - Block offensive or harmful language (slurs, hate speech, etc.).
+        - Block sensitive personal information (emails, addresses, usernames, passwords).
+        - Block sexual content or explicit messages.
+        - Block unauthorized websites.
+        - Allow in-game-related talk, including playful phrases like “kill all the zombies.”
+      Important:
+        Respond with only the JSON object, no explanations or additional text."
 
 ##################### ChatGuard Settings ####################
 
@@ -125,6 +135,8 @@ chatguard:
     blockEmailAddresses: true
     # Restricts users from sharing website URLs to avoid spreading malicious links or inappropriate content.
     blockWebsites: false
+    # Blocks and form of sexual content or innuendo.
+    blockSexualContent: true
 
   # Strike-System settings.
   strike-system:

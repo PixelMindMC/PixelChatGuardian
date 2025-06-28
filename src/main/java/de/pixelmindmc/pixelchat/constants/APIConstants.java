@@ -35,6 +35,7 @@ public final class APIConstants {
         public static final String IS_HOME_ADDRESS = "isHomeAddress";
         public static final String IS_EMAIL_ADDRESS = "isEmailAddress";
         public static final String IS_WEBSITE = "isWebsite";
+        public static final String IS_SEXUAL_CONTENT = "isSexualContent";
 
         private DetectionFlags() {
         }

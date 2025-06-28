@@ -156,9 +156,12 @@ public class ChatGuardHelper {
         boolean blockHomeAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_HOME_ADDRESSES);
         boolean blockEmailAddresses = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_EMAIL_ADDRESSES);
         boolean blockWebsites = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_WEBSITES);
+        boolean blockSexualContent = plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_SEXUAL_CONTENT);
+
 
         return blockOffensiveLanguage && classification.isOffensiveLanguage() || blockUsernames && classification.isUsername() ||
                 blockPasswords && classification.isPassword() || blockHomeAddresses && classification.isHomeAddress() ||
-                blockEmailAddresses && classification.isEmailAddress() || blockWebsites && classification.isWebsite();
+                blockEmailAddresses && classification.isEmailAddress() || blockWebsites && classification.isWebsite() ||
+                blockSexualContent && classification.isSexualContent();
     }
 }
