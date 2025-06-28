@@ -29,6 +29,7 @@ global:
   invalid-syntax: ""
   invalid-syntax-usage: ""
 
+
 ##################### PixelChat Command #####################
 
 pixelchat:
@@ -39,8 +40,9 @@ pixelchat:
   reload: ""
 
   chat-guard:
-    removed-player-strikes: ""
     struck-player: ""
+    removed-player-strikes: ""
+
 
 ##################### ChatGuard Module ######################
 

@@ -7,24 +7,26 @@ version: ${version}
 
 ########################## Global ###########################
 
-metrics-enabled: "Las métricas del plugin están habilitadas."
+global:
+  metrics-enabled: "Las métricas del plugin están habilitadas."
 
-checking-for-updates: "Buscando actualizaciones..."
-update-available: "¡Hay una nueva actualización disponible! Descárgala desde Modrinth:"
-no-update-available: "Estás utilizando la última versión. No hay actualizaciones disponibles."
-unable-check-for-updates: "No se puede verificar si hay actualizaciones."
+  checking-for-updates: "Buscando actualizaciones..."
+  update-available: "¡Hay una nueva actualización disponible! Descárgala desde Modrinth:"
+  no-update-available: "Estás utilizando la última versión. No hay actualizaciones disponibles."
+  unable-to-check-for-updates: "No se puede verificar si hay actualizaciones."
 
-config-outdated: "¡Tu archivo de configuración está desactualizado! Por favor, actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
-language-config-outdated: "¡Tu configuración de idioma está desactualizada! Por favor, actualízala a la última versión. El plugin intentará cargarla, pero pueden ocurrir errores."
-failed-to-save-config: "Error al guardar el archivo de configuración."
+  config-outdated: "¡Tu archivo de configuración está desactualizado! Por favor, actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
+  language-config-outdated: "¡Tu configuración de idioma está desactualizada! Por favor, actualízala a la última versión. El plugin intentará cargarla, pero pueden ocurrir errores."
+  failed-to-save-config: "Error al guardar el archivo de configuración."
 
-first-time-message: "Parece que es la primera vez que usa este complemento. Por favor, agregue su clave API bajo 'api-key' en el archivo de configuración. Para obtener más ayuda, consulte la wiki."
+  first-time-message: "Parece que es la primera vez que usa este complemento. Por favor, agregue su clave API bajo 'api-key' en el archivo de configuración. Para obtener más ayuda, consulte la wiki."
 
-no-api-key-set: "No se proporcionó ninguna clave API. El módulo de guardian de chat basado en IA ha sido desactivado."
+  no-api-key-set: "No se proporcionó ninguna clave API. El módulo de guardian de chat basado en IA ha sido desactivado."
 
-no-permission: "No tienes permiso para usar este comando."
-invalid-syntax: "¡Sintaxis de comando inválida!"
-invalid-syntax-usage: "Uso correcto: /"
+  no-permission: "No tienes permiso para usar este comando."
+  invalid-syntax: "¡Sintaxis de comando inválida!"
+  invalid-syntax-usage: "Uso correcto: /"
+
 
 ##################### PixelChat Command #####################
 
@@ -34,16 +36,20 @@ pixelchat:
   plugin-website: "Sitio web del plugin:"
   report-bugs: "Reporta cualquier error a:"
   reload: "Archivos de configuración recargados con éxito."
-  removed-player-strikes: "Se han eliminado con éxito las sanciones del jugador."
-  struck-player: "Golpeó al jugador"
 
-##################### PixelChat Guardian #####################
+  chat-guard:
+    removed-player-strikes: "Se han eliminado con éxito las sanciones del jugador."
+    struck-player: "Golpeó al jugador"
 
-cleared-strikes-on-server-restart: "Las sanciones de los jugadores han sido reiniciadas. Para preservarlas después de los reinicios del servidor, ajusta la configuración relevante en el archivo de configuración."
 
-player:
-  message-blocked: "Tu mensaje ha sido bloqueado. Razón:"
-  message-censored: "Tu mensaje ha sido censurado. Razón:"
-  kick: "Has sido expulsado del servidor. Razón:"
-  ban-temporary: "Has sido prohibido temporalmente del servidor. Razón:"
-  ban-permanent: "Has sido prohibido permanentemente del servidor. Razón:"
+##################### ChatGuard Module ######################
+
+chat-guard:
+  cleared-strikes-on-server-restart: "Las sanciones de los jugadores han sido reiniciadas. Para preservarlas después de los reinicios del servidor, ajusta la configuración relevante en el archivo de configuración."
+
+  player:
+    message-blocked: "Tu mensaje ha sido bloqueado. Razón:"
+    message-censored: "Tu mensaje ha sido censurado. Razón:"
+    kick: "Has sido expulsado del servidor. Razón:"
+    ban-temporary: "Has sido prohibido temporalmente del servidor. Razón:"
+    ban-permanent: "Has sido prohibido permanentemente del servidor. Razón:"

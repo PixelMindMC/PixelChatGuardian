@@ -7,24 +7,26 @@ version: 1.1.1
 
 ########################## Global ###########################
 
-metrics-enabled: "Plugin metrics are enabled."
+global:
+  metrics-enabled: "Plugin metrics are enabled."
 
-checking-for-updates: "Checking for updates..."
-update-available: "A new update is available! Download it from Modrinth:"
-no-update-available: "You are using the latest version. No updates available."
-unable-check-for-updates: "Unable to check for updates."
+  checking-for-updates: "Checking for updates..."
+  update-available: "A new update is available! Download it from Modrinth:"
+  no-update-available: "You are using the latest version. No updates available."
+  unable-to-check-for-updates: "Unable to check for updates."
 
-config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
-language-config-outdated: "Your language configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
-failed-to-save-config: "Failed to save the configuration file."
+  config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
+  language-config-outdated: "Your language configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
+  failed-to-save-config: "Failed to save the configuration file."
 
-first-time-message: "It looks like this is your first time using the plugin. Please add your API key under 'api-key' in the configuration file. For more help, refer to the wiki."
+  first-time-message: "It looks like this is your first time using the plugin. Please add your API key under 'api-key' in the configuration file. For more help, refer to the wiki."
 
-no-api-key-set: "No API key provided. The AI-powered Chat Guardian module has been disabled."
+  no-api-key-set: "No API key provided. The AI-powered Chat Guardian module has been disabled."
 
-no-permission: "You do not have permission to use this command."
-invalid-syntax: "Invalid command syntax!"
-invalid-syntax-usage: "Correct usage: /"
+  no-permission: "You do not have permission to use this command."
+  invalid-syntax: "Invalid command syntax!"
+  invalid-syntax-usage: "Correct usage: /"
+
 
 ##################### PixelChat Command #####################
 
@@ -34,16 +36,20 @@ pixelchat:
   plugin-website: "Plugin Website:"
   report-bugs: "Report bugs to:"
   reload: "Configuration files successfully reloaded."
-  removed-player-strikes: "Successfully removed strikes from the player."
-  struck-player: "Player received a strike."
 
-##################### PixelChat Guardian ####################
+  chat-guard:
+    removed-player-strikes: "Successfully removed strikes from the player."
+    struck-player: "Player received a strike."
 
-cleared-strikes-on-server-restart: "Player strikes have been reset. To retain them after server restarts, adjust the appropriate setting in the configuration file."
 
-player:
-  message-blocked: "Your message was blocked. Reason:"
-  message-censored: "Your message was censored. Reason:"
-  kick: "You have been kicked from the server. Reason:"
-  ban-temporary: "You have been temporarily banned from the server. Reason:"
-  ban-permanent: "You have been permanently banned from the server. Reason:"
+##################### ChatGuard Module ######################
+
+chat-guard:
+  cleared-strikes-on-server-restart: "Player strikes have been reset. To retain them after server restarts, adjust the appropriate setting in the configuration file."
+
+  player:
+    message-blocked: "Your message was blocked. Reason:"
+    message-censored: "Your message was censored. Reason:"
+    kick: "You have been kicked from the server. Reason:"
+    ban-temporary: "You have been temporarily banned from the server. Reason:"
+    ban-permanent: "You have been permanently banned from the server. Reason:"

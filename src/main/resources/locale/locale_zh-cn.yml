@@ -7,24 +7,26 @@ version: ${version}
 
 ########################## Global ###########################
 
-metrics-enabled: "插件指标已启用。"
+global:
+  metrics-enabled: "插件指标已启用。"
 
-checking-for-updates: "检查更新中..."
-update-available: "有新更新可用！请从 Modrinth 下载："
-no-update-available: "您正在使用最新版本。没有可用的更新。"
-unable-check-for-updates: "无法检查更新。"
+  checking-for-updates: "检查更新中..."
+  update-available: "有新更新可用！请从 Modrinth 下载："
+  no-update-available: "您正在使用最新版本。没有可用的更新。"
+  unable-to-check-for-updates: "无法检查更新。"
 
-config-outdated: "您的配置文件已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
-language-config-outdated: "您的语言配置已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
-failed-to-save-config: "保存配置文件失败。"
+  config-outdated: "您的配置文件已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
+  language-config-outdated: "您的语言配置已过时！请将其更新到最新版本。插件将尝试加载它，但可能会出现错误。"
+  failed-to-save-config: "保存配置文件失败。"
 
-first-time-message: "看起来这是您第一次使用此插件。请在配置文件中的 “api-key” 下添加您的 API 密钥。如需进一步帮助，请参考 Wiki。"
+  first-time-message: "看起来这是您第一次使用此插件。请在配置文件中的 “api-key” 下添加您的 API 密钥。如需进一步帮助，请参考 Wiki。"
 
-no-api-key-set: "未提供 API 密钥。基于 AI 的聊天守护模块已被禁用。"
+  no-api-key-set: "未提供 API 密钥。基于 AI 的聊天守护模块已被禁用。"
 
-no-permission: "您没有权限使用此命令。"
-invalid-syntax: "命令语法无效！"
-invalid-syntax-usage: "正确用法：/"
+  no-permission: "您没有权限使用此命令。"
+  invalid-syntax: "命令语法无效！"
+  invalid-syntax-usage: "正确用法：/"
+
 
 ##################### PixelChat Command #####################
 
@@ -34,16 +36,20 @@ pixelchat:
   plugin-website: "插件网站："
   report-bugs: "报告任何错误至："
   reload: "配置文件成功重新加载。"
-  removed-player-strikes: "成功从玩家中移除处罚。"
-  struck-player: "击中了玩家"
 
-##################### PixelChat Guardian #####################
+  chat-guard:
+    removed-player-strikes: "成功从玩家中移除处罚。"
+    struck-player: "击中了玩家"
 
-cleared-strikes-on-server-restart: "玩家的处罚已重置。要在服务器重启后保留它们，请在配置文件中调整相关设置。"
 
-player:
-  message-blocked: "您的消息已被阻止。原因："
-  message-censored: "您的消息已被审查。原因："
-  kick: "您已被踢出服务器。原因："
-  ban-temporary: "您已被临时禁令。原因："
-  ban-permanent: "您已被永久禁令。原因："
+##################### ChatGuard Module ######################
+
+chat-guard:
+  cleared-strikes-on-server-restart: "玩家的处罚已重置。要在服务器重启后保留它们，请在配置文件中调整相关设置。"
+
+  player:
+    message-blocked: "您的消息已被阻止。原因："
+    message-censored: "您的消息已被审查。原因："
+    kick: "您已被踢出服务器。原因："
+    ban-temporary: "您已被临时禁令。原因："
+    ban-permanent: "您已被永久禁令。原因："
