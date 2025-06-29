@@ -48,6 +48,8 @@ public final class PixelChat extends JavaPlugin {
     // ConfigHelper instances
     private ConfigHelper configHelper;
     private ConfigHelper configHelperPlayerStrikes;
+    private ConfigHelper configHelperEmojiList;
+    private ConfigHelper configHelperChatCodesList;
     private ConfigHelper configHelperLangCustom;
     private ConfigHelper configHelperLangGerman;
     private ConfigHelper configHelperLangEnglish;
@@ -86,6 +88,8 @@ public final class PixelChat extends JavaPlugin {
 
         configHelper = new ConfigHelper(this, "config.yml");
         configHelperPlayerStrikes = new ConfigHelper(this, "player_strikes.yml");
+        configHelperEmojiList = new ConfigHelper(this, "emoji_list.yml");
+        configHelperChatCodesList = new ConfigHelper(this, "chat_codes_list.yml");
         configHelperLangCustom = new ConfigHelper(this, "locale/locale_custom.yml");
         configHelperLangGerman = new ConfigHelper(this, "locale/locale_de.yml");
         configHelperLangEnglish = new ConfigHelper(this, "locale/locale_en.yml");
@@ -128,6 +132,24 @@ public final class PixelChat extends JavaPlugin {
      */
     public ConfigHelper getConfigHelperPlayerStrikes() {
         return configHelperPlayerStrikes;
+    }
+
+    /**
+     * Retrieves the Emoji list configuration
+     *
+     * @return The {@code ConfigHelper}
+     */
+    public ConfigHelper getConfigHelperEmojiList() {
+        return configHelperEmojiList;
+    }
+
+    /**
+     * Retrieves the chat codes configuration
+     *
+     * @return The {@code ConfigHelper}
+     */
+    public ConfigHelper getConfigHelperChatCodesList() {
+        return configHelperChatCodesList;
     }
 
     /**

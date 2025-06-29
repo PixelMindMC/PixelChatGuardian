@@ -18,6 +18,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -175,7 +176,7 @@ public class PixelChatCommand implements CommandExecutor {
      * @param playerName The specific player name
      * @return a player uuid of an offline player
      */
-    public UUID getOfflinePlayerUUID(@NotNull String playerName) {
+    public @Nullable UUID getOfflinePlayerUUID(@NotNull String playerName) {
         try {
             String url = "https://api.mojang.com/users/profiles/minecraft/" + playerName;
             HttpURLConnection connection = (HttpURLConnection) new URI(url).toURL().openConnection();

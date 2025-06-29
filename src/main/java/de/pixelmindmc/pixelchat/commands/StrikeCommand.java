@@ -70,6 +70,7 @@ public class StrikeCommand implements CommandExecutor {
             playerUUID = onlinePlayer.getUniqueId();
         } else playerUUID = plugin.getPixelChatCommand().getOfflinePlayerUUID(args[0]);
 
+        assert playerUUID != null;
         ChatGuardHelper.runStrikeSystem(plugin, playerUUID, args[0], args[1]);
 
         // Send a message after successfully struck a player

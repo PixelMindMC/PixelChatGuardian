@@ -1,0 +1,25 @@
+# Custom Emoji list file for PixelChat Guardian.
+# List that replaces ASCII characters with corresponding emojis.
+
+emoji-list:
+  "<3": "❤"
+  ":)": "☺"
+  ":(": "☹"
+  "!!": "‼"
+  ":airplane:": "✈"
+  ":biohazard:": "☣"
+  ":check:": "✔"
+  ":copyright:": "©"
+  ":female_sign:": "♀"
+  ":frowning:": "☹"
+  ":heart:": "❤"
+  ":index_pointing_up:": "☝"
+  ":male_sign:": "♂"
+  ":radioactive:": "☢"
+  ":registered:": "®"
+  ":skull_crossbones:": "☠"
+  ":smile:": "☺"
+  ":trademark:": "™"
+  ":v:": "✌"
+  ":watch:": "⌚"
+  ":writing_hand:": "✍"

@@ -68,7 +68,7 @@ public class UpdateChecker {
      *
      * @return A string denoting whether the plugin has an update available or not
      */
-    public String checkForUpdates() throws IOException {
+    public @NotNull String checkForUpdates() throws IOException {
         String currentVersion = plugin.getDescription().getVersion();
 
         try {

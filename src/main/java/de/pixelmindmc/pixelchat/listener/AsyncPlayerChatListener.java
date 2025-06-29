@@ -59,13 +59,13 @@ public class AsyncPlayerChatListener implements Listener {
         // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.EMOJIS)) {
             this.emojiEnabled = true;
-            this.emojiMap = plugin.getConfigHelper().getStringMap(ConfigConstants.Emoji.LIST);
+            this.emojiMap = plugin.getConfigHelperEmojiList().getStringMap(ConfigConstants.Emoji.LIST);
         }
 
         // Chat codes module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHAT_CODES)) {
             this.chatCodesEnabled = true;
-            this.chatCodesMap = plugin.getConfigHelper().getStringMap(ConfigConstants.ChatCodes.LIST);
+            this.chatCodesMap = plugin.getConfigHelperChatCodesList().getStringMap(ConfigConstants.ChatCodes.LIST);
         }
     }
 
@@ -158,7 +158,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param emojiMap The map of emojis and replacements
      * @return The message with the applied replacements
      */
-    private String replaceMessageEmojis(@NotNull String message, @NotNull Map<String, String> emojiMap) {
+    private @NotNull String replaceMessageEmojis(@NotNull String message, @NotNull Map<String, String> emojiMap) {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 // Debug logger message
@@ -179,7 +179,7 @@ public class AsyncPlayerChatListener implements Listener {
      * @param chatCodesMap The map of chat codes and replacements
      * @return The message with the formatting
      */
-    private String replaceMessageChatCodes(@NotNull String message, @NotNull Map<String, String> chatCodesMap) {
+    private @NotNull String replaceMessageChatCodes(@NotNull String message, @NotNull Map<String, String> chatCodesMap) {
         Map<String, ChatColor> formattedChatCodesMap = Map.ofEntries(
                 // Color codes
                 Map.entry("black", ChatColor.BLACK), Map.entry("dark_blue", ChatColor.DARK_BLUE),
