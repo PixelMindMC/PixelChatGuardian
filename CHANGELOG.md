@@ -1,6 +1,13 @@
 # Changelog for PixelChat Guardian
 
 All notable changes to this project will be documented in this file.
+## [1.2.0] - Unreleased
+### Added
+- Official Spigot 1.21.8 support
+
+### Enhanced
+- Update dependencies
+
 
 ## [1.1.1] - Latest stable release (09.04.2025)
 
