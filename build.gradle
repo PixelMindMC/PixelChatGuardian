@@ -1,90 +1,204 @@
 /*
  * This file is part of PixelChat Guardian.
  * Copyright (C) 2025 PixelMindMC
+ *
+ * Gradle build configuration for PixelChat Guardian.
  */
 
 // Gradle plugins
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '9.1.0'
+    id 'com.gradleup.shadow' version '9.3.0'
 }
 
 // Project metadata
 group = 'de.pixelmindmc'
 version = '1.1.1'
+description = 'AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors.'
+
+// Dependency versions
+ext {
+    spigotVersion = '1.21.11-R0.1-SNAPSHOT'
+    commonsLang3Version = '3.20.0'
+    carbonChatVersion = '3.0.0-beta.36'
+    bstatsVersion = '3.1.0'
+}
 
 // Declare project repositories
 repositories {
-    // Use Maven Central repository
+    // Primary repository - Maven Central
     mavenCentral()
 
-    // Add SpigotMC repository for Spigot API dependencies
+    // SpigotMC repository for Bukkit/Spigot APIs
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+        content {
+            includeGroup 'org.spigotmc'
+        }
     }
-    // Add Sonatype repository for other dependencies
+
+    // Sonatype repository for additional dependencies
     maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
 }
 
-// Declare project dependencies
+// Dependency management
 dependencies {
-    // Use compileOnly for dependencies that are provided at runtime (but not bundled)
-    compileOnly 'org.spigotmc:spigot-api:1.21.8-R0.1-SNAPSHOT'
-    compileOnly 'org.apache.commons:commons-lang3:3.18.0'
-    compileOnly 'de.hexaoxi:carbonchat-api:3.0.0-beta.33'
+    // Provided dependencies (available at runtime)
+    compileOnly "org.spigotmc:spigot-api:${spigotVersion}"
+    compileOnly "org.apache.commons:commons-lang3:${commonsLang3Version}"
+    compileOnly "de.hexaoxi:carbonchat-api:${carbonChatVersion}"
 
-    // Use implementation for dependencies that should be included in the final JAR
-    implementation 'org.bstats:bstats-bukkit:3.1.0'
+    // Bundled dependencies (included in final JAR)
+    implementation "org.bstats:bstats-bukkit:${bstatsVersion}"
 }
 
-// Ensure Java 21 compatibility
+// Java configuration
 java {
+    // Use toolchain for automatic JDK management
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
+    // Generate Javadoc and sources JARs
+    withJavadocJar()
+    withSourcesJar()
+
+    // Ensure consistent source/target compatibility
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+// Task to verify Java installation
+tasks.register('verifyJava') {
+    doLast {
+        def javaVersion = JavaVersion.current()
+        println "Java version: ${javaVersion}"
+        println "Java home: ${System.getProperty('java.home')}"
+
+        if (javaVersion < JavaVersion.VERSION_21) {
+            throw new GradleException("Java 21 or later is required. Current version: ${javaVersion}")
+        }
     }
 }
 
-// Configure Java compilation settings
+// Make compile tasks depend on Java verification
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Set character encoding to UTF-8
+    dependsOn 'verifyJava'
 }
 
-// Configure the shadow JAR task
+// Java compilation settings for optimal performance
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    // Add compiler arguments
+    options.compilerArgs.addAll(['-Xlint:unchecked',
+                                 '-Xlint:deprecation',
+                                 '-parameters',
+                                 '--enable-preview'  // Enable preview features for Java 21
+    ] as List<String>)
+
+    options.incremental = true
+}
+
+// Javadoc configuration
+tasks.withType(Javadoc).configureEach {
+    options {
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+        docEncoding = 'UTF-8'
+        addBooleanOption('Xdoclint:all,-missing', true)
+        addBooleanOption('html5', true)
+        addStringOption('source', '21')
+    }
+}
+
+// Shadow JAR configuration for plugin distribution
 shadowJar {
-    archiveClassifier.set('') // Remove default classifier to ensure correct JAR naming
+    // Remove classifier for cleaner file naming
+    archiveClassifier.set('')
 
-    // Relocate bStats package to avoid conflicts with other plugins using the same library
-    relocate('org.bstats', 'de.pixelmindmc.pixelchat.metrics')
+    // Relocate bStats to prevent conflicts
+    relocate 'org.bstats', 'de.pixelmindmc.pixelchatguardian.metrics'
 
-    // Exclude unnecessary META-INF files to reduce JAR size and avoid security warnings
-    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+    // Optimize dependencies
+    minimize {
+        exclude(dependency('org.bstats:.*'))
+    }
 
-    // Define manifest attributes (metadata inside the JAR)
+    // Exclude unnecessary files to reduce JAR size
+    exclude('META-INF/*.SF',
+            'META-INF/*.DSA',
+            'META-INF/*.RSA',
+            'META-INF/LICENSE',
+            'META-INF/LICENSE.txt',
+            'META-INF/NOTICE',
+            'META-INF/NOTICE.txt',
+            '**/module-info.class',
+            '**/package-info.class')
+
+    // Manifest configuration
     manifest {
-        attributes(
-                'Implementation-Title': project.name, //Plugin name
-                'Implementation-Version': project.version, //Plugin version
-                'Implementation-Vendor': 'PixelMindMC'
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'PixelMindMC',
+                'Created-By': "Gradle ${gradle.gradleVersion}",
+                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'Multi-Release': 'true'  // Support for multi-release JARs
         )
     }
 }
 
-// Configure the processResources task to replace placeholders
+// Process resources with filtering
 tasks.processResources {
     filteringCharset = 'UTF-8'
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
-    // Replace version placeholder in plugin.yml
-    filesMatching('plugin.yml') {
-        expand(version: project.version)
+    // Capture properties at configuration time to avoid Task.project access
+    def propertiesToExpand = [version    : project.version,
+                              name       : project.name,
+                              description: project.description]
+
+    filesMatching(['**/*.yml', '**/*.yaml', '**/*.json']) {
+        expand(propertiesToExpand)
     }
 }
 
-// Make jar task depend on shadowJar and disable regular jar
+// Configure regular JAR task
 jar {
     enabled = false
     dependsOn shadowJar
+    archiveClassifier.set('original')
+}
+
+// Build task dependencies
+tasks.assemble.dependsOn shadowJar
+
+// Reproducible builds configuration
+tasks.withType(AbstractArchiveTask).configureEach {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+// Input normalization for cache hits
+normalization {
+    runtimeClasspath {
+        ignore '**/build-info.properties'
+        ignore '**/git.properties'
+    }
+}
+
+// Task to display build information
+tasks.register('buildInfo') {
+    doLast {
+        println "Project: ${project.name}"
+        println "Version: ${project.version}"
+        println "Group: ${project.group}"
+        println "Java Version: ${JavaVersion.current()}"
+        println "Gradle Version: ${gradle.gradleVersion}"
+    }
 }
