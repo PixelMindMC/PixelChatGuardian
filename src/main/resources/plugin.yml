@@ -4,7 +4,7 @@ version: '${version}'
 api-version: '1.17'
 prefix: PixelChat
 authors: [ Gaming12846, ToothyDev ]
-description: AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors.
+description: AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors
 website: https://modrinth.com/plugin/pixelchatguardian/
 softdepend: [ CarbonChat ]
 
