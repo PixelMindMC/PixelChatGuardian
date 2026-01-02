@@ -3,7 +3,7 @@
 Advanced AI-powered chat moderation for Minecraft servers. Automatically filter inappropriate messages, support emojis &
 chat formatting, and integrate seamlessly with your existing setup.
 
-![](https://img.shields.io/badge/Minecraft-1.17--1.21.5-blue)
+![](https://img.shields.io/badge/Minecraft-1.17--1.21.11-blue)
 ![](https://img.shields.io/badge/Server-Spigot%20and%20Paper-green)
 ![](https://img.shields.io/badge/License-GPLv3-yellow)
 
