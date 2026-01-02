@@ -4,26 +4,28 @@ version: '${version}'
 api-version: '1.17'
 prefix: PixelChat
 authors: [ Gaming12846, ToothyDev ]
-description: Enhance your Minecraft experience with our AI-powered chat moderation plugin, featuring advanced chat and link filtering, plus emoji support.
+description: AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors.
 website: https://modrinth.com/plugin/pixelchatguardian/
 softdepend: [ CarbonChat ]
 
 commands:
   pixelchat:
-    description: The main command for PixelChat Guardian.
+    description: Main command for PixelChat Guardian plugin
     usage: /<command> [version|reload]
     aliases: [ pc, pixelchatguardian, pcg, chatguard, chatguardian ]
+
   strike:
-    description: The command used to strike a player.
+    description: Issue a strike to a player with specified reason
     usage: /<command> <player> <reason>
+
   remove-strikes:
-    description: The command used to remove strikes from a player.
+    description: Remove all strikes from a player
     usage: /<command> <player>
     aliases: [ removestrikes, rmstrikes ]
 
 permissions:
-  pixelchat.*:
-    description: Grants access to all PixelChat commands and features.
+  pixelchat.admin:
+    description: Full administrative access to all PixelChat Guardian features
     default: op
     children:
       pixelchat.version: true
@@ -32,33 +34,32 @@ permissions:
       pixelchat.chat-codes: true
       pixelchat.strike-player: true
       pixelchat.remove-player-strikes: true
-      pixelchat.bypass-chat-moderation: false
 
   pixelchat.version:
-    description: Allows the use of the /pixelchat version subcommand.
+    description: Permission to use /pixelchat version subcommand
     default: true
 
   pixelchat.reload:
-    description: Allows the use of the /pixelchat reload subcommand.
+    description: Permission to use /pixelchat reload subcommand
     default: op
 
   pixelchat.emojis:
-    description: Allows the use of emojis in chat.
+    description: Allows using emojis in chat messages
     default: true
 
   pixelchat.chat-codes:
     description: >
-      Allows the use of color and format chat codes in the form of :codename: in the chat.
+      Allows using color and format codes in the form of :codename: in chat
     default: true
 
   pixelchat.strike-player:
-    description: Allows the use of the /strike subcommand.
+    description: Permission to use the /strike command
     default: op
 
   pixelchat.remove-player-strikes:
-    description: Allows the use of the /remove-strikes subcommand.
+    description: Permission to use the /remove-strikes command
     default: op
 
   pixelchat.bypass-chat-moderation:
-    description: Bypasses the AI chat moderation.
+    description: Bypasses AI chat moderation checks
     default: false

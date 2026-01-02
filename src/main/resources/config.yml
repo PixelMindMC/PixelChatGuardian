@@ -1,166 +1,240 @@
-#############################################################
-#*---------------------------------------------------------*#
-#|                     PixelChat Guardian                  |#
-#*---------------------------------------------------------*#
-#############################################################
-
-# Configuration file for PixelChat Guardian.
-# Generated for version ${version}
+# ============================================================
+# PixelChat Guardian
+# ============================================================
+#
+# Main configuration file for PixelChat Guardian.
+#
+# Generated for version ${version}.
 # Ensure to update this file when updating the plugin!
-
+#
 # For support or inquiries, please contact us via GitHub, Discord or Modrinth.
+#
+# ============================================================
 
 # Configuration version
 version: ${version}
 
-###################### General Settings #####################
+# =================== General Settings =======================
 
-# General settings for the plugin.
+# General plugin configuration
 general:
 
-  # Plugin language options: custom, de, en, es, fr, nl zh-cn or zh-tw. [Default: en]
+  # Supported languages: en, de, es, fr, nl, zh-cn, zh-tw, custom
+  # Default: en
   language: en
 
-  # Enable or disable metrics collection. [Default: true]
+  # Enable plugin metrics and data collection
+  # Default: true
   enable-metrics: true
 
-  # Enable or disable update checking. [Default: true]
+  # Check for plugin updates on startup
+  # Default: true
   check-for-updates: true
 
-  # Plugin log level. Options: DEBUG, INFO, WARNING and ERROR. [Default: INFO]
+  # Logging level: DEBUG, INFO, WARNING, ERROR
+  # Default: INFO
   log-level: INFO
 
+# =================== Plugin Support Settings ================
 
-################## Plugin Support Settings ##################
-
-# Enable or disable support for specific plugins. Set to true to enable support for a plugin.
+# Third-party plugin integration settings
 plugin-support:
 
-  # Enable support for CarbonChat integration. [Default: true]
-  carbonchat: true # Tested with version 3.0.0-beta.32
+  # CarbonChat integration support
+  # Tested with version 3.0.0-beta.36
+  # Default: true
+  carbonchat: true
 
 
-###################### Module Settings ######################
+# =================== Module Settings ========================
 
-# Toggle specific plugin modules on/off.
+# Enable/disable plugin modules
 modules:
 
-  # ChatGuard module. [Default: true]
+  # AI-powered chat moderation
+  # Default: true
   chatguard: true
-  # Emoji replacement module. [Default: true]
+
+  # Emoji replacement and processing
+  # Default: true
   emojis: true
-  # Color and format chat code replacement module. [Default: true]
+
+  # Chat color and format code processing
+  # Default: true
   chat-codes: true
 
 
-#################### AI and API Settings ####################
+# =================== AI and API Settings ====================
 
-# AI and API related settings.
+# AI moderation and API configuration
 api:
 
-  # API endpoint compliant with OpenAI's chat completion format. [Default: https://api.groq.com/openai/v1/chat/completions]
+  # API endpoint (OpenAI-compatible)
+  # Default: "https://api.groq.com/openai/v1/chat/completions"
   endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
-  # AI model for chat moderation. Example: gpt-4o or llama-3.1-8b-instant. [Default: llama-3.3-70b-versatile]
+  # AI model for moderation
+  # Examples for groq: "llama-3.3-70b-versatile", "llama-3.1-8b-instant"
+  # Default: "llama-3.3-70b-versatile"
   ai-model: "llama-3.3-70b-versatile"
 
-  # API key for authentication with the endpoint.
+  # API key for authentication
+  # Replace with your actual API key
   key: "API-KEY"
 
-  # System prompt for automatic chat moderation.
-  # Context: Analyze messages and respond in JSON with fields `block` (boolean) and `reason` (string).
+  # System prompt for AI moderation
+  # WARNING: Modifying this may break the moderation system
+  # Context: Analyze messages and respond in JSON with fields "block" (boolean) and "reason" (string)
   sys-prompt: >
-    "You are an AI moderation assistant for a Minecraft server chat. Analyze each player message and respond only in JSON format with the following fields:
-      "isOffensiveLanguage": boolean   // True if message contains offensive language, slurs, hate speech, severe insults, or real-world crime references.
-      "isUsername": boolean            // True if message contains a username or player identifier.
-      "isPassword": boolean,           // True if message appears to contain a password or login credentials.
-      "isHomeAddress": boolean,        // True if message contains a real-world address or location.
-      "isEmail": boolean               // True if message includes an email address.
-      "isWebsite": boolean             // True if message contains a website link or URL.
-      "isSexualContent": boolean       // True if message contains sexual content or innuendo, including adult or explicit references.
-      "block": boolean                 // True if the message should be blocked.
-      "reason": string                 // Reason for blocking if the message contains one or more of the above fields. Must be one or more of the following combinations, translated into the specified language:
-        - "Offensive language"
-        - "Hate speech or slur"
-        - "Severe insult"
-        - "Reference to real-world crimes"
-        - "Sexual content"
-        - "Sensitive personal information"
-        - "Username or player identifier"
-        - "Password or login credentials"
-        - "Email address"
-        - "Home address or location"
-        - "Not allowed websites"
-        - "Phishing or scam attempt"
-        - "Inappropriate or adult content"
-        - "Threatening or violent language"
-        - "Other forms of harmful language"
-      Blocking Rules:
-        - Block offensive or harmful language (slurs, hate speech, etc.).
-        - Block sensitive personal information (emails, addresses, usernames, passwords).
-        - Block sexual content or explicit messages.
-        - Block unauthorized websites.
-        - Allow in-game-related talk, including playful phrases like “kill all the zombies.”
-      Important:
-        Respond with only the JSON object, no explanations or additional text."
+    "You are an AI moderation assistant for a Minecraft server chat. Analyze each player message and respond ONLY in JSON format with the following structure:
+    {
+      "isOffensiveLanguage": boolean,
+      "isUsername": boolean,
+      "isPassword": boolean,
+      "isHomeAddress": boolean,
+      "isEmail": boolean,
+      "isWebsite": boolean,
+      "isSexualContent": boolean,
+      "block": boolean,
+      "reason": string
+    }
+    
+    Detection Criteria:
+      - isOffensiveLanguage: offensive language, slurs, hate speech, severe insults, or real-world crime references
+      - isUsername: contains username or player identifier
+      - isPassword: appears to contain password or login credentials
+      - isHomeAddress: contains real-world address or location
+      - isEmail: includes email address
+      - isWebsite: contains website link or URL
+      - isSexualContent: sexual content, innuendo, adult or explicit references
+    
+    Blocking Rules:
+      - Block if isOffensiveLanguage, isSexualContent, isPassword, or isHomeAddress is true
+      - Block sensitive personal information (emails, addresses, usernames, passwords)
+      - Block sexual or explicit content
+      - Block unauthorized websites (if configured)
+      - Allow in-game-related content (e.g., "kill all the zombies")
+    
+    Reason Format (translate to user's language):
+      - "Offensive language"
+      - "Hate speech or slur"
+      - "Severe insult"
+      - "Reference to real-world crimes"
+      - "Sexual content"
+      - "Sensitive personal information"
+      - "Username or player identifier"
+      - "Password or login credentials"
+      - "Email address"
+      - "Home address or location"
+      - "Not allowed websites"
+      - "Phishing or scam attempt"
+      - "Inappropriate or adult content"
+      - "Threatening or violent language"
+      - "Other forms of harmful language"
+    
+    IMPORTANT: Respond with ONLY the JSON object, no additional text or explanations."
 
-##################### ChatGuard Settings ####################
+# =================== ChatGuard Settings =====================
 
-# ChatGuard related settings.
+# Chat moderation and filtering system
 chatguard:
 
-  # Enable or disable the custom ChatGuard prefix. [Default: false]
-  enable-custom-prefix: false
-  # Define the custom ChatGuard prefix format when enabled. [Default: §8[§c§lPixel§9Chat§r§8]]
-  custom-prefix: "§8[§c§lPixel§9lChat§r§8]"
+  # Custom prefix display settings
+  custom-prefix:
 
-  # Message handling strategy. Options: CENSOR, BLOCK. [Default: CENSOR]
+    # Enable custom prefix for moderation messages
+    # Default: false
+    enabled: false
+
+    # Custom prefix format (Minecraft color codes supported)
+    # Default: "§8[§c§lPixel§9Chat§r§8]"
+    format: "§8[§c§lPixel§9Chat§r§8]"
+
+  # Message handling configuration
+  # Default: CENSOR
+  # Options: Censor, BLOCK
   message-handling: CENSOR
 
-  # Notify the user if their message is blocked. [Default: true]
+  # Notify user when message is blocked/censored
+  # Default: true
   notify-user: true
 
-  # ChatGuard rules for blocking offensive language and sensitive personal information.
+  # Content filtering rules
   rules:
 
-    # Blocks any form of offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language.
-    blockOffensiveLanguage: true
-    # Prevents users from sharing their usernames to safeguard their online identity.
-    blockUsernames: true
-    # Blocks users from sharing passwords, ensuring sensitive credentials are not exposed accidentally or maliciously.
-    blockPasswords: true
-    # Prevents users from sharing full or partial home addresses, safeguarding their physical location and privacy.
-    blockHomeAddresses: true
-    # Detects and blocks the sharing of email addresses to prevent phishing attempts or unwanted communications.
-    blockEmailAddresses: true
-    # Restricts users from sharing website URLs to avoid spreading malicious links or inappropriate content.
-    blockWebsites: false
-    # Blocks and form of sexual content or innuendo.
-    blockSexualContent: true
+    # Block offensive language, hate speech, slurs, etc.
+    # Default: true
+    block-offensive-language: true
 
-  # Strike-System settings.
+    # Block sharing of usernames/player identifiers
+    # Default: true
+    block-usernames: true
+
+    # Block sharing of passwords or credentials
+    # Default: true
+    block-passwords: true
+
+    # Block sharing of physical addresses
+    # Default: true
+    block-home-addresses: true
+
+    # Block sharing of email addresses
+    # Default: true
+    block-email-addresses: true
+
+    # Block sharing of website URLs
+    # Default: false
+    block-websites: false
+
+    # Block sexual or explicit content
+    # Default: true
+    block-sexual-content: true
+
+  # Player strike management system
   strike-system:
 
-    # Use the built-in strike system for managing player behavior. [Default: true]
-    use-built-in-strike-system: true
+    # Enable built-in strike tracking
+    # Default: true
+    enabled: true
 
-    # Reset player strikes on server restart. [Default: true]
-    clear-strikes-on-server-restart: true
+    # Reset strikes on server restart
+    # Default: true
+    clear-on-restart: true
 
-    # Number of strikes before the player is kicked. [Default: 3]
-    strikes-before-kick: 3
-    # Command to kick a player after reaching the strike limit. [Default: /kick <player> <reason>]
-    kick-command: "kick <player> <reason>"
+    # Strike thresholds and actions
+    thresholds:
 
-    # Number of strikes before issuing a temporary ban. [Default: 5]
-    strikes-before-temp-ban: 5
-    # Command to temporarily ban a player (requires an external plugin). [Default: /kick <player> <reason>]
-    temp-ban-command: "kick <player> <reason>"
+      # Strikes before kick
+      # Default: 3
+      kick: 3
 
-    # Number of strikes before a permanent ban. [Default: 6]
-    strikes-before-ban: 6
-    # Command to permanently ban a player. [Default: /ban <player> <reason>]
-    ban-command: "ban <player> <reason>"
+      # Strikes before temporary ban
+      # Default: 5
+      temp-ban: 5
 
-    # Custom command for issuing a strike to a player (requires an external plugin). [Default: /strike <player> <reason>]
-    custom-strike-command: "strike <player> <reason>"
+      # Strikes before permanent ban
+      # Default: 6
+      ban: 6
+
+    # Command templates for strike actions
+    commands:
+
+      # Kick command template
+      # Placeholders: <player>, <reason>
+      # Default: "kick <player> <reason>"
+      kick: "kick <player> <reason>"
+
+      # Temporary ban command template
+      # Placeholders: <player>, <reason>
+      # Default: "kick <player> <reason>"
+      temp-ban: "kick <player> <reason>"
+
+      # Permanent ban command template
+      # Placeholders: <player>, <reason>
+      # Default: "ban <player> <reason>"
+      ban: "ban <player> <reason>"
+
+      # Custom strike command (requires external plugin)
+      # Placeholders: <player>, <reason>
+      # Example: "strike add <player> <reason>"
+      custom-strike: "strike add <player> <reason>"

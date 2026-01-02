@@ -1,27 +1,39 @@
-# Color and format chat codes list file for PixelChat Guardian.
-# List that replaces ASCII characters with corresponding color or format chat code.
+# ============================================================
+# PixelChat Guardian - Color & Format Chat Codes Mapping
+# ============================================================
+#
+# This file defines color and formatting codes used for chat message processing.
+#
+# Usage in code: Replace keys (e.g. ":black:") with values (e.g. "black").
+#
+# To add a new code, use this format: ":KEY:": "REPLACEMENT".
+# The correct formatting is important!
+#
+# ============================================================
 
-chat-codes-list:
-  "black": ":black:"
-  "dark_blue": ":dark_blue:"
-  "dark_green": ":dark_green:"
-  "dark_aqua": ":dark_aqua:"
-  "dark_red": ":dark_red:"
-  "dark_purple": ":dark_purple:"
-  "gold": ":gold:"
-  "gray": ":gray:"
-  "dark_gray": ":dark_gray:"
-  "blue": ":blue:"
-  "green": ":green:"
-  "aqua": ":aqua:"
-  "red": ":red:"
-  "light_purple": ":light_purple:"
-  "yellow": ":yellow:"
-  "white": ":white:"
+chat-codes:
+  # Color codes
+  ":black:": BLACK
+  ":dark_blue:": DARK_BLUE
+  ":dark_green:": DARK_GREEN
+  ":dark_aqua:": DARK_AQUA
+  ":dark_red:": DARK_RED
+  ":dark_purple:": DARK_PURPLE
+  ":gold:": GOLD
+  ":gray:": GRAY
+  ":dark_gray:": DARK_GRAY
+  ":blue:": BLUE
+  ":green:": GREEN
+  ":aqua:": AQUA
+  ":red:": RED
+  ":light_purple:": LIGHT_PURPLE
+  ":yellow:": YELLOW
+  ":white:": WHITE
 
-  "obfuscated": ":obfuscated:"
-  "bold": ":bold:"
-  "strikethrough": ":strikethrough:"
-  "underline": ":underline:"
-  "italic": ":italic:"
-  "reset": ":reset:"
+  # Formatting codes
+  ":obfuscated:": MAGIC
+  ":bold:": BOLD
+  ":strikethrough:": STRIKETHROUGH
+  ":underline:": UNDERLINE
+  ":italic:": ITALIC
+  ":reset:": RESET

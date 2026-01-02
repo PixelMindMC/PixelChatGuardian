@@ -7,6 +7,7 @@ package de.pixelmindmc.pixelchat.utils;
 
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -179,6 +180,43 @@ public class ConfigHelper {
             String value = section.getString(key);
             // Put the key-value pair in the resultMap
             resultMap.put(key, value);
+        }
+        return resultMap;
+    }
+
+    /**
+     * Retrieve a ChatColor map from the config
+     *
+     * @param path The path of the value
+     * @return The ChatColor map
+     */
+    public @NotNull Map<String, ChatColor> getChatColorMap(@NotNull String path) {
+        Map<String, ChatColor> resultMap = new HashMap<>();
+        ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
+
+        // If the section is not null, iterate over its keys and add them to the map
+        if (section == null) {
+            // Load the default config from the plugin's jar
+            FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), path));
+            section = defaultConfig.getConfigurationSection(path);
+
+            assert section != null;
+            for (String key : section.getKeys(false)) {
+                // Get the chatColor associated with the key
+                ChatColor chatColor = ChatColor.valueOf(section.getString(key));
+                // Put the key-chatColor pair in the resultMap
+                resultMap.put(key, chatColor);
+            }
+
+            // Return the default message
+            return resultMap;
+        }
+
+        for (String key : section.getKeys(false)) {
+            // Get the value associated with the key
+            ChatColor chatColor = ChatColor.valueOf(section.getString(key));
+            // Put the key-chatColor pair in the resultMap
+            resultMap.put(key, chatColor);
         }
         return resultMap;
     }

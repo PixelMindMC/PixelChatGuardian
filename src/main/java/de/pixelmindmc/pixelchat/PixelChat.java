@@ -112,7 +112,7 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
 
         // Reset the strike count of every player if enabled
-        if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_STRIKES_ON_SERVER_RESTART))
+        if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_ON_RESTART))
             resetPlayerStrikesOnServerStart();
     }
 

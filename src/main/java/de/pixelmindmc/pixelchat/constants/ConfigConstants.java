@@ -68,37 +68,55 @@ public final class ConfigConstants {
      * ChatGuard-specific configuration
      */
     public static final class ChatGuard {
-        public static final String ENABLE_CUSTOM_PREFIX = "chatguard.enable-custom-prefix";
-        public static final String CUSTOM_PREFIX = "chatguard.custom-prefix";
-        public static final String MESSAGE_HANDLING = "chatguard.message-handling";
-        public static final String NOTIFY_USER = "chatguard.notify-user";
-
         private ChatGuard() {
         }
 
+        public static final String MESSAGE_HANDLING = "chatguard.message-handling";
+        public static final String NOTIFY_USER = "chatguard.notify-user";
+
+        public static final class CustomPrefix {
+            public static final String ENABLED = "chatguard.custom-prefix.enabled";
+            public static final String FORMAT = "chatguard.custom-prefix.format";
+
+            private CustomPrefix() {
+            }
+        }
+
         public static final class Rules {
-            public static final String BLOCK_OFFENSIVE_LANGUAGE = "chatguard.rules.blockOffensiveLanguage";
-            public static final String BLOCK_USERNAMES = "chatguard.rules.blockUsernames";
-            public static final String BLOCK_PASSWORDS = "chatguard.rules.blockPasswords";
-            public static final String BLOCK_HOME_ADDRESSES = "chatguard.rules.blockHomeAddresses";
-            public static final String BLOCK_EMAIL_ADDRESSES = "chatguard.rules.blockEmailAddresses";
-            public static final String BLOCK_WEBSITES = "chatguard.rules.blockWebsites";
-            public static final String BLOCK_SEXUAL_CONTENT = "chatguard.rules.blockSexualContent";
+            public static final String BLOCK_OFFENSIVE_LANGUAGE = "chatguard.rules.block-offensive-language";
+            public static final String BLOCK_USERNAMES = "chatguard.rules.block-usernames";
+            public static final String BLOCK_PASSWORDS = "chatguard.rules.block-passwords";
+            public static final String BLOCK_HOME_ADDRESSES = "chatguard.rules.block-home-addresses";
+            public static final String BLOCK_EMAIL_ADDRESSES = "chatguard.rules.block-email-addresses";
+            public static final String BLOCK_WEBSITES = "chatguard.rules.block-websites";
+            public static final String BLOCK_SEXUAL_CONTENT = "chatguard.rules.block-sexual-content";
 
             private Rules() {
             }
         }
 
         public static final class StrikeSystem {
-            public static final String USE_BUILT_IN_STRIKE_SYSTEM = "chatguard.strike-system.use-built-in-strike-system";
-            public static final String CLEAR_STRIKES_ON_SERVER_RESTART = "chatguard.strike-system.clear-strikes-on-server-restart";
-            public static final String STRIKES_BEFORE_KICK = "chatguard.strike-system.strikes-before-kick";
-            public static final String KICK_COMMAND = "chatguard.strike-system.kick-command";
-            public static final String STRIKES_BEFORE_TEMP_BAN = "chatguard.strike-system.strikes-before-temp-ban";
-            public static final String TEMP_BAN_COMMAND = "chatguard.strike-system.temp-ban-command";
-            public static final String STRIKES_BEFORE_BAN = "chatguard.strike-system.strikes-before-ban";
-            public static final String BAN_COMMAND = "chatguard.strike-system.ban-command";
-            public static final String CUSTOM_STRIKE_COMMAND = "chatguard.strike-system.custom-strike-command";
+            public static final String ENABLED = "chatguard.strike-system.enabled";
+            public static final String CLEAR_ON_RESTART = "chatguard.strike-system.clear-on-restart";
+
+            public static final class Thresholds {
+                public static final String KICK = "chatguard.strike-system.thresholds.kick";
+                public static final String TEMP_BAN = "chatguard.strike-system.thresholds.temp-ban";
+                public static final String BAN = "chatguard.strike-system.thresholds.ban";
+
+                private Thresholds() {
+                }
+            }
+
+            public static final class Commands {
+                public static final String KICK = "chatguard.strike-system.commands.kick";
+                public static final String TEMP_BAN = "chatguard.strike-system.commands.temp-ban";
+                public static final String BAN = "chatguard.strike-system.commands.ban";
+                public static final String CUSTOM_STRIKE = "chatguard.strike-system.custom-strike-command";
+
+                private Commands() {
+                }
+            }
 
             private StrikeSystem() {
             }
@@ -109,7 +127,7 @@ public final class ConfigConstants {
      * Emoji-related configuration
      */
     public static final class Emoji {
-        public static final String LIST = "emoji-list";
+        public static final String LIST = "emojis";
 
         private Emoji() {
         }
@@ -119,7 +137,7 @@ public final class ConfigConstants {
      * Chat code/formatting configuration
      */
     public static final class ChatCodes {
-        public static final String LIST = "chat-codes-list";
+        public static final String LIST = "chat-codes";
 
         private ChatCodes() {
         }

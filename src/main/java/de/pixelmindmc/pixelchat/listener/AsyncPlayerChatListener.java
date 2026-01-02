@@ -34,7 +34,7 @@ public class AsyncPlayerChatListener implements Listener {
     private boolean chatCodesEnabled = false;
 
     private @NotNull Map<String, String> emojiMap = new HashMap<>();
-    private @NotNull Map<String, String> chatCodesMap = new HashMap<>();
+    private @NotNull Map<String, ChatColor> chatCodesMap = new HashMap<>();
     private @Nullable CarbonChatIntegration carbonChatIntegration = null;
 
     /**
@@ -52,6 +52,7 @@ public class AsyncPlayerChatListener implements Listener {
         // Chatguard module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
             String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API.KEY);
+            plugin.getLoggingHelper().debug("API key is: " + apiKey);
             this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD) && !apiKey.isEmpty() &&
                     !Objects.equals(apiKey, "API-KEY");
         }
@@ -65,7 +66,7 @@ public class AsyncPlayerChatListener implements Listener {
         // Chat codes module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHAT_CODES)) {
             this.chatCodesEnabled = true;
-            this.chatCodesMap = plugin.getConfigHelperChatCodesList().getStringMap(ConfigConstants.ChatCodes.LIST);
+            this.chatCodesMap = plugin.getConfigHelperChatCodesList().getChatColorMap(ConfigConstants.ChatCodes.LIST);
         }
     }
 
@@ -128,7 +129,7 @@ public class AsyncPlayerChatListener implements Listener {
      */
     private boolean checkIfMessageShouldBeBlocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
         // Debug logger message
-        plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked");
+        plugin.getLoggingHelper().debug("Check if the message '" + message + "' from " + player.getName() + " should be blocked");
 
         MessageClassification classification;
         try {
@@ -179,30 +180,14 @@ public class AsyncPlayerChatListener implements Listener {
      * @param chatCodesMap The map of chat codes and replacements
      * @return The message with the formatting
      */
-    private @NotNull String replaceMessageChatCodes(@NotNull String message, @NotNull Map<String, String> chatCodesMap) {
-        Map<String, ChatColor> formattedChatCodesMap = Map.ofEntries(
-                // Color codes
-                Map.entry("black", ChatColor.BLACK), Map.entry("dark_blue", ChatColor.DARK_BLUE),
-                Map.entry("dark_green", ChatColor.DARK_GREEN), Map.entry("dark_aqua", ChatColor.DARK_AQUA),
-                Map.entry("dark_red", ChatColor.DARK_RED), Map.entry("dark_purple", ChatColor.DARK_PURPLE),
-                Map.entry("gold", ChatColor.GOLD), Map.entry("gray", ChatColor.GRAY), Map.entry("dark_gray", ChatColor.DARK_GRAY),
-                Map.entry("blue", ChatColor.BLUE), Map.entry("green", ChatColor.GREEN), Map.entry("aqua", ChatColor.AQUA),
-                Map.entry("red", ChatColor.RED), Map.entry("light_purple", ChatColor.LIGHT_PURPLE), Map.entry("yellow", ChatColor.YELLOW),
-                Map.entry("white", ChatColor.WHITE),
-
-                // Formatting codes
-                Map.entry("obfuscated", ChatColor.MAGIC), Map.entry("bold", ChatColor.BOLD),
-                Map.entry("strikethrough", ChatColor.STRIKETHROUGH), Map.entry("underline", ChatColor.UNDERLINE),
-                Map.entry("italic", ChatColor.ITALIC), Map.entry("reset", ChatColor.RESET));
-
-        // Iterate through each chat code replacement
-        for (Map.Entry<String, String> entry : chatCodesMap.entrySet()) {
-            if (message.contains(entry.getValue())) {
+    private @NotNull String replaceMessageChatCodes(@NotNull String message, @NotNull Map<String, ChatColor> chatCodesMap) {
+        for (Map.Entry<String, ChatColor> entry : chatCodesMap.entrySet()) {
+            if (message.contains(entry.getKey())) {
                 // Debug logger message
-                plugin.getLoggingHelper().debug("Replacing: " + entry.getValue() + " with: " + formattedChatCodesMap.get(entry.getKey()));
+                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Replace each occurrence of the placeholder (key) in the string with its value
-                message = message.replace(entry.getValue().trim(), formattedChatCodesMap.get(entry.getKey()).toString().trim());
+                message = message.replace(entry.getKey(), entry.getValue().toString());
             }
         }
 

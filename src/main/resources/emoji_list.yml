@@ -1,25 +1,218 @@
-# Custom Emoji list file for PixelChat Guardian.
-# List that replaces ASCII characters with corresponding emojis.
+# ============================================================
+# PixelChat Guardian - Emoji Mapping
+# ============================================================
+#
+# This file defines emoji codes used for chat message processing.
+#
+# Usage in code: Replace keys (e.g. "<3") with values (e.g. "❤").
+#
+# To add a new code, use this format: ":KEY:": "REPLACEMENT".
+# The correct formatting is important!
+#
+# ============================================================
 
-emoji-list:
+emojis:
+  # Basic emotions
   "<3": "❤"
   ":)": "☺"
   ":(": "☹"
+  ":D": "😀"
+  ":O": "😮"
+  ":'(": "😢"
+  ":P": "😛"
+  ";)": "😉"
+
+  # Common symbols & signs
   "!!": "‼"
-  ":airplane:": "✈"
-  ":biohazard:": "☣"
+  "??": "⁉"
   ":check:": "✔"
+  ":x:": "❌"
   ":copyright:": "©"
-  ":female_sign:": "♀"
-  ":frowning:": "☹"
-  ":heart:": "❤"
-  ":index_pointing_up:": "☝"
-  ":male_sign:": "♂"
-  ":radioactive:": "☢"
   ":registered:": "®"
-  ":skull_crossbones:": "☠"
-  ":smile:": "☺"
   ":trademark:": "™"
+  ":warning:": "⚠"
+
+  # Basic hands & gestures
   ":v:": "✌"
-  ":watch:": "⌚"
+  ":ok:": "👌"
+  ":thumbsup:": "👍"
+  ":thumbsdown:": "👎"
+  ":pray:": "🙏"
+  ":clap:": "👏"
+  ":wave:": "👋"
+  ":point_up:": "☝"
   ":writing_hand:": "✍"
+
+  # Gender & zodiac symbols
+  ":female_sign:": "♀"
+  ":male_sign:": "♂"
+  ":aries:": "♈"
+  ":taurus:": "♉"
+  ":gemini:": "♊"
+  ":cancer:": "♋"
+  ":leo:": "♌"
+  ":virgo:": "♍"
+  ":libra:": "♎"
+  ":scorpio:": "♏"
+  ":sagittarius:": "♐"
+  ":capricorn:": "♑"
+  ":aquarius:": "♒"
+  ":pisces:": "♓"
+
+  # Transport & time
+  ":airplane:": "✈"
+  ":watch:": "⌚"
+  ":hourglass:": "⌛"
+  ":alarm:": "⏰"
+  ":rocket:": "🚀"
+
+  # Cards & games
+  ":spades:": "♠"
+  ":hearts:": "♥"
+  ":diamonds:": "♦"
+  ":clubs:": "♣"
+  ":chess:": "♟"
+  ":dice:": "🎲"
+
+  # Weather & nature
+  ":sunny:": "☀"
+  ":cloud:": "☁"
+  ":umbrella:": "☂"
+  ":snowman:": "☃"
+  ":rain:": "☔"
+  ":snowflake:": "❄"
+  ":comet:": "☄"
+  ":zap:": "⚡"
+  ":fire:": "🔥"
+
+  # Religion & philosophy
+  ":peace:": "☮"
+  ":yin_yang:": "☯"
+  ":cross:": "✝"
+  ":star_crescent:": "☪"
+  ":star_david:": "✡"
+  ":wheel:": "☸"
+
+  # Tools & objects
+  ":scissors:": "✂"
+  ":pencil:": "✏"
+  ":pen:": "✒"
+  ":envelope:": "✉"
+  ":phone:": "☎"
+  ":anchor:": "⚓"
+  ":gear:": "⚙"
+  ":hammer:": "⚒"
+  ":swords:": "⚔"
+  ":scales:": "⚖"
+
+  # Hazard & warning
+  ":biohazard:": "☣"
+  ":radioactive:": "☢"
+  ":skull:": "☠"
+  ":coffin:": "⚰"
+
+  # Sports
+  ":soccer:": "⚽"
+  ":baseball:": "⚾"
+  ":basketball:": "🏀"
+  ":football:": "🏈"
+
+  # Recycling & symbols
+  ":recycle:": "♻"
+  ":wheelchair:": "♿"
+  ":fleur_de_lis:": "⚜"
+  ":atom:": "⚛"
+  ":medical:": "⚕"
+
+  # Food & drink (basic)
+  ":coffee:": "☕"
+  ":beer:": "🍺"
+  ":wine:": "🍷"
+  ":pizza:": "🍕"
+  ":hamburger:": "🍔"
+  ":icecream:": "🍦"
+  ":cake:": "🍰"
+  ":apple:": "🍎"
+
+  # Music
+  ":music:": "🎵"
+  ":notes:": "🎶"
+  ":headphones:": "🎧"
+  ":microphone:": "🎤"
+  ":guitar:": "🎸"
+
+  # Holiday & celebration
+  ":christmas_tree:": "🎄"
+  ":santa:": "🎅"
+  ":fireworks:": "🎆"
+  ":balloon:": "🎈"
+  ":party:": "🎉"
+  ":confetti:": "🎊"
+  ":gift:": "🎁"
+
+  # Tech & communication
+  ":computer:": "💻"
+  ":iphone:": "📱"
+  ":tv:": "📺"
+  ":camera:": "📷"
+  ":video:": "📹"
+
+  # Money
+  ":moneybag:": "💰"
+  ":dollar:": "💵"
+  ":yen:": "💴"
+  ":euro:": "💶"
+  ":pound:": "💷"
+  ":credit_card:": "💳"
+
+  # Books & writing
+  ":book:": "📖"
+  ":books:": "📚"
+  ":newspaper:": "📰"
+  ":memo:": "📝"
+
+  # Office
+  ":briefcase:": "💼"
+  ":calendar:": "📅"
+  ":clipboard:": "📋"
+  ":paperclip:": "📎"
+
+  # Keys & locks
+  ":key:": "🔑"
+  ":lock:": "🔒"
+  ":unlock:": "🔓"
+
+  # Buildings
+  ":house:": "🏠"
+  ":hospital:": "🏥"
+  ":school:": "🏫"
+  ":church:": "⛪"
+  ":castle:": "🏰"
+
+  # Maps & travel
+  ":earth:": "🌍"
+  ":map:": "🗺"
+  ":compass:": "🧭"
+  ":mountain:": "⛰"
+  ":tent:": "⛺"
+
+  # Flags
+  ":flag_white:": "🏳"
+  ":flag_black:": "🏴"
+  ":checkered_flag:": "🏁"
+
+  # Chess pieces
+  ":chess_king:": "♔"
+  ":chess_queen:": "♕"
+  ":chess_rook:": "♖"
+  ":chess_bishop:": "♗"
+  ":chess_knight:": "♘"
+  ":chess_pawn:": "♙"
+
+  # Mathematical symbols
+  ":infinity:": "∞"
+  ":plus:": "➕"
+  ":minus:": "➖"
+  ":multiply:": "✖"
+  ":divide:": "➗"
+  ":equals:": "🟰"

@@ -78,10 +78,6 @@ tasks.register('verifyJava') {
         def javaVersion = JavaVersion.current()
         println "Java version: ${javaVersion}"
         println "Java home: ${System.getProperty('java.home')}"
-
-        if (javaVersion < JavaVersion.VERSION_21) {
-            throw new GradleException("Java 21 or later is required. Current version: ${javaVersion}")
-        }
     }
 }
 

@@ -43,8 +43,8 @@ public class ChatGuardHelper {
 
         String chatGuardPrefix;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.ENABLE_CUSTOM_PREFIX)) {
-            chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.CUSTOM_PREFIX) + ChatColor.RESET + " ";
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.CustomPrefix.ENABLED)) {
+            chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.CustomPrefix.FORMAT) + ChatColor.RESET + " ";
         } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
@@ -57,9 +57,9 @@ public class ChatGuardHelper {
 
         if (!classification.isOffensiveLanguage()) return;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.USE_BUILT_IN_STRIKE_SYSTEM)) {
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.ENABLED)) {
             runStrikeSystem(plugin, player.getUniqueId(), player.getName(), classification.reason());
-        } else executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.CUSTOM_STRIKE_COMMAND),
+        } else executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.CUSTOM_STRIKE),
                 player.getName(), classification.reason());
     }
 
@@ -73,7 +73,7 @@ public class ChatGuardHelper {
      */
     public static void runStrikeSystem(@NotNull PixelChat plugin, @NotNull UUID playerUUID, @NotNull String playerName, @NotNull String reason) {
         // Debug logger message
-        plugin.getLoggingHelper().debug("Run strike system");
+        plugin.getLoggingHelper().debug("Run strike system on " + playerName);
 
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
         String action = "NOTHING";
@@ -85,24 +85,24 @@ public class ChatGuardHelper {
         strikes++;
 
         // Get the thresholds for kick, temp ban, and permanent ban
-        int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_KICK);
-        int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_TEMP_BAN);
-        int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.STRIKES_BEFORE_BAN);
+        int strikesToKick = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.Thresholds.KICK);
+        int strikesToTempBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.Thresholds.TEMP_BAN);
+        int strikesToBan = plugin.getConfigHelper().getInt(ConfigConstants.ChatGuard.StrikeSystem.Thresholds.BAN);
 
         // Check if the player has reached the threshold for punishment
         if (strikes >= strikesToKick && strikes < strikesToTempBan) {
             // Player has enough strikes to be kicked
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.KICK_COMMAND), playerName,
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.KICK), playerName,
                     plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_KICK) + " " + reason);
             action = "KICK";
         } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
             // Player has enough strikes to be temporarily banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.TEMP_BAN_COMMAND), playerName,
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.TEMP_BAN), playerName,
                     plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_TEMP_BAN) + " " + reason);
             action = "TEMP-BAN";
         } else if (strikes >= strikesToBan) {
             // Player has enough strikes to be permanently banned
-            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.BAN_COMMAND), playerName,
+            executeCommand(plugin, plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.BAN), playerName,
                     plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.PLAYER_PERM_BAN) + " " + reason);
             action = "BAN";
         }
