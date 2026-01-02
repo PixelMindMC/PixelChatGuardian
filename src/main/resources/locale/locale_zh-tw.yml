@@ -1,55 +1,62 @@
-# 繁體中文語言配置文件 for PixelChat Guardian.
+# ============================================================
+# PixelChat Guardian - 繁體中文語言配置
+# ============================================================
+#
+# PixelChat Guardian 繁體中文語言配置文件。
+#
 # 為版本 ${version} 生成。
-# 語言配置由 AI 創建。
+# 更新插件時，請務必更新此文件！
+#
+# 語言配置由 PixelMindMC 提供。
+#
+# ============================================================
 
 # 配置版本
 version: ${version}
 
-########################## Global ###########################
+# =================== 全域 ====================================
 
 global:
-  metrics-enabled: "插件指標已啟用。"
+  metrics-enabled: "插件統計功能已啟用。"
 
-  checking-for-updates: "檢查更新中..."
-  update-available: "有新更新可用！請從 Modrinth 下載："
-  no-update-available: "您正在使用最新版本。沒有可用的更新。"
+  checking-for-updates: "正在檢查更新..."
+  update-available: "有新版本可用！請從 Modrinth 下載："
+  no-update-available: "您正在使用最新版本。暫無可用更新。"
   unable-to-check-for-updates: "無法檢查更新。"
 
-  config-outdated: "您的配置文件已過時！請將其更新到最新版本。插件將嘗試加載它，但可能會出現錯誤。"
-  language-config-outdated: "您的語言配置已過時！請將其更新到最新版本。插件將嘗試加載它，但可能會出現錯誤。"
-  failed-to-save-config: "保存配置文件失敗。"
+  config-outdated: "您的設定檔已過時！請更新至最新版本。插件將嘗試加載，但可能發生錯誤。"
+  language-config-outdated: "您的語言設定檔已過時！請更新至最新版本。插件將嘗試加載，但可能發生錯誤。"
+  failed-to-save-config: "儲存設定檔失敗。"
 
-  first-time-message: "看起來這是您第一次使用此插件。請在配置文件中的 “api-key” 下添加您的 API 密鑰。如需進一步幫助，請參考 Wiki。"
+  first-time-message: "看起來您是第一次使用此插件。請在設定檔的 'api-key' 項下添加您的 API 金鑰。更多幫助請參考 Wiki。"
 
-  no-api-key-set: "未提供 API 密鑰。基於 AI 的聊天守護模組已被禁用。"
+  no-api-key-set: "未提供 API 金鑰。AI 驅動的聊天守衛模組已停用。"
 
-  no-permission: "您沒有權限使用此命令。"
-  invalid-syntax: "命令語法無效！"
+  no-permission: "您沒有權限使用此指令。"
+  invalid-syntax: "無效的指令語法！"
   invalid-syntax-usage: "正確用法：/"
 
-
-##################### PixelChat Command #####################
+# =================== PixelChat 指令 ==========================
 
 pixelchat:
   version: "插件版本："
   developer: "開發者："
   plugin-website: "插件網站："
-  report-bugs: "報告任何錯誤至："
-  reload: "配置文件成功重新加載。"
+  report-bugs: "回報錯誤至："
+  reload: "設定檔重新加載成功。"
 
   chatguard:
-    removed-player-strikes: "成功從玩家中移除處罰。"
-    struck-player: "擊中了玩家"
+    removed-player-strikes: "已成功移除該玩家的違規記錄。"
+    struck-player: "玩家已被記一次違規。"
 
-
-##################### PixelChat Guardian #####################
+# =================== 聊天守衛模組 =============================
 
 chatguard:
-  cleared-strikes-on-server-restart: "玩家的處罰已重置。要在伺服器重啟後保留它們，請在配置文件中調整相關設置。"
+  cleared-strikes-on-server-restart: "玩家違規記錄已重置。若要在伺服器重啟後保留記錄，請在設定檔中調整相應設定。"
 
   player:
-    message-blocked: "您的消息已被阻止。原因："
-    message-censored: "您的消息已被審查。原因："
+    message-blocked: "您的訊息已被封鎖。原因："
+    message-censored: "您的訊息已被過濾。原因："
     kick: "您已被踢出伺服器。原因："
-    ban-temporary: "您已被暫時禁止。原因："
-    ban-permanent: "您已被永久禁止。原因："
+    ban-temporary: "您已被暫時封鎖。原因："
+    ban-permanent: "您已被永久封鎖。原因："

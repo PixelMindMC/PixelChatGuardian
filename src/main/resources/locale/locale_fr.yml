@@ -1,11 +1,20 @@
-# Fichier de configuration de langue français pour PixelChat Guardian.
-# Généré pour la version ${version}
-# Configuration de langue créée avec IA.
+# ============================================================
+# PixelChat Guardian - Configuration de langue française
+# ============================================================
+#
+# Fichier de configuration de langue française pour PixelChat Guardian.
+#
+# Généré pour la version ${version}.
+# Assurez-vous de mettre à jour ce fichier lors de la mise à jour du plugin !
+#
+# Configuration de langue par PixelMindMC.
+#
+# ============================================================
 
 # Version de configuration
 version: ${version}
 
-########################## Global ###########################
+# =================== Global =================================
 
 global:
   metrics-enabled: "Les métriques du plugin sont activées."
@@ -16,40 +25,38 @@ global:
   unable-to-check-for-updates: "Impossible de vérifier les mises à jour."
 
   config-outdated: "Votre fichier de configuration est obsolète ! Veuillez le mettre à jour vers la dernière version. Le plugin tentera de le charger, mais des erreurs peuvent survenir."
-  language-config-outdated: "Votre configuration linguistique est obsolète ! Veuillez la mettre à jour vers la dernière version. Le plugin tentera de la charger, mais des erreurs peuvent survenir."
+  language-config-outdated: "Votre fichier de configuration de langue est obsolète ! Veuillez le mettre à jour vers la dernière version. Le plugin tentera de le charger, mais des erreurs peuvent survenir."
   failed-to-save-config: "Échec de la sauvegarde du fichier de configuration."
 
-  first-time-message: "Il semble que c’est la première fois que vous utilisez ce plugin. Veuillez ajouter votre clé API sous 'api-key' dans le fichier de configuration. Pour plus d'assistance, référez-vous au wiki."
+  first-time-message: "Il semble que c'est votre première utilisation du plugin. Veuillez ajouter votre clé API sous 'api-key' dans le fichier de configuration. Pour plus d'aide, consultez le wiki."
 
-  no-api-key-set: "Aucune clé API fournie. Le module de gardien de chat basé sur l'IA a été désactivé."
+  no-api-key-set: "Aucune clé API fournie. Le module Chat Guardian alimenté par l'IA a été désactivé."
 
   no-permission: "Vous n'avez pas la permission d'utiliser cette commande."
   invalid-syntax: "Syntaxe de commande invalide !"
   invalid-syntax-usage: "Utilisation correcte : /"
 
-
-##################### PixelChat Command #####################
+# =================== Commande PixelChat =====================
 
 pixelchat:
-  version: "Version du plugin :"
+  version: "Version du Plugin :"
   developer: "Développeur :"
-  plugin-website: "Site web du plugin :"
-  report-bugs: "Signalez tout bug à :"
+  plugin-website: "Site Web du Plugin :"
+  report-bugs: "Signaler des bugs à :"
   reload: "Fichiers de configuration rechargés avec succès."
 
   chatguard:
-    removed-player-strikes: "Sanctions retirées avec succès du joueur."
-    struck-player: "A frappé le joueur"
+    removed-player-strikes: "Sanctions du joueur supprimées avec succès."
+    struck-player: "Le joueur a reçu une sanction."
 
-
-##################### ChatGuard Module ######################
+# =================== Module ChatGuard =======================
 
 chatguard:
-  cleared-strikes-on-server-restart: "Les sanctions des joueurs ont été réinitialisées. Pour les conserver après les redémarrages du serveur, ajustez le paramètre pertinent dans le fichier de configuration."
+  cleared-strikes-on-server-restart: "Les sanctions des joueurs ont été réinitialisées. Pour les conserver après les redémarrages du serveur, ajustez le paramètre correspondant dans le fichier de configuration."
 
   player:
     message-blocked: "Votre message a été bloqué. Raison :"
     message-censored: "Votre message a été censuré. Raison :"
     kick: "Vous avez été expulsé du serveur. Raison :"
-    ban-temporary: "Vous avez été temporairement banni du serveur. Raison :"
+    ban-temporary: "Vous avez été banni temporairement du serveur. Raison :"
     ban-permanent: "Vous avez été banni définitivement du serveur. Raison :"

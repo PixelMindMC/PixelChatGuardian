@@ -1,13 +1,20 @@
+# ============================================================
+# PixelChat Guardian - Custom Language Configuration
+# ============================================================
+#
 # Custom language configuration file for PixelChat Guardian.
+#
+# Generated for version ${version}.
+# Ensure you update this file when updating the plugin!
+#
 # Use this file to translate the plugin to your preferred language.
-# If you'd like to contribute your translations, please send me your language config file for inclusion in the plugin.
-# Generated for version ${version}
-# Language config by:
+#
+# ============================================================
 
 # Configuration version
 version: ${version}
 
-########################## Global ###########################
+# =================== Global =================================
 
 global:
   metrics-enabled: ""
@@ -30,7 +37,7 @@ global:
   invalid-syntax-usage: ""
 
 
-##################### PixelChat Command #####################
+# =================== PixelChat Command ======================
 
 pixelchat:
   version: ""
@@ -44,7 +51,7 @@ pixelchat:
     removed-player-strikes: ""
 
 
-##################### ChatGuard Module ######################
+# =================== ChatGuard Module =======================
 
 chatguard:
   cleared-strikes-on-server-restart: ""

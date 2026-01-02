@@ -45,7 +45,6 @@ plugin-support:
   # Default: true
   carbonchat: true
 
-
 # =================== Module Settings ========================
 
 # Enable/disable plugin modules
@@ -62,7 +61,6 @@ modules:
   # Chat color and format code processing
   # Default: true
   chat-codes: true
-
 
 # =================== AI and API Settings ====================
 

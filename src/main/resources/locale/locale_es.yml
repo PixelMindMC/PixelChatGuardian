@@ -1,55 +1,62 @@
-# Archivo de configuración de idioma en español para PixelChat Guardian.
-# Generado para la versión ${version}
-# Configuración de idioma creada con IA.
+# ============================================================
+# PixelChat Guardian - Configuración de idioma español
+# ============================================================
+#
+# Archivo de configuración de idioma español para PixelChat Guardian.
+#
+# Generado para la versión ${version}.
+# ¡Asegúrate de actualizar este archivo al actualizar el plugin!
+#
+# Configuración de idioma por PixelMindMC.
+#
+# ============================================================
 
 # Versión de configuración
 version: ${version}
 
-########################## Global ###########################
+# =================== Global =================================
 
 global:
   metrics-enabled: "Las métricas del plugin están habilitadas."
 
   checking-for-updates: "Buscando actualizaciones..."
   update-available: "¡Hay una nueva actualización disponible! Descárgala desde Modrinth:"
-  no-update-available: "Estás utilizando la última versión. No hay actualizaciones disponibles."
-  unable-to-check-for-updates: "No se puede verificar si hay actualizaciones."
+  no-update-available: "Estás usando la última versión. No hay actualizaciones disponibles."
+  unable-to-check-for-updates: "No se pudo buscar actualizaciones."
 
-  config-outdated: "¡Tu archivo de configuración está desactualizado! Por favor, actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
-  language-config-outdated: "¡Tu configuración de idioma está desactualizada! Por favor, actualízala a la última versión. El plugin intentará cargarla, pero pueden ocurrir errores."
+  config-outdated: "¡Tu archivo de configuración está desactualizado! Actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
+  language-config-outdated: "¡Tu archivo de configuración de idioma está desactualizado! Actualízalo a la última versión. El plugin intentará cargarlo, pero pueden ocurrir errores."
   failed-to-save-config: "Error al guardar el archivo de configuración."
 
-  first-time-message: "Parece que es la primera vez que usa este complemento. Por favor, agregue su clave API bajo 'api-key' en el archivo de configuración. Para obtener más ayuda, consulte la wiki."
+  first-time-message: "Parece que es la primera vez que usas este plugin. Por favor, añade tu clave API en 'api-key' en el archivo de configuración. Para más ayuda, consulta la wiki."
 
-  no-api-key-set: "No se proporcionó ninguna clave API. El módulo de guardian de chat basado en IA ha sido desactivado."
+  no-api-key-set: "No se proporcionó una clave API. El módulo Chat Guardian con IA ha sido desactivado."
 
   no-permission: "No tienes permiso para usar este comando."
   invalid-syntax: "¡Sintaxis de comando inválida!"
   invalid-syntax-usage: "Uso correcto: /"
 
-
-##################### PixelChat Command #####################
+# =================== Comando PixelChat ======================
 
 pixelchat:
-  version: "Versión del plugin:"
+  version: "Versión del Plugin:"
   developer: "Desarrollador:"
-  plugin-website: "Sitio web del plugin:"
-  report-bugs: "Reporta cualquier error a:"
-  reload: "Archivos de configuración recargados con éxito."
+  plugin-website: "Sitio Web del Plugin:"
+  report-bugs: "Reportar errores a:"
+  reload: "Archivos de configuración recargados exitosamente."
 
   chatguard:
-    removed-player-strikes: "Se han eliminado con éxito las sanciones del jugador."
-    struck-player: "Golpeó al jugador"
+    removed-player-strikes: "Sanciones del jugador eliminadas exitosamente."
+    struck-player: "El jugador ha recibido una sanción."
 
-
-##################### ChatGuard Module ######################
+# =================== Módulo ChatGuard =======================
 
 chatguard:
-  cleared-strikes-on-server-restart: "Las sanciones de los jugadores han sido reiniciadas. Para preservarlas después de los reinicios del servidor, ajusta la configuración relevante en el archivo de configuración."
+  cleared-strikes-on-server-restart: "Las sanciones de los jugadores han sido reiniciadas. Para conservarlas después de reiniciar el servidor, ajusta la configuración correspondiente en el archivo de configuración."
 
   player:
-    message-blocked: "Tu mensaje ha sido bloqueado. Razón:"
-    message-censored: "Tu mensaje ha sido censurado. Razón:"
+    message-blocked: "Tu mensaje fue bloqueado. Razón:"
+    message-censored: "Tu mensaje fue censurado. Razón:"
     kick: "Has sido expulsado del servidor. Razón:"
-    ban-temporary: "Has sido prohibido temporalmente del servidor. Razón:"
-    ban-permanent: "Has sido prohibido permanentemente del servidor. Razón:"
+    ban-temporary: "Has sido baneado temporalmente del servidor. Razón:"
+    ban-permanent: "Has sido baneado permanentemente del servidor. Razón:"

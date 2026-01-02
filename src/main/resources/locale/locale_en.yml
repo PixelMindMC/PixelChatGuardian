@@ -1,18 +1,27 @@
+# ============================================================
+# PixelChat Guardian - English Language Configuration
+# ============================================================
+#
 # English language configuration file for PixelChat Guardian.
-# Generated for version ${version}
-# Language configuration by PixelMindMC
+#
+# Generated for version ${version}.
+# Ensure you update this file when updating the plugin!
+#
+# Language configuration by PixelMindMC.
+#
+# ============================================================
 
-# Configuration Version
-version: 1.1.1
+# Configuration version
+version: ${version}
 
-########################## Global ###########################
+# =================== Global =================================
 
 global:
   metrics-enabled: "Plugin metrics are enabled."
 
   checking-for-updates: "Checking for updates..."
   update-available: "A new update is available! Download it from Modrinth:"
-  no-update-available: "You are using the latest version. No updates available."
+  no-update-available: "You are using the latest version. No updates are available."
   unable-to-check-for-updates: "Unable to check for updates."
 
   config-outdated: "Your configuration file is outdated! Please update it to the latest version. The plugin will attempt to load it, but errors may occur."
@@ -27,8 +36,7 @@ global:
   invalid-syntax: "Invalid command syntax!"
   invalid-syntax-usage: "Correct usage: /"
 
-
-##################### PixelChat Command #####################
+# =================== PixelChat Command ======================
 
 pixelchat:
   version: "Plugin Version:"
@@ -39,13 +47,12 @@ pixelchat:
 
   chatguard:
     removed-player-strikes: "Successfully removed strikes from the player."
-    struck-player: "Player received a strike."
+    struck-player: "Player has received a strike."
 
-
-##################### ChatGuard Module ######################
+# =================== ChatGuard Module =======================
 
 chatguard:
-  cleared-strikes-on-server-restart: "Player strikes have been reset. To retain them after server restarts, adjust the appropriate setting in the configuration file."
+  cleared-strikes-on-server-restart: "Player strikes have been reset. To retain them after server restarts, adjust the corresponding setting in the configuration file."
 
   player:
     message-blocked: "Your message was blocked. Reason:"

@@ -1,55 +1,62 @@
-# Nederlandse taalspecificatie voor PixelChat Guardian.
-# Genereerd voor versie ${version}
-# Taalconfiguratie gemaakt met AI.
+# ============================================================
+# PixelChat Guardian - Nederlandse taalconfiguratie
+# ============================================================
+#
+# Nederlands taalconfiguratiebestand voor PixelChat Guardian.
+#
+# Gegenereerd voor versie ${version}.
+# Zorg ervoor dat u dit bestand bijwerkt bij het updaten van de plugin!
+#
+# Taalconfiguratie door PixelMindMC.
+#
+# ============================================================
 
 # Configuratieversie
 version: ${version}
 
-########################## Global ###########################
+# =================== Globaal ================================
 
 global:
-  metrics-enabled: "Plugin-metrics zijn ingeschakeld."
+  metrics-enabled: "Plugin-statistieken zijn ingeschakeld."
 
   checking-for-updates: "Controleren op updates..."
-  update-available: "Er is een nieuwe update beschikbaar! Download het van Modrinth:"
-  no-update-available: "U gebruikt de nieuwste versie. Geen updates beschikbaar."
-  unable-to-check-for-updates: "Kon niet op updates controleren."
+  update-available: "Een nieuwe update is beschikbaar! Download deze van Modrinth:"
+  no-update-available: "Je gebruikt de nieuwste versie. Geen updates beschikbaar."
+  unable-to-check-for-updates: "Kan niet controleren op updates."
 
-  config-outdated: "Uw configuratiebestand is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
-  language-config-outdated: "Uw taalconfiguratie is verouderd! Werk het alstublieft bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
-  failed-to-save-config: "Kon het configuratiebestand niet opslaan."
+  config-outdated: "Je configuratiebestand is verouderd! Werk het bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
+  language-config-outdated: "Je taalconfiguratiebestand is verouderd! Werk het bij naar de nieuwste versie. De plugin zal proberen het te laden, maar er kunnen fouten optreden."
+  failed-to-save-config: "Opslaan van configuratiebestand mislukt."
 
-  first-time-message: "Het lijkt erop dat dit de eerste keer is dat u deze plug-in gebruikt. Voeg uw API-sleutel toe onder 'api-key' in het configuratiebestand. Raadpleeg de wiki voor verdere assistentie."
+  first-time-message: "Het lijkt erop dat je deze plugin voor het eerst gebruikt. Voeg je API-sleutel toe onder 'api-key' in het configuratiebestand. Raadpleeg de wiki voor meer hulp."
 
-  no-api-key-set: "Geen API-sleutel opgegeven. De AI-gebaseerde chatguardian-module is gedeactiveerd."
+  no-api-key-set: "Geen API-sleutel opgegeven. De AI-aangedreven Chat Guardian-module is uitgeschakeld."
 
-  no-permission: "U heeft geen toestemming om deze opdracht te gebruiken."
-  invalid-syntax: "Ongeldige opdracht-syntax!"
-  invalid-syntax-usage: "Juiste gebruik: /"
+  no-permission: "Je hebt geen toestemming om dit commando te gebruiken."
+  invalid-syntax: "Ongeldige commando-syntax!"
+  invalid-syntax-usage: "Correct gebruik: /"
 
-
-##################### PixelChat Command #####################
+# =================== PixelChat Commando =====================
 
 pixelchat:
-  version: "Pluginversie:"
+  version: "Plugin Versie:"
   developer: "Ontwikkelaar:"
-  plugin-website: "Pluginwebsite:"
-  report-bugs: "Rapporteer eventuele bugs aan:"
+  plugin-website: "Plugin Website:"
+  report-bugs: "Rapporteer bugs aan:"
   reload: "Configuratiebestanden succesvol herladen."
 
   chatguard:
-    removed-player-strikes: "Succesvol straffen van de speler verwijderd."
-    struck-player: "Raakte de speler"
+    removed-player-strikes: "Waarschuwingen van speler succesvol verwijderd."
+    struck-player: "Speler heeft een waarschuwing ontvangen."
 
-
-##################### ChatGuard Module ######################
+# =================== ChatGuard Module =======================
 
 chatguard:
-  cleared-strikes-on-server-restart: "De straffen van spelers zijn gereset. Om ze te behouden na serverherstarts, pas de relevante instelling in het configuratiebestand aan."
+  cleared-strikes-on-server-restart: "Spelerwaarschuwingen zijn gereset. Om ze te behouden na serverherstart, pas de bijbehorende instelling aan in het configuratiebestand."
 
   player:
-    message-blocked: "Uw bericht is geblokkeerd. Reden:"
-    message-censored: "Uw bericht is gecensureerd. Reden:"
-    kick: "U bent van de server gekickt. Reden:"
-    ban-temporary: "U bent tijdelijk van de server verbannen. Reden:"
-    ban-permanent: "U bent permanent van de server verbannen. Reden:"
+    message-blocked: "Je bericht is geblokkeerd. Reden:"
+    message-censored: "Je bericht is gecensureerd. Reden:"
+    kick: "Je bent van de server gekickt. Reden:"
+    ban-temporary: "Je bent tijdelijk van de server verbannen. Reden:"
+    ban-permanent: "Je bent permanent van de server verbannen. Reden:"

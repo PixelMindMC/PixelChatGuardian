@@ -1,55 +1,62 @@
+# ============================================================
+# PixelChat Guardian - Deutsche Sprachkonfiguration
+# ============================================================
+#
 # Deutsche Sprachkonfigurationsdatei für PixelChat Guardian.
-# Generiert für Version ${version}
-# Sprachkonfiguration erstellt mit KI.
+#
+# Generiert für Version ${version}.
+# Bitte aktualisieren Sie diese Datei beim Aktualisieren des Plugins!
+#
+# Sprachkonfiguration von PixelMindMC.
+#
+# ============================================================
 
 # Konfigurationsversion
 version: ${version}
 
-######################### Allgemein #########################
+# =================== Global =================================
 
 global:
   metrics-enabled: "Plugin-Metriken sind aktiviert."
 
   checking-for-updates: "Suche nach Updates..."
   update-available: "Ein neues Update ist verfügbar! Lade es von Modrinth herunter:"
-  no-update-available: "Sie verwenden die neueste Version. Es sind keine Updates verfügbar."
-  unable-to-check-for-updates: "Updateüberprüfung fehlgeschlagen."
+  no-update-available: "Du verwendest die neueste Version. Keine Updates verfügbar."
+  unable-to-check-for-updates: "Update-Prüfung fehlgeschlagen."
 
-  config-outdated: "Ihre Konfigurationsdatei ist veraltet! Bitte aktualisieren Sie sie auf die neueste Version. Das Plugin wird versuchen, sie zu laden, jedoch können Fehler auftreten."
-  language-config-outdated: "Ihre Sprachkonfigurationsdatei ist veraltet! Bitte aktualisieren Sie sie auf die neueste Version. Das Plugin wird versuchen, sie zu laden, jedoch können Fehler auftreten."
-  failed-to-save-config: "Fehler beim Speichern der Konfigurationsdatei."
+  config-outdated: "Deine Konfigurationsdatei ist veraltet! Bitte aktualisiere sie auf die neueste Version. Das Plugin wird versuchen sie zu laden, aber Fehler können auftreten."
+  language-config-outdated: "Deine Sprachkonfigurationsdatei ist veraltet! Bitte aktualisiere sie auf die neueste Version. Das Plugin wird versuchen sie zu laden, aber Fehler können auftreten."
+  failed-to-save-config: "Speichern der Konfigurationsdatei fehlgeschlagen."
 
-  first-time-message: "Es scheint, als würden Sie dieses Plugin zum ersten Mal verwenden. Bitte tragen Sie Ihren API-Schlüssel unter ‚api-key‘ in der Konfigurationsdatei ein. Weitere Unterstützung finden Sie im Wiki."
+  first-time-message: "Dies scheint deine erste Verwendung des Plugins zu sein. Bitte füge deinen API-Schlüssel unter 'api-key' in der Konfigurationsdatei hinzu. Weitere Hilfe findest du im Wiki."
 
-  no-api-key-set: "Kein API-Schlüssel angegeben. Das KI-gestützte Chat-Guardian-Modul wurde deaktiviert."
+  no-api-key-set: "Kein API-Schlüssel angegeben. Das KI-gestützte Chat Guardian-Modul wurde deaktiviert."
 
-  no-permission: "Sie haben keine Berechtigung, diesen Befehl zu verwenden."
+  no-permission: "Du hast keine Berechtigung, diesen Befehl zu verwenden."
   invalid-syntax: "Ungültige Befehlssyntax!"
   invalid-syntax-usage: "Korrekte Verwendung: /"
 
-
-###################### PixelChat Befehl #####################
+# =================== PixelChat Befehl =======================
 
 pixelchat:
   version: "Plugin-Version:"
   developer: "Entwickler:"
-  plugin-website: "Plugin-Website:"
+  plugin-website: "Plugin-Webseite:"
   report-bugs: "Fehler melden unter:"
   reload: "Konfigurationsdateien erfolgreich neu geladen."
 
   chatguard:
-    struck-player: "Spieler wurde gestriked."
-    removed-player-strikes: "Spielerstrikes erfolgreich entfernt."
+    removed-player-strikes: "Strafen des Spielers erfolgreich entfernt."
+    struck-player: "Spieler hat eine Strafe erhalten."
 
-
-##################### ChatGuard Module ######################
+# =================== ChatGuard Modul ========================
 
 chatguard:
-  cleared-strikes-on-server-restart: "Die Strikes der Spieler wurden zurückgesetzt. Um sie nach einem Serverneustart zu speichern, passen Sie die entsprechende Einstellung in der Konfigurationsdatei an."
+  cleared-strikes-on-server-restart: "Spielerstrafen wurden zurückgesetzt. Um sie nach Server-Neustarts beizubehalten, passe die entsprechende Einstellung in der Konfigurationsdatei an."
 
   player:
-    message-blocked: "Ihre Nachricht wurde blockiert. Grund:"
-    message-censored: "Ihre Nachricht wurde zensiert. Grund:"
-    kick: "Sie wurden vom Server entfernt. Grund:"
-    ban-temporary: "Sie wurden vorübergehend vom Server verbannt. Grund:"
-    ban-permanent: "Sie wurden dauerhaft vom Server verbannt. Grund:"
+    message-blocked: "Deine Nachricht wurde blockiert. Grund:"
+    message-censored: "Deine Nachricht wurde zensiert. Grund:"
+    kick: "Du wurdest vom Server gekickt. Grund:"
+    ban-temporary: "Du wurdest vorübergehend vom Server gebannt. Grund:"
+    ban-permanent: "Du wurdest dauerhaft vom Server gebannt. Grund:"
