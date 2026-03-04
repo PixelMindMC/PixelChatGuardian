@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [1.2.0] - Unreleased
+## [1.2.0] - _Latest stable release_ 04.03.2026
 
 ### ✨ Added
 
@@ -26,7 +26,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [1.1.1] - _Latest stable release_ 09.04.2025
+## [1.1.1] - 09.04.2025
 
 ### ✨ Added
 

@@ -8,20 +8,20 @@
 // Gradle plugins
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '9.3.0'
+    id 'com.gradleup.shadow' version '9.3.2'
 }
 
 // Project metadata
 group = 'de.pixelmindmc'
-version = '1.1.1'
-description = 'AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors.'
+version = '1.2.0'
+description = 'AI-powered chat moderation featuring smart filtering, anti-spam and rich chat formatting including emojis and colors'
 
 // Dependency versions
 ext {
     spigotVersion = '1.21.11-R0.1-SNAPSHOT'
     commonsLang3Version = '3.20.0'
     carbonChatVersion = '3.0.0-beta.36'
-    bstatsVersion = '3.1.0'
+    bstatsVersion = '3.2.1'
 }
 
 // Declare project repositories
@@ -117,12 +117,13 @@ shadowJar {
     // Remove classifier for cleaner file naming
     archiveClassifier.set('')
 
-    // Relocate bStats to prevent conflicts
-    relocate 'org.bstats', 'de.pixelmindmc.pixelchatguardian.metrics'
+    // Relocate bStats into the plugin's package to avoid conflicts
+    relocate('org.bstats', 'de.pixelmindmc.pixelchat.metrics')
 
     // Optimize dependencies
-    minimize {
-        exclude(dependency('org.bstats:.*'))
+    dependencies {
+        // Only merge bStats into the final jar, no other dependencies
+        exclude { it.moduleGroup != 'org.bstats' }
     }
 
     // Exclude unnecessary files to reduce JAR size

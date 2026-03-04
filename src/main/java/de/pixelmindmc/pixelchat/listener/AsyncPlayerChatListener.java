@@ -22,7 +22,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Listener for handling player chat events asynchronously
@@ -45,17 +44,15 @@ public class AsyncPlayerChatListener implements Listener {
     public AsyncPlayerChatListener(@NotNull PixelChat plugin) {
         this.plugin = plugin;
 
-        // Initialize CarbonChat integration if available
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) && setupCarbonChatIntegration())
-            carbonChatIntegration.registerCarbonChatListener();
-
         // Chatguard module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
-            String apiKey = plugin.getConfigHelper().getString(ConfigConstants.API.KEY);
-            plugin.getLoggingHelper().debug("API key is: " + apiKey);
-            this.chatGuardEnabled = plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD) && !apiKey.isEmpty() &&
-                    !Objects.equals(apiKey, "API-KEY");
+        if (plugin.getAPIHelper() != null) {
+            this.chatGuardEnabled = true;
         }
+
+        // Initialize CarbonChat integration if available
+        if (chatGuardEnabled && plugin.getConfigHelper().getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) &&
+                setupCarbonChatIntegration())
+            carbonChatIntegration.registerCarbonChatListener();
 
         // Emoji module
         if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.EMOJIS)) {
@@ -134,8 +131,8 @@ public class AsyncPlayerChatListener implements Listener {
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
-        } catch (MessageClassificationException exception) {
-            plugin.getLoggingHelper().error(exception.toString());
+        } catch (MessageClassificationException e) {
+            plugin.getLoggingHelper().error(e.getMessage());
             return false; //Don't block message if there was an error while classifying it
         }
 

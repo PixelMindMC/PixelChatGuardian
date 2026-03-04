@@ -220,13 +220,17 @@ public final class PixelChat extends JavaPlugin {
 
         // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
+        getLoggingHelper().debug("API key is: " + apiKey);
 
+        // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) return;
+
         // Check if the config file exists and API key is either unset or still at its default value
         if (apiKey.isEmpty() || getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY")) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.NO_API_KEY_SET));
             return;
         }
+
         apiHelper = new APIHelper(this);
     }
 
@@ -235,7 +239,7 @@ public final class PixelChat extends JavaPlugin {
      *
      * @return The plugin's APIHelper
      */
-    public @NotNull APIHelper getAPIHelper() {
+    public APIHelper getAPIHelper() {
         return apiHelper;
     }
 
