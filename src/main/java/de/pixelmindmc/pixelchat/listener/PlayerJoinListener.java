@@ -1,6 +1,6 @@
 /*
- * This file is part of PixelChatGuardian.
- * Copyright (C) 2025 PixelMindMC
+ * This file is part of PixelChat Guardian.
+ * Copyright (C) 2026 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.listener;

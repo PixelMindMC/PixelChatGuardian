@@ -1,6 +1,6 @@
 /*
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2025 PixelMindMC
+ * Copyright (C) 2026 PixelMindMC
  */
 
 package de.pixelmindmc.pixelchat.constants;
@@ -68,11 +68,11 @@ public final class ConfigConstants {
      * ChatGuard-specific configuration
      */
     public static final class ChatGuard {
-        private ChatGuard() {
-        }
-
         public static final String MESSAGE_HANDLING = "chatguard.message-handling";
         public static final String NOTIFY_USER = "chatguard.notify-user";
+
+        private ChatGuard() {
+        }
 
         public static final class CustomPrefix {
             public static final String ENABLED = "chatguard.custom-prefix.enabled";
@@ -99,6 +99,9 @@ public final class ConfigConstants {
             public static final String ENABLED = "chatguard.strike-system.enabled";
             public static final String CLEAR_ON_RESTART = "chatguard.strike-system.clear-on-restart";
 
+            private StrikeSystem() {
+            }
+
             public static final class Thresholds {
                 public static final String KICK = "chatguard.strike-system.thresholds.kick";
                 public static final String TEMP_BAN = "chatguard.strike-system.thresholds.temp-ban";
@@ -116,9 +119,6 @@ public final class ConfigConstants {
 
                 private Commands() {
                 }
-            }
-
-            private StrikeSystem() {
             }
         }
     }
