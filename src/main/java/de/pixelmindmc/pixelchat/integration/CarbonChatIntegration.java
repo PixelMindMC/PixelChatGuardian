@@ -83,12 +83,24 @@ public class CarbonChatIntegration {
 
         // Check if classification matches any enabled blocking rules
         if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
-            if (blockOrCensor) event.cancelled(true);
-            else event.message(Component.text("*".repeat(message.length())));
+            String messageHandling = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING);
+
+            switch (messageHandling) {
+                case "BLOCK" -> event.cancelled(true);
+                case "SILENT" -> {
+                    // Cancel the event so no other players see the message
+                    event.cancelled(true);
+                    // Send the original message back to the author, creating the illusion of successful delivery
+                    Player senderPlayer = Bukkit.getPlayer(event.sender().uuid());
+                    if (senderPlayer != null)
+                        senderPlayer.sendMessage("<" + senderPlayer.getDisplayName() + "> " + message);
+                }
+                default -> // CENSOR
+                    event.message(Component.text("*".repeat(message.length())));
+            }
 
             Player player = Bukkit.getPlayer(event.sender().uuid());
-            if (player != null) ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
+            if (player != null) ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, messageHandling);
         }
     }
 }
