@@ -32,12 +32,12 @@ public class ChatGuardHelper {
     /**
      * Notifies the player of their message being blocked, logs the block itself, and also applies the strike system
      *
-     * @param player         The player that sent the message
-     * @param userMessage    The message that the user sent
-     * @param classification The classification of the message
-     * @param blockOrCensor  Whether the message should be blocked ({@code true}) or censored ({@code false})
+     * @param player          The player that sent the message
+     * @param userMessage     The message that the user sent
+     * @param classification  The classification of the message
+     * @param messageHandling The message handling mode: "BLOCK", "CENSOR", or "SILENT"
      */
-    public static void notifyAndStrikePlayer(@NotNull PixelChat plugin, @NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, boolean blockOrCensor) {
+    public static void notifyAndStrikePlayer(@NotNull PixelChat plugin, @NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, @NotNull String messageHandling) {
         // Debug logger message
         plugin.getLoggingHelper().debug("Notify player");
 
@@ -47,13 +47,17 @@ public class ChatGuardHelper {
             chatGuardPrefix = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.CustomPrefix.FORMAT) + ChatColor.RESET + " ";
         } else chatGuardPrefix = LangConstants.PLUGIN_PREFIX;
 
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.NOTIFY_USER)) player.sendMessage(chatGuardPrefix +
-                plugin.getConfigHelperLanguage()
-                        .getString(blockOrCensor ? LangConstants.ChatGuard.MESSAGE_BLOCKED : LangConstants.ChatGuard.MESSAGE_CENSORED) +
-                " " + ChatColor.RED + classification.reason());
+        if (plugin.getConfigHelper().getBoolean(ConfigConstants.ChatGuard.NOTIFY_USER) && !messageHandling.equals("SILENT")) {
+            String langKey = messageHandling.equals("BLOCK") ? LangConstants.ChatGuard.MESSAGE_BLOCKED : LangConstants.ChatGuard.MESSAGE_CENSORED;
+            player.sendMessage(chatGuardPrefix + plugin.getConfigHelperLanguage().getString(langKey) + " " + ChatColor.RED + classification.reason());
+        }
 
-        plugin.getLoggingHelper()
-                .info("Message by " + player.getName() + (blockOrCensor ? " has been blocked: " : " has been censored: ") + userMessage);
+        String action = switch (messageHandling) {
+            case "BLOCK" -> "blocked";
+            case "SILENT" -> "silently moderated";
+            default -> "censored";
+        };
+        plugin.getLoggingHelper().info("Message by " + player.getName() + " has been " + action + ": " + userMessage);
 
         if (!classification.isOffensiveLanguage()) return;
 

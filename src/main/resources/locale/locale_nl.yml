@@ -57,6 +57,7 @@ chatguard:
   player:
     message-blocked: "Je bericht is geblokkeerd. Reden:"
     message-censored: "Je bericht is gecensureerd. Reden:"
+    message-silenced: "Je bericht is stil gemodereerd en alleen zichtbaar voor jou. Reden:"
     kick: "Je bent van de server gekickt. Reden:"
     ban-temporary: "Je bent tijdelijk van de server verbannen. Reden:"
     ban-permanent: "Je bent permanent van de server verbannen. Reden:"

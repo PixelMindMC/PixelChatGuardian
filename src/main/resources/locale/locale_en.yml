@@ -57,6 +57,7 @@ chatguard:
   player:
     message-blocked: "Your message was blocked. Reason:"
     message-censored: "Your message was censored. Reason:"
+    message-silenced: "Your message was silently moderated and only visible to you. Reason:"
     kick: "You have been kicked from the server. Reason:"
     ban-temporary: "You have been temporarily banned from the server. Reason:"
     ban-permanent: "You have been permanently banned from the server. Reason:"

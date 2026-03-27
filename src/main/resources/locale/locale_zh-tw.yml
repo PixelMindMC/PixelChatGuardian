@@ -57,6 +57,7 @@ chatguard:
   player:
     message-blocked: "您的訊息已被封鎖。原因："
     message-censored: "您的訊息已被過濾。原因："
+    message-silenced: "您的訊息已被靜默審核，僅您自己可見。原因："
     kick: "您已被踢出伺服器。原因："
     ban-temporary: "您已被暫時封鎖。原因："
     ban-permanent: "您已被永久封鎖。原因："

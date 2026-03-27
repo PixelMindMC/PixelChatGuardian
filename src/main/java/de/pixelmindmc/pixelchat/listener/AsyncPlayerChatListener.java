@@ -117,12 +117,12 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Checks whether a message should be blocked or censored and takes appropriate actions
+     * Checks whether a message should be blocked, censored, or silently moderated and takes appropriate actions
      *
      * @param event   The message event
      * @param message The message to check
      * @param player  The player that sent the message
-     * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
+     * @return {@code true} if the message has been blocked or silently moderated, {@code false} if it has been allowed through
      */
     private boolean checkIfMessageShouldBeBlocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
         // Debug logger message
@@ -138,13 +138,24 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Check if classification matches any enabled blocking rules
         if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
-            if (blockOrCensor) event.setCancelled(true);
-            else event.setMessage("*".repeat(message.length()));
+            String messageHandling = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING);
 
-            ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
+            switch (messageHandling) {
+                case "BLOCK" -> event.setCancelled(true);
+                case "SILENT" -> {
+                    // Cancel the event so no other players see the message
+                    event.setCancelled(true);
+                    // Send the message back to the author using the chat format, creating the illusion of successful delivery
+                    String fakeMessage = String.format(event.getFormat(), player.getDisplayName(), message);
+                    player.sendMessage(fakeMessage);
+                }
+                default -> // CENSOR
+                    event.setMessage("*".repeat(message.length()));
+            }
 
-            return true; // Message has been blocked or censored
+            ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, messageHandling);
+
+            return true; // Message has been blocked, censored, or silently moderated
         }
         return false;
     }

@@ -72,6 +72,7 @@ public final class LangConstants {
         public static final String CLEARED_STRIKES_ON_SERVER_RESTART = "chatguard.cleared-strikes-on-server-restart";
         public static final String MESSAGE_BLOCKED = "chatguard.player.message-blocked";
         public static final String MESSAGE_CENSORED = "chatguard.player.message-censored";
+        public static final String MESSAGE_SILENCED = "chatguard.player.message-silenced";
         public static final String PLAYER_KICK = "chatguard.player.kick";
         public static final String PLAYER_TEMP_BAN = "chatguard.player.ban-temporary";
         public static final String PLAYER_PERM_BAN = "chatguard.player.ban-permanent";

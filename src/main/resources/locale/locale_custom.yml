@@ -59,6 +59,7 @@ chatguard:
   player:
     message-blocked: ""
     message-censored: ""
+    message-silenced: ""
     kick: ""
     ban-temporary: ""
     ban-permanent: ""

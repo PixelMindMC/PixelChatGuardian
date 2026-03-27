@@ -150,7 +150,8 @@ chatguard:
 
   # Message handling configuration
   # Default: CENSOR
-  # Options: Censor, BLOCK
+  # Options: CENSOR, BLOCK, SILENT
+  # SILENT: The message is only visible to the sender, creating the illusion of successful delivery
   message-handling: CENSOR
 
   # Notify user when message is blocked/censored
