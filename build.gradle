@@ -8,7 +8,7 @@
 // Gradle plugins
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '9.3.2'
+    id 'com.gradleup.shadow' version '9.4.1'
 }
 
 // Project metadata
@@ -18,7 +18,7 @@ description = 'AI-powered chat moderation featuring smart filtering, anti-spam a
 
 // Dependency versions
 ext {
-    spigotVersion = '1.21.11-R0.1-SNAPSHOT'
+    spigotVersion = '26.1-R0.1-SNAPSHOT'
     commonsLang3Version = '3.20.0'
     carbonChatVersion = '3.0.0-beta.36'
     bstatsVersion = '3.2.1'
