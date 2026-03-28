@@ -9,6 +9,7 @@ import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.LoggingHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,6 +25,9 @@ import java.util.UUID;
  */
 public class RemoveStrikesCommand implements CommandExecutor {
     private final @NotNull PixelChat plugin;
+    private final @NotNull LoggingHelper loggingHelper;
+    private final @NotNull ConfigHelper configHelperPlayerStrikes;
+    private final @NotNull ConfigHelper configHelperLanguage;
 
     /**
      * Constructs a PixelChatCommand object
@@ -32,6 +36,9 @@ public class RemoveStrikesCommand implements CommandExecutor {
      */
     public RemoveStrikesCommand(@NotNull PixelChat plugin) {
         this.plugin = plugin;
+        this.loggingHelper = plugin.getLoggingHelper();
+        this.configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
+        this.configHelperLanguage = plugin.getConfigHelperLanguage();
     }
 
     /**
@@ -45,22 +52,17 @@ public class RemoveStrikesCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
-        ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
-
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.Moderation.REMOVE_PLAYER_STRIKES)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
+
             return true;
         }
 
         // Check if the command syntax is correct
         if (args.length != 1) {
-            sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
-                            " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label + " " +
-                            "<player>");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label + " " + "<player>");
+
             return true;
         }
 
@@ -68,17 +70,21 @@ public class RemoveStrikesCommand implements CommandExecutor {
         UUID playerUUID;
         if (onlinePlayer != null) {
             playerUUID = onlinePlayer.getUniqueId();
-        } else playerUUID = plugin.getPixelChatCommand().getOfflinePlayerUUID(args[0]);
+        } else {
+            playerUUID = plugin.getPixelChatCommand().getOfflinePlayerUUID(args[0]);
+        }
 
-
-        if (playerUUID != null && configHelperPlayerStrikes.contains(playerUUID.toString()))
-            // Reset the player's strike count to 0
+        // Reset the player's strike count to 0
+        if (playerUUID != null && configHelperPlayerStrikes.contains(playerUUID.toString())) {
             configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
+        }
+
+        // Debug logger message
+        loggingHelper.debug(sender + " removed strikes from the player " + args[0]);
 
         // Send a message after successfully remove player strikes from a specific player
-        sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.REMOVED_PLAYER_STRIKES) + " " +
-                        ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.REMOVED_PLAYER_STRIKES) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
+
         return true;
     }
 }

@@ -10,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Represents the AI-Classification of a message
  *
- * @param isOffensiveLanguage Whether the message contains offensive language, severe insults, hate speech, slurs, real-world crime references, or other forms of harmful language
+ * @param isOffensiveLanguage Whether the message contains offensive language, severe insults, hate speech, slurs,
+ *                            real-world crime references, or other forms of harmful language
  * @param isUsername          Whether the message contains a possible username
  * @param isPassword          Whether the message contains a possible password
  * @param isHomeAddress       Whether the message contains a possible home address
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
  * @param isSexualContent     Whether the message contains sexual content
  * @param reason              The reason why the message should be blocked
  */
-public record MessageClassification(boolean isOffensiveLanguage, boolean isUsername, boolean isPassword, boolean isHomeAddress,
-                                    boolean isEmailAddress, boolean isWebsite, boolean isSexualContent, @NotNull String reason) {
+public record MessageClassification(boolean isOffensiveLanguage, boolean isUsername, boolean isPassword,
+                                    boolean isHomeAddress, boolean isEmailAddress, boolean isWebsite,
+                                    boolean isSexualContent, @NotNull String reason) {
 }

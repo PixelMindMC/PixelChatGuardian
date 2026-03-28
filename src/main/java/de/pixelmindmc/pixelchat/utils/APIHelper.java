@@ -30,7 +30,8 @@ import java.util.Map;
  * A collection of methods to aid with the AI requests to the AI API
  */
 public class APIHelper {
-    private final @NotNull PixelChat plugin;
+    private final @NotNull LoggingHelper loggingHelper;
+    private final @NotNull ConfigHelper configHelper;
 
     private final String aiModel;
     private final String apiUrl;
@@ -43,11 +44,13 @@ public class APIHelper {
      * @param plugin The plugin instance
      */
     public APIHelper(@NotNull PixelChat plugin) {
-        this.plugin = plugin;
-        this.apiUrl = plugin.getConfig().getString(ConfigConstants.API.ENDPOINT);
-        this.aiModel = plugin.getConfig().getString(ConfigConstants.API.MODEL);
-        this.apiKey = plugin.getConfig().getString(ConfigConstants.API.KEY);
-        this.sysPrompt = plugin.getConfig().getString(ConfigConstants.API.SYSTEM_PROMPT);
+        this.loggingHelper = plugin.getLoggingHelper();
+        this.configHelper = plugin.getConfigHelper();
+
+        this.apiUrl = configHelper.getString(ConfigConstants.API.ENDPOINT);
+        this.aiModel = configHelper.getString(ConfigConstants.API.MODEL);
+        this.apiKey = configHelper.getString(ConfigConstants.API.KEY);
+        this.sysPrompt = configHelper.getString(ConfigConstants.API.SYSTEM_PROMPT);
     }
 
     /**
@@ -67,7 +70,7 @@ public class APIHelper {
                 String jsonResponse = decodeResponse(connection); // Entire JSON response
 
                 // Debug logger message
-                plugin.getLoggingHelper().debug("Json response: " + jsonResponse);
+                loggingHelper.debug("Json response: " + jsonResponse);
 
                 return processResponse(jsonResponse);
             } else {
@@ -95,6 +98,7 @@ public class APIHelper {
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         connection.setDoOutput(true);
+
         return connection;
     }
 
@@ -106,14 +110,12 @@ public class APIHelper {
      * @throws IOException If any issue happens, an exception is thrown
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT,
-                sysPrompt + "Language: " + plugin.getConfigHelper().getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user",
-                APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
+        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, sysPrompt + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
         // Debug logger message
-        plugin.getLoggingHelper().debug("Json request: " + jsonInputString);
+        loggingHelper.debug("Json request: " + jsonInputString);
 
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
@@ -132,39 +134,22 @@ public class APIHelper {
         JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
         // Extract the content string from the first choice's message
-        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message").get("content")
-                .getAsString();
+        String contentString = jsonObject.getAsJsonArray("choices").get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
 
         // Parse the content string as a JSON object
         JsonObject message = new Gson().fromJson(contentString, JsonObject.class);
 
         // Extract fields from the parsed content
-        boolean isOffensiveLanguage = message.has(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE) &&
-                !message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).getAsBoolean();
-        boolean isUsername = message.has(APIConstants.DetectionFlags.IS_USERNAME) &&
-                !message.get(APIConstants.DetectionFlags.IS_USERNAME).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_USERNAME).getAsBoolean();
-        boolean isPassword = message.has(APIConstants.DetectionFlags.IS_PASSWORD) &&
-                !message.get(APIConstants.DetectionFlags.IS_PASSWORD).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_PASSWORD).getAsBoolean();
-        boolean isHomeAddress = message.has(APIConstants.DetectionFlags.IS_HOME_ADDRESS) &&
-                !message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).getAsBoolean();
-        boolean isEmailAddress = message.has(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS) &&
-                !message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).getAsBoolean();
-        boolean isWebsite =
-                message.has(APIConstants.DetectionFlags.IS_WEBSITE) && !message.get(APIConstants.DetectionFlags.IS_WEBSITE).isJsonNull() &&
-                        message.get(APIConstants.DetectionFlags.IS_WEBSITE).getAsBoolean();
-        boolean isSexualContent = message.has(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT) &&
-                !message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).isJsonNull() &&
-                message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).getAsBoolean();
-        String reason = message.has(APIConstants.General.REASON) && !message.get(APIConstants.General.REASON).isJsonNull() ? message.get(
-                APIConstants.General.REASON).getAsString() : "No reason provided";
+        boolean isOffensiveLanguage = message.has(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE) && !message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_OFFENSIVE_LANGUAGE).getAsBoolean();
+        boolean isUsername = message.has(APIConstants.DetectionFlags.IS_USERNAME) && !message.get(APIConstants.DetectionFlags.IS_USERNAME).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_USERNAME).getAsBoolean();
+        boolean isPassword = message.has(APIConstants.DetectionFlags.IS_PASSWORD) && !message.get(APIConstants.DetectionFlags.IS_PASSWORD).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_PASSWORD).getAsBoolean();
+        boolean isHomeAddress = message.has(APIConstants.DetectionFlags.IS_HOME_ADDRESS) && !message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_HOME_ADDRESS).getAsBoolean();
+        boolean isEmailAddress = message.has(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS) && !message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_EMAIL_ADDRESS).getAsBoolean();
+        boolean isWebsite = message.has(APIConstants.DetectionFlags.IS_WEBSITE) && !message.get(APIConstants.DetectionFlags.IS_WEBSITE).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_WEBSITE).getAsBoolean();
+        boolean isSexualContent = message.has(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT) && !message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).isJsonNull() && message.get(APIConstants.DetectionFlags.IS_SEXUAL_CONTENT).getAsBoolean();
+        String reason = message.has(APIConstants.General.REASON) && !message.get(APIConstants.General.REASON).isJsonNull() ? message.get(APIConstants.General.REASON).getAsString() : "No reason provided";
 
-        return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite,
-                isSexualContent, reason);
+        return new MessageClassification(isOffensiveLanguage, isUsername, isPassword, isHomeAddress, isEmailAddress, isWebsite, isSexualContent, reason);
     }
 
     /**
@@ -182,6 +167,7 @@ public class APIHelper {
                 response.append(responseLine.trim());
             }
         }
+
         return response.toString();
     }
 }

@@ -153,9 +153,15 @@ chatguard:
   # Options: Censor, BLOCK
   message-handling: CENSOR
 
-  # Notify user when message is blocked/censored
-  # Default: true
-  notify-user: true
+  # Notification settings
+  notify:
+    # Notify user when message is blocked/censored
+    # Default: true
+    user: true
+
+    # Notify admins with the permission "pixelchat.strikes-notify", default all operators, when a player gets a strike
+    # Default: true
+    admins: true
 
   # Content filtering rules
   rules:

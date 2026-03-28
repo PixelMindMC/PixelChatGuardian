@@ -11,6 +11,8 @@ import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
+import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.LoggingHelper;
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
@@ -27,6 +29,9 @@ import java.util.regex.Pattern;
  */
 public class CarbonChatIntegration {
     private final @NotNull PixelChat plugin;
+    private final @NotNull LoggingHelper loggingHelper;
+    private final @NotNull ConfigHelper configHelper;
+    private final @NotNull ChatGuardHelper chatGuardHelper;
 
     /**
      * Constructs a CarbonChatIntegration object
@@ -35,6 +40,9 @@ public class CarbonChatIntegration {
      */
     public CarbonChatIntegration(@NotNull PixelChat plugin) {
         this.plugin = plugin;
+        this.loggingHelper = plugin.getLoggingHelper();
+        this.configHelper = plugin.getConfigHelper();
+        this.chatGuardHelper = plugin.getChatGuardHelper();
     }
 
     /**
@@ -42,15 +50,16 @@ public class CarbonChatIntegration {
      */
     public void registerCarbonChatListener() {
         // Debug logger message
-        plugin.getLoggingHelper().debug("Register CarbonChat listener");
+        loggingHelper.debug("Register CarbonChat listener");
 
         CarbonChatProvider.carbonChat().eventHandler().subscribe(CarbonChatEvent.class, event -> {
             CarbonPlayer carbonPlayer = event.sender();
             Component messageComponent = event.message();
 
             // AI based chat guard module
-            if (!carbonPlayer.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION))
+            if (!carbonPlayer.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION)) {
                 checkIfMessageShouldBeBlocked(event, messageComponent);
+            }
         });
     }
 
@@ -66,29 +75,39 @@ public class CarbonChatIntegration {
         Matcher matcher = pattern.matcher(messageComponent.toString());
 
         String message = null;
-        if (matcher.find()) message = matcher.group(1);  // Extracts the content
+        if (matcher.find()) {
+            message = matcher.group(1);  // Extracts the content
+        }
 
-        if (message == null) return;
+        if (message == null) {
+            return;
+        }
 
         // Debug logger message
-        plugin.getLoggingHelper().debug("Check if the message '" + message + "' should be blocked for the CarbonChat integration");
+        loggingHelper.debug("Check if the message '" + message + "' should be blocked for the CarbonChat integration");
 
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException exception) {
-            plugin.getLoggingHelper().error(exception.toString());
+            loggingHelper.error(exception.toString());
+
             return; //Don't block message if there was an error while classifying it
         }
 
         // Check if classification matches any enabled blocking rules
-        if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
-            if (blockOrCensor) event.cancelled(true);
-            else event.message(Component.text("*".repeat(message.length())));
+        if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
+            boolean blockOrCensor = configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
+            if (blockOrCensor) {
+                event.cancelled(true);
+            } else {
+                event.message(Component.text("*".repeat(message.length())));
+            }
 
             Player player = Bukkit.getPlayer(event.sender().uuid());
-            if (player != null) ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
+            if (player != null) {
+                chatGuardHelper.notifyAndStrikePlayer(player, message, classification, blockOrCensor);
+            }
         }
     }
 }

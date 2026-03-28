@@ -23,6 +23,7 @@ import java.net.URL;
  */
 public class UpdateChecker {
     private final @NotNull PixelChat plugin;
+    private final @NotNull ConfigHelper configHelperLanguage;
     private final @NotNull URL url;
 
     /**
@@ -33,6 +34,8 @@ public class UpdateChecker {
      */
     public UpdateChecker(@NotNull PixelChat plugin, @NotNull URL apiUrl) {
         this.plugin = plugin;
+        this.configHelperLanguage = plugin.getConfigHelperLanguage();
+
         this.url = apiUrl;
     }
 
@@ -58,9 +61,9 @@ public class UpdateChecker {
             in.close();
 
             return JsonParser.parseString(response.toString()).getAsJsonObject();
-        } else
-            throw new IOException(
-                    plugin.getConfigHelperLanguage().getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + responseCode);
+        } else {
+            throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + responseCode);
+        }
     }
 
     /**
@@ -77,11 +80,12 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && isNewerVersion(currentVersion, latestVersion)) {
-                return plugin.getConfigHelperLanguage().getString(LangConstants.Global.UPDATE_AVAILABLE) +
-                        " https://modrinth.com/plugin/pixelchatguardian/";
-            } else return plugin.getConfigHelperLanguage().getString(LangConstants.Global.NO_UPDATE_AVAILABLE);
+                return configHelperLanguage.getString(LangConstants.Global.UPDATE_AVAILABLE) + " https://modrinth.com/plugin/pixelchatguardian/";
+            } else {
+                return configHelperLanguage.getString(LangConstants.Global.NO_UPDATE_AVAILABLE);
+            }
         } catch (Exception e) {
-            throw new IOException(plugin.getConfigHelperLanguage().getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + e);
+            throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + e);
         }
     }
 

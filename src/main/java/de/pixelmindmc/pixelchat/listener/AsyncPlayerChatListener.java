@@ -12,6 +12,8 @@ import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.integration.CarbonChatIntegration;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
+import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.LoggingHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +30,9 @@ import java.util.Map;
  */
 public class AsyncPlayerChatListener implements Listener {
     private final @NotNull PixelChat plugin;
+    private final @NotNull LoggingHelper loggingHelper;
+    private final @NotNull ConfigHelper configHelper;
+    private final @NotNull ChatGuardHelper chatGuardHelper;
     private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
     private boolean chatCodesEnabled = false;
@@ -43,6 +48,11 @@ public class AsyncPlayerChatListener implements Listener {
      */
     public AsyncPlayerChatListener(@NotNull PixelChat plugin) {
         this.plugin = plugin;
+        this.loggingHelper = plugin.getLoggingHelper();
+        this.configHelper = plugin.getConfigHelper();
+        this.chatGuardHelper = plugin.getChatGuardHelper();
+        @NotNull ConfigHelper configHelperEmojiList = plugin.getConfigHelperEmojiList();
+        @NotNull ConfigHelper configHelperChatCodesList = plugin.getConfigHelperChatCodesList();
 
         // Chatguard module
         if (plugin.getAPIHelper() != null) {
@@ -50,20 +60,20 @@ public class AsyncPlayerChatListener implements Listener {
         }
 
         // Initialize CarbonChat integration if available
-        if (chatGuardEnabled && plugin.getConfigHelper().getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) &&
-                setupCarbonChatIntegration())
+        if (chatGuardEnabled && configHelper.getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) && setupCarbonChatIntegration()) {
             carbonChatIntegration.registerCarbonChatListener();
+        }
 
         // Emoji module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.EMOJIS)) {
+        if (configHelper.getBoolean(ConfigConstants.Modules.EMOJIS)) {
             this.emojiEnabled = true;
-            this.emojiMap = plugin.getConfigHelperEmojiList().getStringMap(ConfigConstants.Emoji.LIST);
+            this.emojiMap = configHelperEmojiList.getStringMap(ConfigConstants.Emoji.LIST);
         }
 
         // Chat codes module
-        if (plugin.getConfigHelper().getBoolean(ConfigConstants.Modules.CHAT_CODES)) {
+        if (configHelper.getBoolean(ConfigConstants.Modules.CHAT_CODES)) {
             this.chatCodesEnabled = true;
-            this.chatCodesMap = plugin.getConfigHelperChatCodesList().getChatColorMap(ConfigConstants.ChatCodes.LIST);
+            this.chatCodesMap = configHelperChatCodesList.getChatColorMap(ConfigConstants.ChatCodes.LIST);
         }
     }
 
@@ -78,7 +88,8 @@ public class AsyncPlayerChatListener implements Listener {
             carbonChatIntegration = new CarbonChatIntegration(plugin);
 
             // Debug logger message
-            plugin.getLoggingHelper().debug("Using CarbonChat integration");
+            loggingHelper.debug("Using CarbonChat integration");
+
             return true;
         } catch (ClassNotFoundException e) {
             return false;
@@ -98,9 +109,9 @@ public class AsyncPlayerChatListener implements Listener {
         boolean chatGuardMessageBlocked = false;
 
         // AI based chat guard module
-        if (chatGuardEnabled && carbonChatIntegration == null &&
-                !player.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION))
+        if (chatGuardEnabled && carbonChatIntegration == null && !player.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION)) {
             chatGuardMessageBlocked = checkIfMessageShouldBeBlocked(event, message, player);
+        }
 
         // Emoji module
         if (emojiEnabled && !chatGuardMessageBlocked && player.hasPermission(PermissionConstants.Modules.EMOJIS)) {
@@ -109,8 +120,7 @@ public class AsyncPlayerChatListener implements Listener {
         }
 
         // Chat codes module
-        if (chatCodesEnabled && !chatGuardMessageBlocked && carbonChatIntegration == null &&
-                player.hasPermission(PermissionConstants.Modules.CHAT_CODES)) {
+        if (chatCodesEnabled && !chatGuardMessageBlocked && carbonChatIntegration == null && player.hasPermission(PermissionConstants.Modules.CHAT_CODES)) {
             message = replaceMessageChatCodes(message, chatCodesMap);
             event.setMessage(message);
         }
@@ -126,23 +136,26 @@ public class AsyncPlayerChatListener implements Listener {
      */
     private boolean checkIfMessageShouldBeBlocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
         // Debug logger message
-        plugin.getLoggingHelper().debug("Check if the message '" + message + "' from " + player.getName() + " should be blocked");
+        loggingHelper.debug("Check if the message '" + message + "' from " + player.getName() + " should " + "be blocked");
 
         MessageClassification classification;
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException e) {
-            plugin.getLoggingHelper().error(e.getMessage());
+            loggingHelper.error(e.getMessage());
             return false; //Don't block message if there was an error while classifying it
         }
 
         // Check if classification matches any enabled blocking rules
-        if (ChatGuardHelper.messageMatchesEnabledRule(plugin, classification)) {
-            boolean blockOrCensor = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
-            if (blockOrCensor) event.setCancelled(true);
-            else event.setMessage("*".repeat(message.length()));
+        if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
+            boolean blockOrCensor = configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
+            if (blockOrCensor) {
+                event.setCancelled(true);
+            } else {
+                event.setMessage("*".repeat(message.length()));
+            }
 
-            ChatGuardHelper.notifyAndStrikePlayer(plugin, player, message, classification, blockOrCensor);
+            chatGuardHelper.notifyAndStrikePlayer(player, message, classification, blockOrCensor);
 
             return true; // Message has been blocked or censored
         }
@@ -160,7 +173,7 @@ public class AsyncPlayerChatListener implements Listener {
         for (Map.Entry<String, String> entry : emojiMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 // Debug logger message
-                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
+                loggingHelper.debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Replace each occurrence of the placeholder (key) in the string with its value
                 message = message.replace(entry.getKey(), entry.getValue());
@@ -181,7 +194,7 @@ public class AsyncPlayerChatListener implements Listener {
         for (Map.Entry<String, ChatColor> entry : chatCodesMap.entrySet()) {
             if (message.contains(entry.getKey())) {
                 // Debug logger message
-                plugin.getLoggingHelper().debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
+                loggingHelper.debug("Replacing: " + entry.getKey() + " with: " + entry.getValue());
 
                 // Replace each occurrence of the placeholder (key) in the string with its value
                 message = message.replace(entry.getKey(), entry.getValue().toString());

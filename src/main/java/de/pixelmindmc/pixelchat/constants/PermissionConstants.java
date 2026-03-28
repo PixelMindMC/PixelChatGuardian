@@ -69,6 +69,11 @@ public final class PermissionConstants {
         public static final String REMOVE_PLAYER_STRIKES = "pixelchat.remove-player-strikes";
 
         /**
+         * Allows to receive in-game notifications about player strikes
+         */
+        public static final String STRIKE_NOTIFY = "pixelchat.strike-notify";
+
+        /**
          * Allows bypassing all chat moderation filters
          */
         public static final String BYPASS_CHAT_MODERATION = "pixelchat.bypass-chat-moderation";

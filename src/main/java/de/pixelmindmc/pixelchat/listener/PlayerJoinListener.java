@@ -23,7 +23,8 @@ import java.util.Objects;
  * Listener for handling player join events
  */
 public class PlayerJoinListener implements Listener {
-    private final @NotNull PixelChat plugin;
+    private final @NotNull ConfigHelper configHelper;
+    private final @NotNull ConfigHelper configHelperLanguage;
 
     /**
      * Constructs an PlayerJoinListener object
@@ -31,7 +32,8 @@ public class PlayerJoinListener implements Listener {
      * @param plugin The plugin instance
      */
     public PlayerJoinListener(@NotNull PixelChat plugin) {
-        this.plugin = plugin;
+        this.configHelper = plugin.getConfigHelper();
+        this.configHelperLanguage = plugin.getConfigHelperLanguage();
     }
 
     /**
@@ -41,21 +43,21 @@ public class PlayerJoinListener implements Listener {
      */
     @EventHandler
     private void onPlayerJoin(@NotNull PlayerJoinEvent event) {
-        ConfigHelper configHelper = plugin.getConfigHelper();
         Player player = event.getPlayer();
 
         // Check if the player has the required permission
-        if (!player.isOp() || !player.hasPermission(PermissionConstants.FULL_PERMISSIONS)) return;
+        if (!player.isOp() || !player.hasPermission(PermissionConstants.FULL_PERMISSIONS)) {
+            return;
+        }
 
         // Retrieve API key from config
         String apiKey = configHelper.getString(ConfigConstants.API.KEY);
 
         // Check if config file exists
         if (!configHelper.getFileExist()) {
-            player.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED +
-                    plugin.getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
-        } else if (apiKey.isEmpty() || configHelper.getFileExist() && Objects.equals(apiKey, "API-KEY")) player.sendMessage(
-                LangConstants.PLUGIN_PREFIX + ChatColor.RED +
-                        plugin.getConfigHelperLanguage().getString(LangConstants.Global.NO_API_KEY_SET));
+            player.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.FIRST_TIME_MESSAGE));
+        } else if (apiKey.isEmpty() || configHelper.getFileExist() && Objects.equals(apiKey, "API-KEY")) {
+            player.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_API_KEY_SET));
+        }
     }
 }

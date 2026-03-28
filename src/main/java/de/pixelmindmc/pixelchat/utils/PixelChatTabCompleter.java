@@ -48,8 +48,12 @@ public class PixelChatTabCompleter implements org.bukkit.command.TabCompleter {
      */
     private void handlePixelChatTabCompletion(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
         if (args.length == 1) {
-            if (sender.hasPermission(PermissionConstants.Commands.VERSION)) results.add("version");
-            if (sender.hasPermission(PermissionConstants.Commands.RELOAD)) results.add("reload");
+            if (sender.hasPermission(PermissionConstants.Commands.VERSION)) {
+                results.add("version");
+            }
+            if (sender.hasPermission(PermissionConstants.Commands.RELOAD)) {
+                results.add("reload");
+            }
         }
     }
 
@@ -60,7 +64,9 @@ public class PixelChatTabCompleter implements org.bukkit.command.TabCompleter {
         if (sender.hasPermission(PermissionConstants.Moderation.STRIKE_PLAYER)) {
             if (args.length == 1) {
                 addOnlinePlayerCompletions();
-            } else if (args.length == 2) results.add("<reason>");
+            } else if (args.length == 2) {
+                results.add("<reason>");
+            }
         }
     }
 
@@ -68,14 +74,17 @@ public class PixelChatTabCompleter implements org.bukkit.command.TabCompleter {
      * Handles tab completion for the "remove-strikes" command
      */
     private void handleRemoveStrikesTabCompletion(@NotNull CommandSender sender, @NotNull String @NotNull [] args) {
-        if (args.length == 1 && sender.hasPermission(PermissionConstants.Moderation.REMOVE_PLAYER_STRIKES)) addOnlinePlayerCompletions();
+        if (args.length == 1 && sender.hasPermission(PermissionConstants.Moderation.REMOVE_PLAYER_STRIKES)) {
+            addOnlinePlayerCompletions();
+        }
     }
 
     /**
      * Adds online players to the results list for player-based commands
      */
     private void addOnlinePlayerCompletions() {
-        for (Player player : Bukkit.getOnlinePlayers())
+        for (Player player : Bukkit.getOnlinePlayers()) {
             results.add(player.getName());
+        }
     }
 }

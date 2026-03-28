@@ -14,9 +14,7 @@ public final class LangConstants {
     /**
      * The plugin prefix shown before messages
      */
-    public static final String PLUGIN_PREFIX =
-            ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET +
-                    ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
+    public static final String PLUGIN_PREFIX = ChatColor.DARK_GRAY + "[" + ChatColor.RED + ChatColor.BOLD + "Pixel" + ChatColor.BLUE + "Chat" + ChatColor.RESET + ChatColor.DARK_GRAY + "]" + ChatColor.RESET + " ";
 
     /**
      * Configuration file version
@@ -70,13 +68,27 @@ public final class LangConstants {
      */
     public static final class ChatGuard {
         public static final String CLEARED_STRIKES_ON_SERVER_RESTART = "chatguard.cleared-strikes-on-server-restart";
-        public static final String MESSAGE_BLOCKED = "chatguard.player.message-blocked";
-        public static final String MESSAGE_CENSORED = "chatguard.player.message-censored";
-        public static final String PLAYER_KICK = "chatguard.player.kick";
-        public static final String PLAYER_TEMP_BAN = "chatguard.player.ban-temporary";
-        public static final String PLAYER_PERM_BAN = "chatguard.player.ban-permanent";
 
         private ChatGuard() {
+        }
+
+        public static final class Player {
+            public static final String MESSAGE_BLOCKED = "chatguard.player.message-blocked";
+            public static final String MESSAGE_CENSORED = "chatguard.player.message-censored";
+            public static final String KICK = "chatguard.player.kick";
+            public static final String BAN_TEMPORARY = "chatguard.player.ban-temporary";
+            public static final String BAN_PERMANENT = "chatguard.player.ban-permanent";
+
+            private Player() {
+            }
+        }
+
+        public static final class Admin {
+            public static final String MESSAGE_BLOCKED = "chatguard.admin.player-message-blocked";
+            public static final String MESSAGE_CENSORED = "chatguard.admin.player-message-censored";
+
+            private Admin() {
+            }
         }
     }
 }

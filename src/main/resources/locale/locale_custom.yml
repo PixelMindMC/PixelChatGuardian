@@ -36,7 +36,6 @@ global:
   invalid-syntax: ""
   invalid-syntax-usage: ""
 
-
 # =================== PixelChat Command ======================
 
 pixelchat:
@@ -50,7 +49,6 @@ pixelchat:
     struck-player: ""
     removed-player-strikes: ""
 
-
 # =================== ChatGuard Module =======================
 
 chatguard:
@@ -62,3 +60,7 @@ chatguard:
     kick: ""
     ban-temporary: ""
     ban-permanent: ""
+
+  admin:
+    player-message-blocked: "[message] [player]" # [player] will be replaced by the player's name and [message] with the blocked message
+    player-message-censored: "[message] [player]" # [player] will be replaced by the player's name and [message] with the blocked message

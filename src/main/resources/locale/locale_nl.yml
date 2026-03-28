@@ -60,3 +60,7 @@ chatguard:
     kick: "Je bent van de server gekickt. Reden:"
     ban-temporary: "Je bent tijdelijk van de server verbannen. Reden:"
     ban-permanent: "Je bent permanent van de server verbannen. Reden:"
+
+  admin:
+    player-message-blocked: "Het bericht '[message]' van speler [player] is geblokkeerd. Reden:" # [player] wordt vervangen door de spelersnaam en [message] door het geblokkeerde bericht
+    player-message-censored: "Het bericht '[message]' van speler [player] is gecensureerd. Reden:" # [player] wordt vervangen door de spelersnaam en [message] door het gecensureerde bericht

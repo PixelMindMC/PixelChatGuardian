@@ -60,3 +60,7 @@ chatguard:
     kick: "You have been kicked from the server. Reason:"
     ban-temporary: "You have been temporarily banned from the server. Reason:"
     ban-permanent: "You have been permanently banned from the server. Reason:"
+
+  admin:
+    player-message-blocked: "The message '[message]' from player [player] was blocked. Reason:" # [player] will be replaced by the player's name and [message] with the blocked message
+    player-message-censored: "The message '[message]' from player [player] was censored. Reason:" # [player] will be replaced by the player's name and [message] with the censored message

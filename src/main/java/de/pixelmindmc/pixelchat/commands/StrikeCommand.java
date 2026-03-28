@@ -10,6 +10,7 @@ import de.pixelmindmc.pixelchat.constants.LangConstants;
 import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
 import de.pixelmindmc.pixelchat.utils.ConfigHelper;
+import de.pixelmindmc.pixelchat.utils.LoggingHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,6 +26,9 @@ import java.util.UUID;
  */
 public class StrikeCommand implements CommandExecutor {
     private final @NotNull PixelChat plugin;
+    private final @NotNull LoggingHelper loggingHelper;
+    private final @NotNull ConfigHelper configHelperLanguage;
+    private final @NotNull ChatGuardHelper chatGuardHelper;
 
     /**
      * Constructs a PixelChatCommand object
@@ -33,6 +37,9 @@ public class StrikeCommand implements CommandExecutor {
      */
     public StrikeCommand(@NotNull PixelChat plugin) {
         this.plugin = plugin;
+        this.loggingHelper = plugin.getLoggingHelper();
+        this.configHelperLanguage = plugin.getConfigHelperLanguage();
+        this.chatGuardHelper = plugin.getChatGuardHelper();
     }
 
     /**
@@ -46,21 +53,17 @@ public class StrikeCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
-
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.Moderation.STRIKE_PLAYER)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
+
             return true;
         }
 
         // Check if the command syntax is correct
         if (args.length != 2) {
-            sender.sendMessage(
-                    LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) +
-                            " " +
-                            ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label +
-                            " <player> <reason>");
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label + " <player> <reason>");
+
             return true;
         }
 
@@ -68,16 +71,20 @@ public class StrikeCommand implements CommandExecutor {
         UUID playerUUID;
         if (onlinePlayer != null) {
             playerUUID = onlinePlayer.getUniqueId();
-        } else playerUUID = plugin.getPixelChatCommand().getOfflinePlayerUUID(args[0]);
+        } else {
+            playerUUID = plugin.getPixelChatCommand().getOfflinePlayerUUID(args[0]);
+        }
 
-        assert playerUUID != null;
-        ChatGuardHelper.runStrikeSystem(plugin, playerUUID, args[0], args[1]);
+        // Run strike system when the player is not null
+        if (playerUUID != null) {
+            chatGuardHelper.runStrikeSystem(playerUUID, args[0], args[1]);
+        }
+
+        // Debug logger message
+        loggingHelper.debug(sender + " striked the player " + args[0] + " with the reason " + args[1]);
 
         // Send a message after successfully struck a player
-        sender.sendMessage(
-                LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.STRUCK_PLAYER) + " " +
-                        ChatColor.RED +
-                        ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
 
         return true;
     }

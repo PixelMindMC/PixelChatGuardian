@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [1.3.0] - Upcoming release
+
+### ✨ Added
+
+- Minecraft 26.1 compatibility
+- Added in-game notifications about player strikes
+- More debugging messages
+
+### 🔧 Changed
+
+- Updated Gradle to 9.4.0
+- General code quality improvements
+- Updated dependencies to latest compatible versions
+
+---
+
 ## [1.2.0] - _Latest stable release_ 04.03.2026
 
 ### ✨ Added

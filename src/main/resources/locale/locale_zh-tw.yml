@@ -60,3 +60,7 @@ chatguard:
     kick: "您已被踢出伺服器。原因："
     ban-temporary: "您已被暫時封鎖。原因："
     ban-permanent: "您已被永久封鎖。原因："
+
+  admin:
+    player-message-blocked: "來自玩家 [player] 的訊息 '[message]' 已被封鎖。原因：" # [player] 將被替換為玩家名稱，[message] 為被封鎖的訊息
+    player-message-censored: "來自玩家 [player] 的訊息 '[message]' 已被審查。原因：" # [player] 將被替換為玩家名稱，[message] 為被審查的訊息

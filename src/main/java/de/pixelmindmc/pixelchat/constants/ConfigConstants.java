@@ -69,7 +69,6 @@ public final class ConfigConstants {
      */
     public static final class ChatGuard {
         public static final String MESSAGE_HANDLING = "chatguard.message-handling";
-        public static final String NOTIFY_USER = "chatguard.notify-user";
 
         private ChatGuard() {
         }
@@ -79,6 +78,14 @@ public final class ConfigConstants {
             public static final String FORMAT = "chatguard.custom-prefix.format";
 
             private CustomPrefix() {
+            }
+        }
+
+        public static final class Notify {
+            public static final String USER = "chatguard.notify.user";
+            public static final String ADMINS = "chatguard.notify.admins";
+
+            private Notify() {
             }
         }
 
