@@ -64,7 +64,7 @@ public class ChatGuardHelper {
             // Debug logger message
             loggingHelper.debug("Notify online admins with the 'pixelchat.strike-notify' permission");
 
-            String adminMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[message]", userMessage).replace("[player]", player.getName()) + " " + ChatColor.RED + classification.reason();
+            String adminMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
 
             Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
             for (Player admin : onlinePlayers) {
