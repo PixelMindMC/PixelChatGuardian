@@ -26,7 +26,6 @@ import java.util.Set;
 public class ConfigHelper {
     private final @NotNull PixelChat plugin;
     private final @NotNull LoggingHelper loggingHelper;
-    private final @NotNull ConfigHelper configHelperLanguage;
     private final @NotNull String path;
     private FileConfiguration fileConfiguration;
     private File file;
@@ -41,7 +40,6 @@ public class ConfigHelper {
     public ConfigHelper(@NotNull PixelChat plugin, @NotNull String path) {
         this.plugin = plugin;
         this.loggingHelper = plugin.getLoggingHelper();
-        this.configHelperLanguage = plugin.getConfigHelper();
 
         this.path = path;
         saveDefaultConfig();
@@ -80,7 +78,7 @@ public class ConfigHelper {
             fileConfiguration.save(file);
             loadConfig();
         } catch (IOException e) {
-            loggingHelper.error(configHelperLanguage.getString(LangConstants.Global.FAILED_TO_SAVE_CONFIG) + " " + e);
+            loggingHelper.error(plugin.getConfigHelperLanguage().getString(LangConstants.Global.FAILED_TO_SAVE_CONFIG) + " " + e);
         }
     }
 

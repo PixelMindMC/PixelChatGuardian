@@ -9,6 +9,7 @@ import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.ConfigConstants;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,7 +27,7 @@ public class LoggingHelper {
      */
     public LoggingHelper(@NotNull PixelChat plugin) {
         this.logger = plugin.getLogger();
-        setLogLevel(plugin.getConfigHelper().getString(ConfigConstants.General.LOG_LEVEL));
+        setLogLevel(Objects.requireNonNull(plugin.getConfig().getString(ConfigConstants.General.LOG_LEVEL)));
     }
 
     /**
