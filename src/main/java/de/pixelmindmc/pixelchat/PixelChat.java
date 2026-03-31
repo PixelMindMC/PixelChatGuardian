@@ -110,6 +110,36 @@ public final class PixelChat extends JavaPlugin {
     }
 
     /**
+     * Reloads all plugin configurations and re-initializes dependent components
+     */
+    public void reloadPlugin() {
+        getLoggingHelper().debug("Reloading plugin");
+
+        // Reload all configuration files
+        configHelper.loadConfig();
+        configHelperPlayerStrikes.loadConfig();
+        configHelperEmojiList.loadConfig();
+        configHelperChatCodesList.loadConfig();
+        configHelperLangCustom.loadConfig();
+        configHelperLangGerman.loadConfig();
+        configHelperLangEnglish.loadConfig();
+        configHelperLangSpanish.loadConfig();
+        configHelperLangFrench.loadConfig();
+        configHelperLangDutch.loadConfig();
+        configHelperLangSimplifiedChinese.loadConfig();
+        configHelperLangTraditionalChinese.loadConfig();
+
+        // Update the log level from the reloaded config
+        loggingHelper.setLogLevel(getConfigHelper().getString(ConfigConstants.General.LOG_LEVEL));
+
+        // Re-initialize the API helper so new API key / endpoint / model values take effect
+        registerAPIHelper();
+
+        // Re-initialize the ChatGuard helper so it picks up the refreshed language config
+        registerChatGuardHelper();
+    }
+
+    /**
      * Retrieves the plugin configuration
      *
      * @return The {@code ConfigHelper}
@@ -217,12 +247,14 @@ public final class PixelChat extends JavaPlugin {
 
         // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
+            apiHelper = null;
             return;
         }
 
         // Check if the config file exists and API key is either unset or still at its default value
         if (apiKey.isEmpty() || getConfigHelper().getFileExist() && Objects.equals(apiKey, "API-KEY")) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.NO_API_KEY_SET));
+            apiHelper = null;
             return;
         }
 

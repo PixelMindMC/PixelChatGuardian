@@ -33,7 +33,6 @@ public class AsyncPlayerChatListener implements Listener {
     private final @NotNull LoggingHelper loggingHelper;
     private final @NotNull ConfigHelper configHelper;
     private final @NotNull ChatGuardHelper chatGuardHelper;
-    private boolean chatGuardEnabled = false;
     private boolean emojiEnabled = false;
     private boolean chatCodesEnabled = false;
 
@@ -54,13 +53,8 @@ public class AsyncPlayerChatListener implements Listener {
         @NotNull ConfigHelper configHelperEmojiList = plugin.getConfigHelperEmojiList();
         @NotNull ConfigHelper configHelperChatCodesList = plugin.getConfigHelperChatCodesList();
 
-        // Chatguard module
-        if (plugin.getAPIHelper() != null) {
-            this.chatGuardEnabled = true;
-        }
-
         // Initialize CarbonChat integration if available
-        if (chatGuardEnabled && configHelper.getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) && setupCarbonChatIntegration()) {
+        if (plugin.getAPIHelper() != null && configHelper.getBoolean(ConfigConstants.PluginSupport.CARBONCHAT) && setupCarbonChatIntegration()) {
             carbonChatIntegration.registerCarbonChatListener();
         }
 
@@ -109,7 +103,7 @@ public class AsyncPlayerChatListener implements Listener {
         boolean chatGuardMessageBlocked = false;
 
         // AI based chat guard module
-        if (chatGuardEnabled && carbonChatIntegration == null && !player.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION)) {
+        if (plugin.getAPIHelper() != null && carbonChatIntegration == null && !player.hasPermission(PermissionConstants.Moderation.BYPASS_CHAT_MODERATION)) {
             chatGuardMessageBlocked = checkIfMessageShouldBeBlocked(event, message, player);
         }
 

@@ -33,11 +33,6 @@ public class APIHelper {
     private final @NotNull LoggingHelper loggingHelper;
     private final @NotNull ConfigHelper configHelper;
 
-    private final String aiModel;
-    private final String apiUrl;
-    private final String apiKey;
-    private final String sysPrompt;
-
     /**
      * Constructs a APIHelper object
      *
@@ -46,11 +41,6 @@ public class APIHelper {
     public APIHelper(@NotNull PixelChat plugin) {
         this.loggingHelper = plugin.getLoggingHelper();
         this.configHelper = plugin.getConfigHelper();
-
-        this.apiUrl = configHelper.getString(ConfigConstants.API.ENDPOINT);
-        this.aiModel = configHelper.getString(ConfigConstants.API.MODEL);
-        this.apiKey = configHelper.getString(ConfigConstants.API.KEY);
-        this.sysPrompt = configHelper.getString(ConfigConstants.API.SYSTEM_PROMPT);
     }
 
     /**
@@ -92,11 +82,11 @@ public class APIHelper {
      * @throws URISyntaxException Thrown if the set API URL isn't valid
      */
     private @NotNull HttpURLConnection createConnection() throws IOException, URISyntaxException {
-        URL url = new URI(apiUrl).toURL();
+        URL url = new URI(configHelper.getString(ConfigConstants.API.ENDPOINT)).toURL();
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+        connection.setRequestProperty("Authorization", "Bearer " + configHelper.getString(ConfigConstants.API.KEY));
         connection.setDoOutput(true);
 
         return connection;
@@ -110,7 +100,7 @@ public class APIHelper {
      * @throws IOException If any issue happens, an exception is thrown
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, sysPrompt + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
+        Map<String, Object> json = Map.of("model", configHelper.getString(ConfigConstants.API.MODEL), "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, configHelper.getString(ConfigConstants.API.SYSTEM_PROMPT) + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
 
         String jsonInputString = new Gson().toJson(json);
 
