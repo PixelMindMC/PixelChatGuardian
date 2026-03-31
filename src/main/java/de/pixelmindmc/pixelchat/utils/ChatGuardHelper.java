@@ -51,7 +51,7 @@ public class ChatGuardHelper {
         String chatGuardPrefix = (configHelper.getBoolean(ConfigConstants.ChatGuard.CustomPrefix.ENABLED) ? configHelper.getString(ConfigConstants.ChatGuard.CustomPrefix.FORMAT) + ChatColor.RESET + " " : LangConstants.PLUGIN_PREFIX);
 
         // Notify player if enabled
-        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.USER)) {
+        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.USER, true)) {
             // Debug logger message
             loggingHelper.debug("Notify player");
 
@@ -60,7 +60,7 @@ public class ChatGuardHelper {
         }
 
         // Notify online admins with the 'pixelchat.strike-notify' permission if enabled
-        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.ADMINS)) {
+        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.ADMINS, true)) {
             // Debug logger message
             loggingHelper.debug("Notify online admins with the 'pixelchat.strike-notify' permission");
 
