@@ -103,9 +103,38 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
         }
 
+        // Migrate config keys from older versions
+        migrateConfig();
+
         // Reset the strike count of every player if enabled
         if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_ON_RESTART)) {
             resetPlayerStrikesOnServerStart();
+        }
+    }
+
+    /**
+     * Migrates configuration keys from older plugin versions to the current format.
+     * This is called once on startup after configs are loaded.
+     */
+    private void migrateConfig() {
+        boolean migrated = false;
+
+        // v1.2.0 → v1.3.0: chatguard.notify-user (flat) → chatguard.notify.user (nested)
+        if (getConfigHelper().contains("chatguard.notify-user")) {
+            boolean notifyUser = getConfigHelper().getBoolean("chatguard.notify-user");
+            getConfigHelper().set(ConfigConstants.ChatGuard.Notify.USER, notifyUser);
+            getConfigHelper().set("chatguard.notify-user", null);
+            migrated = true;
+        }
+
+        // v1.2.0 → v1.3.0: chatguard.notify.admins is a new key; set default if absent
+        if (!getConfigHelper().contains(ConfigConstants.ChatGuard.Notify.ADMINS)) {
+            getConfigHelper().set(ConfigConstants.ChatGuard.Notify.ADMINS, true);
+            migrated = true;
+        }
+
+        if (migrated) {
+            getLoggingHelper().info("Configuration migrated to the v1.3.0 format: notification settings updated.");
         }
     }
 
