@@ -90,7 +90,7 @@ public class CarbonChatIntegration {
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException exception) {
-            loggingHelper.error(exception.toString());
+            loggingHelper.error("Failed to classify message for CarbonChat integration: " + exception.getMessage(), exception);
 
             return; //Don't block message if there was an error while classifying it
         }

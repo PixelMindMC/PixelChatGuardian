@@ -196,7 +196,7 @@ public class PixelChatCommand implements CommandExecutor {
                 return uuid;
             }
         } catch (Exception e) {
-            loggingHelper.error(e.getMessage());
+            loggingHelper.error("Failed to retrieve UUID for player '" + playerName + "' from Mojang API", e);
         }
 
         return null; // Player not found or error occurred

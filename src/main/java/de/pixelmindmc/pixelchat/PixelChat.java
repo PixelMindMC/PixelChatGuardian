@@ -64,7 +64,7 @@ public final class PixelChat extends JavaPlugin {
         try {
             checkForUpdates();
         } catch (URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
+            getLoggingHelper().warning("Failed to check for updates", e);
         }
     }
 
@@ -213,7 +213,7 @@ public final class PixelChat extends JavaPlugin {
 
         // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
-        getLoggingHelper().debug("API key is: " + apiKey);
+        getLoggingHelper().debug("API key configured: " + (!apiKey.isEmpty() && !apiKey.equals("API-KEY")));
 
         // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
