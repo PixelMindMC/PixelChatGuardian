@@ -134,7 +134,7 @@ public final class PixelChat extends JavaPlugin {
         }
 
         if (migrated) {
-            getLoggingHelper().info("Configuration migrated to the v1.3.0 format: notification settings updated.");
+            getLoggingHelper().info("Configuration migrated to the " + getDescription().getVersion() + " format.");
         }
     }
 

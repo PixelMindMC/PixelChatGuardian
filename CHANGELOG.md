@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🔧 Changed
 
+- Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently updated to the current format (no manual edits required)
 - Updated Gradle to 9.4.0
 - General code quality improvements
 - Updated dependencies to latest compatible versions
