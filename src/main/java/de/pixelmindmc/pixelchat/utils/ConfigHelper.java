@@ -142,6 +142,17 @@ public class ConfigHelper {
     }
 
     /**
+     * Retrieve a boolean from the config, returning a default value if the key does not exist
+     *
+     * @param path         The path of the value
+     * @param defaultValue The default value to return if the key does not exist
+     * @return The value, or {@code defaultValue} if the key is missing
+     */
+    public boolean getBoolean(@NotNull String path, boolean defaultValue) {
+        return fileConfiguration.getBoolean(path, defaultValue);
+    }
+
+    /**
      * Retrieve an int from the config
      *
      * @param path The path of the value
