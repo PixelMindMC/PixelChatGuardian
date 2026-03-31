@@ -142,7 +142,7 @@ public class AsyncPlayerChatListener implements Listener {
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException e) {
-            loggingHelper.error(e.getMessage());
+            loggingHelper.error("Failed to classify message from player " + player.getName() + ": " + e.getMessage(), e);
             return false; //Don't block message if there was an error while classifying it
         }
 
