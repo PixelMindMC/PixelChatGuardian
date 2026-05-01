@@ -53,6 +53,18 @@ public class LoggingHelper {
     }
 
     /**
+     * Logs a message and associated throwable at the WARNING level, if the current log level allows WARNING logging
+     *
+     * @param message   The message to log
+     * @param throwable The throwable whose stack trace is included in the log output
+     */
+    public void warning(@NotNull String message, @NotNull Throwable throwable) {
+        if (isLogLevel(Level.WARNING)) {
+            logger.log(Level.WARNING, message, throwable);
+        }
+    }
+
+    /**
      * Logs a message at the ERROR (SEVERE) level, if the current log level allows SEVERE logging
      *
      * @param message The message to log
@@ -60,6 +72,18 @@ public class LoggingHelper {
     public void error(@NotNull String message) {
         if (isLogLevel(Level.SEVERE)) {
             log(Level.SEVERE, message);
+        }
+    }
+
+    /**
+     * Logs a message and associated throwable at the ERROR (SEVERE) level, if the current log level allows SEVERE logging
+     *
+     * @param message   The message to log
+     * @param throwable The throwable whose stack trace is included in the log output
+     */
+    public void error(@NotNull String message, @NotNull Throwable throwable) {
+        if (isLogLevel(Level.SEVERE)) {
+            logger.log(Level.SEVERE, message, throwable);
         }
     }
 

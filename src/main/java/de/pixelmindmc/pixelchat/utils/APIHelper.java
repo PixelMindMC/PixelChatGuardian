@@ -79,8 +79,10 @@ public class APIHelper {
             }
         } catch (IOException e) {
             throw new MessageClassificationException("Failed to classify message due to an IO issue.", e);
+        } catch (URISyntaxException e) {
+            throw new MessageClassificationException("Failed to classify message: invalid API endpoint URL '" + apiUrl + "'", e);
         } catch (Exception e) {
-            throw new MessageClassificationException("Failed to classify message due to a URL syntax issue.", e);
+            throw new MessageClassificationException("Failed to classify message due to an unexpected error.", e);
         }
     }
 

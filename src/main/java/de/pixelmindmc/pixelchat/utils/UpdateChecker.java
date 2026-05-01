@@ -85,7 +85,7 @@ public class UpdateChecker {
                 return configHelperLanguage.getString(LangConstants.Global.NO_UPDATE_AVAILABLE);
             }
         } catch (Exception e) {
-            throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + e);
+            throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES), e);
         }
     }
 
