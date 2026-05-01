@@ -8,13 +8,13 @@ All notable changes to this project will be documented in this file.
 
 ### ✨ Added
 
-- Minecraft 26.1 compatibility
+- Minecraft 26.1.2 compatibility
 - Added in-game notifications about player strikes
 - More debugging messages
 
 ### 🔧 Changed
 
-- Updated Gradle to 9.4.0
+- Updated Gradle to 9.5.0
 - General code quality improvements
 - Updated dependencies to latest compatible versions
 - Improved error logging: exceptions now include full stack traces and contextual information (player name, file path, etc.)
