@@ -213,7 +213,7 @@ public final class PixelChat extends JavaPlugin {
 
         // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
-        getLoggingHelper().debug("API key configured: " + (!apiKey.isEmpty() && !apiKey.equals("API-KEY")));
+        getLoggingHelper().debug("API key configured: " + (!apiKey.isEmpty() && !"API-KEY".equals(apiKey)));
 
         // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
@@ -317,7 +317,8 @@ public final class PixelChat extends JavaPlugin {
     private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.General.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.Global.CHECKING_FOR_UPDATES));
-            updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
+            String url = "https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest";
+            updateChecker = new UpdateChecker(this, new URI(url).toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);
         }
     }

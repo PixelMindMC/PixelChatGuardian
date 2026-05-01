@@ -91,7 +91,7 @@ public class AsyncPlayerChatListener implements Listener {
             loggingHelper.debug("Using CarbonChat integration");
 
             return true;
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException _) {
             return false;
         }
     }
@@ -148,7 +148,7 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Check if classification matches any enabled blocking rules
         if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
-            boolean blockOrCensor = configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
+            boolean blockOrCensor = "BLOCK".equals(configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING));
             if (blockOrCensor) {
                 event.setCancelled(true);
             } else {

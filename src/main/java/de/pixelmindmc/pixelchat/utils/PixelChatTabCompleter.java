@@ -38,6 +38,9 @@ public class PixelChatTabCompleter implements org.bukkit.command.TabCompleter {
             case "pixelchat" -> handlePixelChatTabCompletion(sender, args);
             case "remove-strikes" -> handleRemoveStrikesTabCompletion(sender, args);
             case "strike" -> handleStrikeTabCompletion(sender, args);
+            default -> {
+                return results;
+            }
         }
 
         return results;

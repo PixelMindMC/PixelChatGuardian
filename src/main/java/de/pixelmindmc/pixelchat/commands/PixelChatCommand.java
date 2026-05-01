@@ -88,7 +88,7 @@ public class PixelChatCommand implements CommandExecutor {
      */
     private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args) {
         // Check if the player has the required permission
-        if (!sender.hasPermission(PermissionConstants.Commands.VERSION) & sender.hasPermission(PermissionConstants.Commands.RELOAD) & !sender.hasPermission(PermissionConstants.Commands.VERSION) & !sender.hasPermission(PermissionConstants.Commands.VERSION)) {
+        if (!sender.hasPermission(PermissionConstants.Commands.VERSION) && sender.hasPermission(PermissionConstants.Commands.RELOAD) && !sender.hasPermission(PermissionConstants.Commands.VERSION) && !sender.hasPermission(PermissionConstants.Commands.VERSION)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
 
             return;
