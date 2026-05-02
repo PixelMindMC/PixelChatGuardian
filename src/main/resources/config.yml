@@ -90,7 +90,7 @@ api:
        "isEmail": boolean,
        "isWebsite": boolean,
        "isSexualContent": boolean,
-       "reason": [string, ...]
+       "reason": string
      }
 
      Detection Criteria:
@@ -104,7 +104,7 @@ api:
 
      Reason Array Construction:
        For each boolean flagged true, add a reason string from this list. Choose the most specific variant that matches the content.
-       If multiple flags are true, include multiple reasons. Use these possible values:
+       If multiple flags are true, include multiple reasons in one string. Use these possible values:
          - "Offensive language"
          - "Hate speech or slur"
          - "Severe insult"
