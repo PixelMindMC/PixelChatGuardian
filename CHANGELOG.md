@@ -22,6 +22,10 @@ All notable changes to this project will be documented in this file.
 - Plugin no longer crashes on update check failure; logs a warning instead
 - Exception causes are now properly chained rather than stringified
 
+### 🐛 Fixed
+
+- Detection of email addresses
+
 ### 🔒 Security
 
 - API key is no longer printed to the debug log; a boolean presence indicator is logged instead
