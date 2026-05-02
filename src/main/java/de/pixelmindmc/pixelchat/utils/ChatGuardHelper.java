@@ -195,7 +195,6 @@ public class ChatGuardHelper {
         boolean blockWebsites = configHelper.getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_WEBSITES);
         boolean blockSexualContent = configHelper.getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_SEXUAL_CONTENT);
 
-
         return blockOffensiveLanguage && classification.isOffensiveLanguage() || blockUsernames && classification.isUsername() || blockPasswords && classification.isPassword() || blockHomeAddresses && classification.isHomeAddress() || blockEmailAddresses && classification.isEmailAddress() || blockWebsites && classification.isWebsite() || blockSexualContent && classification.isSexualContent();
     }
 }

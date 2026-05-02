@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### 🔧 Changed
 
 - Updated Gradle to 9.5.0
+- Updated the sys prompt for better performance
 - General code quality improvements
 - Updated dependencies to latest compatible versions
 - Improved error logging: exceptions now include full stack traces and contextual information (player name, file path, etc.)
