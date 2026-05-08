@@ -14,10 +14,23 @@ All notable changes to this project will be documented in this file.
 
 ### 🔧 Changed
 
-- Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently updated to the current format (no manual edits required)
-- Updated Gradle to 9.4.0
+- Updated Gradle to 9.5.0
+- Updated the sys prompt for better performance
 - General code quality improvements
 - Updated dependencies to latest compatible versions
+- Improved error logging: exceptions now include full stack traces and contextual information (player name, file path, etc.)
+- Plugin no longer crashes on update check failure; logs a warning instead
+- Exception causes are now properly chained rather than stringified
+- Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently updated to the current format (no manual edits required)
+
+
+### 🐛 Fixed
+
+- Detection of email addresses
+
+### 🔒 Security
+
+- API key is no longer printed to the debug log; a boolean presence indicator is logged instead
 
 ---
 

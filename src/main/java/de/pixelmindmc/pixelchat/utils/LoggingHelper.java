@@ -1,6 +1,18 @@
 /*
+ * Copyright (C) 2024 - 2026 PixelMindMC
+ *
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2026 PixelMindMC
+ *
+ * PixelChat Guardian is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * PixelChat Guardian is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with PixelChat Guardian.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -53,6 +65,18 @@ public class LoggingHelper {
     }
 
     /**
+     * Logs a message and associated throwable at the WARNING level, if the current log level allows WARNING logging
+     *
+     * @param message   The message to log
+     * @param throwable The throwable whose stack trace is included in the log output
+     */
+    public void warning(@NotNull String message, @NotNull Throwable throwable) {
+        if (isLogLevel(Level.WARNING)) {
+            logger.log(Level.WARNING, message, throwable);
+        }
+    }
+
+    /**
      * Logs a message at the ERROR (SEVERE) level, if the current log level allows SEVERE logging
      *
      * @param message The message to log
@@ -60,6 +84,18 @@ public class LoggingHelper {
     public void error(@NotNull String message) {
         if (isLogLevel(Level.SEVERE)) {
             log(Level.SEVERE, message);
+        }
+    }
+
+    /**
+     * Logs a message and associated throwable at the ERROR (SEVERE) level, if the current log level allows SEVERE logging
+     *
+     * @param message   The message to log
+     * @param throwable The throwable whose stack trace is included in the log output
+     */
+    public void error(@NotNull String message, @NotNull Throwable throwable) {
+        if (isLogLevel(Level.SEVERE)) {
+            logger.log(Level.SEVERE, message, throwable);
         }
     }
 

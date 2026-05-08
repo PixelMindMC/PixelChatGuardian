@@ -1,6 +1,18 @@
 /*
+ * Copyright (C) 2024 - 2026 PixelMindMC
+ *
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2026 PixelMindMC
+ *
+ * PixelChat Guardian is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * PixelChat Guardian is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with PixelChat Guardian.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 package de.pixelmindmc.pixelchat;
@@ -64,7 +76,7 @@ public final class PixelChat extends JavaPlugin {
         try {
             checkForUpdates();
         } catch (URISyntaxException | IOException e) {
-            throw new RuntimeException(e);
+            getLoggingHelper().warning("Failed to check for updates", e);
         }
     }
 
@@ -242,7 +254,7 @@ public final class PixelChat extends JavaPlugin {
 
         // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
-        getLoggingHelper().debug("API key is: " + apiKey);
+        getLoggingHelper().debug("API key configured: " + (!apiKey.isEmpty() && !"API-KEY".equals(apiKey)));
 
         // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
@@ -346,7 +358,8 @@ public final class PixelChat extends JavaPlugin {
     private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.General.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.Global.CHECKING_FOR_UPDATES));
-            updateChecker = new UpdateChecker(this, new URI("https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest").toURL()).checkForUpdates();
+            String url = "https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest";
+            updateChecker = new UpdateChecker(this, new URI(url).toURL()).checkForUpdates();
             getLoggingHelper().info(updateChecker);
         }
     }

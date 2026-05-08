@@ -18,7 +18,6 @@ version: ${version}
 
 # General plugin configuration
 general:
-
   # Supported languages: en, de, es, fr, nl, zh-cn, zh-tw, custom
   # Default: en
   language: en
@@ -39,7 +38,6 @@ general:
 
 # Third-party plugin integration settings
 plugin-support:
-
   # CarbonChat integration support
   # Tested with version 3.0.0-beta.36
   # Default: true
@@ -49,7 +47,6 @@ plugin-support:
 
 # Enable/disable plugin modules
 modules:
-
   # AI-powered chat moderation
   # Default: true
   chatguard: true
@@ -66,15 +63,14 @@ modules:
 
 # AI moderation and API configuration
 api:
-
   # API endpoint (OpenAI-compatible)
   # Default: "https://api.groq.com/openai/v1/chat/completions"
   endpoint: "https://api.groq.com/openai/v1/chat/completions"
 
   # AI model for moderation
-  # Examples for groq: "llama-3.3-70b-versatile", "llama-3.1-8b-instant"
-  # Default: "llama-3.3-70b-versatile"
-  ai-model: "llama-3.3-70b-versatile"
+  # Examples for using GroqCloud: "llama-3.1-8b-instant", "allam-2-7b", "llama-3.3-70b-versatile", "qwen3-32b"
+  # Default: "llama-3.1-8b-instant"
+  ai-model: "llama-3.1-8b-instant"
 
   # API key for authentication
   # Replace with your actual API key
@@ -85,61 +81,58 @@ api:
   # Context: Analyze messages and respond in JSON with fields "block" (boolean) and "reason" (string)
   sys-prompt: >
     "You are an AI moderation assistant for a Minecraft server chat. Analyze each player message and respond ONLY in JSON format with the following structure:
-    {
-      "isOffensiveLanguage": boolean,
-      "isUsername": boolean,
-      "isPassword": boolean,
-      "isHomeAddress": boolean,
-      "isEmail": boolean,
-      "isWebsite": boolean,
-      "isSexualContent": boolean,
-      "block": boolean,
-      "reason": string
-    }
+
+     {
+       "isOffensiveLanguage": boolean,
+       "isUsername": boolean,
+       "isPassword": boolean,
+       "isHomeAddress": boolean,
+       "isEmail": boolean,
+       "isWebsite": boolean,
+       "isSexualContent": boolean,
+       "reason": string
+     }
+
+     Detection Criteria:
+       - isOffensiveLanguage: offensive language, slurs, hate speech, severe insults, real-world crime references, or threatening/violent language (outside in-game context)
+       - isUsername: contains username or player identifier
+       - isPassword: appears to contain password or login credentials
+       - isHomeAddress: contains real-world address or location
+       - isEmail: includes email address
+       - isWebsite: contains website link or URL
+       - isSexualContent: sexual content, innuendo, adult or explicit references
+
+     Reason Array Construction:
+       For each boolean flagged true, add a reason string from this list. Choose the most specific variant that matches the content.
+       If multiple flags are true, include multiple reasons in one string. Use these possible values:
+         - "Offensive language"
+         - "Hate speech or slur"
+         - "Severe insult"
+         - "Reference to real-world crimes"
+         - "Sexual content"
+         - "Inappropriate or adult content"
+         - "Username or player identifier" (include only when isUsername is true, even alongside other reasons)
+         - "Password or login credentials"
+         - "Email address"
+         - "Home address or location"
+         - "Not allowed websites"
+         - "Phishing or scam attempt"
+         - "Sensitive personal information" (fallback when several personal data types appear)
+         - "Threatening or violent language"
+         - "Other forms of harmful language"
+
+     Language Translation:
+       Detect the language of the player's message. Translate **each** reason in the array to that same language.
+       If the language cannot be determined, use English.
     
-    Detection Criteria:
-      - isOffensiveLanguage: offensive language, slurs, hate speech, severe insults, or real-world crime references
-      - isUsername: contains username or player identifier
-      - isPassword: appears to contain password or login credentials
-      - isHomeAddress: contains real-world address or location
-      - isEmail: includes email address
-      - isWebsite: contains website link or URL
-      - isSexualContent: sexual content, innuendo, adult or explicit references
-    
-    Blocking Rules:
-      - Block if isOffensiveLanguage, isSexualContent, isPassword, or isHomeAddress is true
-      - Block sensitive personal information (emails, addresses, usernames, passwords)
-      - Block sexual or explicit content
-      - Block unauthorized websites (if configured)
-      - Allow in-game-related content (e.g., "kill all the zombies")
-    
-    Reason Format (translate to user's language):
-      - "Offensive language"
-      - "Hate speech or slur"
-      - "Severe insult"
-      - "Reference to real-world crimes"
-      - "Sexual content"
-      - "Sensitive personal information"
-      - "Username or player identifier"
-      - "Password or login credentials"
-      - "Email address"
-      - "Home address or location"
-      - "Not allowed websites"
-      - "Phishing or scam attempt"
-      - "Inappropriate or adult content"
-      - "Threatening or violent language"
-      - "Other forms of harmful language"
-    
-    IMPORTANT: Respond with ONLY the JSON object, no additional text or explanations."
+     IMPORTANT: Respond with ONLY the JSON object, no additional text or explanations."
 
 # =================== ChatGuard Settings =====================
 
 # Chat moderation and filtering system
 chatguard:
-
   # Custom prefix display settings
   custom-prefix:
-
     # Enable custom prefix for moderation messages
     # Default: false
     enabled: false
@@ -165,7 +158,6 @@ chatguard:
 
   # Content filtering rules
   rules:
-
     # Block offensive language, hate speech, slurs, etc.
     # Default: true
     block-offensive-language: true
@@ -191,12 +183,11 @@ chatguard:
     block-websites: false
 
     # Block sexual or explicit content
-    # Default: true
-    block-sexual-content: true
+    # Default: false
+    block-sexual-content: false
 
   # Player strike management system
   strike-system:
-
     # Enable built-in strike tracking
     # Default: true
     enabled: true
@@ -207,7 +198,6 @@ chatguard:
 
     # Strike thresholds and actions
     thresholds:
-
       # Strikes before kick
       # Default: 3
       kick: 3
@@ -222,7 +212,6 @@ chatguard:
 
     # Command templates for strike actions
     commands:
-
       # Kick command template
       # Placeholders: <player>, <reason>
       # Default: "kick <player> <reason>"
