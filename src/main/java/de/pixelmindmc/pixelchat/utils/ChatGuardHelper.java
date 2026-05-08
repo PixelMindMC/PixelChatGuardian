@@ -1,6 +1,18 @@
 /*
+ * Copyright (C) 2024 - 2026 PixelMindMC
+ *
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2026 PixelMindMC
+ *
+ * PixelChat Guardian is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * PixelChat Guardian is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with PixelChat Guardian.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 package de.pixelmindmc.pixelchat.utils;
@@ -180,7 +192,6 @@ public class ChatGuardHelper {
         boolean blockEmailAddresses = configHelper.getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_EMAIL_ADDRESSES);
         boolean blockWebsites = configHelper.getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_WEBSITES);
         boolean blockSexualContent = configHelper.getBoolean(ConfigConstants.ChatGuard.Rules.BLOCK_SEXUAL_CONTENT);
-
 
         return blockOffensiveLanguage && classification.isOffensiveLanguage() || blockUsernames && classification.isUsername() || blockPasswords && classification.isPassword() || blockHomeAddresses && classification.isHomeAddress() || blockEmailAddresses && classification.isEmailAddress() || blockWebsites && classification.isWebsite() || blockSexualContent && classification.isSexualContent();
     }

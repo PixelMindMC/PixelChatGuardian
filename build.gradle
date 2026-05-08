@@ -1,8 +1,18 @@
 /*
- * This file is part of PixelChat Guardian.
- * Copyright (C) 2026 PixelMindMC
+ * Copyright (C) 2024 - 2026 PixelMindMC
  *
- * Gradle build configuration for PixelChat Guardian.
+ * This file is part of PixelChat Guardian.
+ *
+ * PixelChat Guardian is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * PixelChat Guardian is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with PixelChat Guardian.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 // Gradle plugins
@@ -18,7 +28,7 @@ description = 'AI-powered chat moderation featuring smart filtering, anti-spam a
 
 // Dependency versions
 ext {
-    spigotVersion = '26.1-R0.1-SNAPSHOT'
+    spigotVersion = '26.1.2-R0.1-SNAPSHOT'
     commonsLang3Version = '3.20.0'
     carbonChatVersion = '3.0.0-beta.36'
     bstatsVersion = '3.2.1'
@@ -26,22 +36,16 @@ ext {
 
 // Declare project repositories
 repositories {
-    // Primary repository - Maven Central
+    // Maven Central repository
     mavenCentral()
 
-    // SpigotMC repository for Bukkit/Spigot APIs
+    // SpigotMC repository
     maven {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
         content {
             includeGroup 'org.spigotmc'
         }
-    }
-
-    // Sonatype repository for additional dependencies
-    maven {
-        name = 'sonatype'
-        url = 'https://oss.sonatype.org/content/groups/public/'
     }
 }
 
@@ -58,58 +62,22 @@ dependencies {
 
 // Java configuration
 java {
-    // Use toolchain for automatic JDK management
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-
-    // Generate Javadoc and sources JARs
-    withJavadocJar()
-    withSourcesJar()
-
-    // Ensure consistent source/target compatibility
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-}
-
-// Task to verify Java installation
-tasks.register('verifyJava') {
-    doLast {
-        def javaVersion = JavaVersion.current()
-        println "Java version: ${javaVersion}"
-        println "Java home: ${System.getProperty('java.home')}"
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
-// Make compile tasks depend on Java verification
-tasks.withType(JavaCompile).configureEach {
-    dependsOn 'verifyJava'
-}
-
-// Java compilation settings for optimal performance
+// Java compilation settings
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
-
-    // Add compiler arguments
     options.compilerArgs.addAll(['-Xlint:unchecked',
                                  '-Xlint:deprecation',
-                                 '-parameters',
-                                 '--enable-preview'  // Enable preview features for Java 21
-    ] as List<String>)
-
-    options.incremental = true
+                                 '-parameters'])
 }
 
-// Javadoc configuration
-tasks.withType(Javadoc).configureEach {
-    options {
-        encoding = 'UTF-8'
-        charSet = 'UTF-8'
-        docEncoding = 'UTF-8'
-        addBooleanOption('Xdoclint:all,-missing', true)
-        addBooleanOption('html5', true)
-        addStringOption('source', '21')
-    }
+// Task management disable standard jar
+jar {
+    enabled = false
 }
 
 // Shadow JAR configuration for plugin distribution
@@ -142,12 +110,15 @@ shadowJar {
         attributes('Implementation-Title': project.name,
                 'Implementation-Version': project.version,
                 'Implementation-Vendor': 'PixelMindMC',
-                'Created-By': "Gradle ${gradle.gradleVersion}",
-                'Build-Jdk': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
-                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Multi-Release': 'true'  // Support for multi-release JARs
-        )
+                'Gradle-Version': gradle.gradleVersion,
+                'Build-JDK': "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
+                'Build-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"))
     }
+}
+
+// Ensure shadowJar is built
+tasks.assemble {
+    dependsOn shadowJar
 }
 
 // Process resources with filtering
@@ -155,38 +126,20 @@ tasks.processResources {
     filteringCharset = 'UTF-8'
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 
-    // Capture properties at configuration time to avoid Task.project access
-    def propertiesToExpand = [version    : project.version,
-                              name       : project.name,
-                              description: project.description]
+    // Inject version, name and description into plugin.yml and other files
+    def properties = [version    : project.version,
+                      name       : project.name,
+                      description: project.description]
 
     filesMatching(['**/*.yml', '**/*.yaml', '**/*.json']) {
-        expand(propertiesToExpand)
+        expand(properties)
     }
 }
-
-// Configure regular JAR task
-jar {
-    enabled = false
-    dependsOn shadowJar
-    archiveClassifier.set('original')
-}
-
-// Build task dependencies
-tasks.assemble.dependsOn shadowJar
 
 // Reproducible builds configuration
 tasks.withType(AbstractArchiveTask).configureEach {
     preserveFileTimestamps = false
     reproducibleFileOrder = true
-}
-
-// Input normalization for cache hits
-normalization {
-    runtimeClasspath {
-        ignore '**/build-info.properties'
-        ignore '**/git.properties'
-    }
 }
 
 // Task to display build information

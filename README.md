@@ -3,7 +3,7 @@
 Advanced AI-powered chat moderation for Minecraft servers. Automatically filter inappropriate messages, support emojis &
 chat formatting, and integrate seamlessly with your existing setup.
 
-![](https://img.shields.io/badge/Minecraft-1.17--26.1-blue)
+![](https://img.shields.io/badge/Minecraft-1.17--26.1.2-blue)
 ![](https://img.shields.io/badge/Server-Spigot%20and%20Paper-green)
 ![](https://img.shields.io/badge/License-GPLv3-yellow)
 
@@ -37,21 +37,25 @@ chat formatting, and integrate seamlessly with your existing setup.
    distribution platforms
 2. **Install**: Place the `.jar` file in your server's `plugins/` folder
 3. **Configure**: Open the `config.yml` file located in the `plugins/PixelChatGuardian/` directory
-   ```yaml
-   api:
-     endpoint: "https://api.groq.com/openai/v1/chat/completions" # Optionally, specify a different API endpoint
-     ai-model: "llama-3.3-70b-versatile" #  Optionally, specify a different AI model
-     key: "API-KEY" # Add your API key
-   ```
+```yaml
+api:
+  endpoint: "https://api.groq.com/openai/v1/chat/completions" # Optionally, specify a different API endpoint
+  ai-model: "llama-3.1-8b-instant" #  Optionally, specify a different AI model
+  key: "API-KEY" # Replace with your actual API key
+```
 4. **Restart**: Restart your server
 
 ## ⚡ Quick Start for using Groq
 
-1. Sign up for a free account at [Groq Cloud](https://console.groq.com/)
+1. Sign up for a free account at [GroqCloud](https://console.groq.com/)
 2. Navigate to API Keys section
 3. Create a new API key
 4. Add it to your `config.yml`
 5. Restart your server
+
+> Please note that the free tier of GroqCloud has request rate limits per minute and per day. See [Rate Limits - GroqDocs](https://console.groq.com/docs/rate-limits/) for details.
+> 
+> Groq is not affiliated with this project or plugin in any way and does not endorse it.
 
 ## 🌐 Supported Languages
 

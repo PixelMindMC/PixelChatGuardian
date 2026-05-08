@@ -1,6 +1,18 @@
 /*
+ * Copyright (C) 2024 - 2026 PixelMindMC
+ *
  * This file is part of PixelChat Guardian.
- * Copyright (C) 2026 PixelMindMC
+ *
+ * PixelChat Guardian is free software: you can redistribute it and/or modify it under the terms
+ * of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ *
+ * PixelChat Guardian is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with PixelChat Guardian.
+ * If not, see <https://www.gnu.org/licenses/>.
  */
 
 package de.pixelmindmc.pixelchat.listener;
@@ -85,7 +97,7 @@ public class AsyncPlayerChatListener implements Listener {
             loggingHelper.debug("Using CarbonChat integration");
 
             return true;
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException _) {
             return false;
         }
     }
@@ -136,13 +148,13 @@ public class AsyncPlayerChatListener implements Listener {
         try {
             classification = plugin.getAPIHelper().classifyMessage(message);
         } catch (MessageClassificationException e) {
-            loggingHelper.error(e.getMessage());
+            loggingHelper.error("Failed to classify message from player " + player.getName() + ": " + e.getMessage(), e);
             return false; //Don't block message if there was an error while classifying it
         }
 
         // Check if classification matches any enabled blocking rules
         if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
-            boolean blockOrCensor = configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING).equals("BLOCK");
+            boolean blockOrCensor = "BLOCK".equals(configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING));
             if (blockOrCensor) {
                 event.setCancelled(true);
             } else {
