@@ -86,7 +86,7 @@ public final class PixelChat extends JavaPlugin {
     private void loadConfigs() {
         // Debug logger message
         getLoggingHelper().debug("Loading configurations");
-        this
+
         configHelper = new ConfigHelper(this, "config.yml");
         configHelperPlayerStrikes = new ConfigHelper(this, "player_strikes.yml");
         configHelperEmojiList = new ConfigHelper(this, "emoji_list.yml");
