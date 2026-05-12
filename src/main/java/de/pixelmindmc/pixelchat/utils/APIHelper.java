@@ -82,7 +82,7 @@ public class APIHelper {
         } catch (IOException e) {
             throw new MessageClassificationException("Failed to classify message due to an IO issue.", e);
         } catch (URISyntaxException e) {
-            throw new MessageClassificationException("Failed to classify message: invalid API endpoint URL '" + apiUrl + "'", e);
+            throw new MessageClassificationException("Failed to classify message: invalid API endpoint URL '" + configHelper.getString(ConfigConstants.API.ENDPOINT) + "'", e);
         } catch (Exception e) {
             throw new MessageClassificationException("Failed to classify message due to an unexpected error.", e);
         }

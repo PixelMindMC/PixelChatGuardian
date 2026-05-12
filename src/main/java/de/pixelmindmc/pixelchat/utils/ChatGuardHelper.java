@@ -58,6 +58,7 @@ public class ChatGuardHelper {
      * @param blockOrCensor  Whether the message should be blocked ({@code true}) or censored ({@code false})
      */
     public void notifyAndStrikePlayer(@NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, boolean blockOrCensor) {
+        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
         String chatGuardPrefix = (configHelper.getBoolean(ConfigConstants.ChatGuard.CustomPrefix.ENABLED) ? configHelper.getString(ConfigConstants.ChatGuard.CustomPrefix.FORMAT) + ChatColor.RESET + " " : LangConstants.PLUGIN_PREFIX);
 
         // Notify player if enabled
@@ -65,7 +66,7 @@ public class ChatGuardHelper {
             // Debug logger message
             loggingHelper.debug("Notify player");
 
-            String playerMessage = chatGuardPrefix + plugin.getConfigHelperLanguage().getString(blockOrCensor ? LangConstants.ChatGuard.Player.MESSAGE_BLOCKED : LangConstants.ChatGuard.Player.MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason();
+            String playerMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Player.MESSAGE_BLOCKED : LangConstants.ChatGuard.Player.MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason();
             player.sendMessage(playerMessage);
         }
 
@@ -74,7 +75,7 @@ public class ChatGuardHelper {
             // Debug logger message
             loggingHelper.debug("Notify online admins with the 'pixelchat.strike-notify' permission");
 
-            String adminMessage = chatGuardPrefix + plugin.getConfigHelperLanguage().getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
+            String adminMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
 
             Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
             for (Player admin : onlinePlayers) {
@@ -84,7 +85,7 @@ public class ChatGuardHelper {
             }
         }
 
-        String loggerMessage = plugin.getConfigHelperLanguage().getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[MESSAGE]", userMessage).replace("[PLAYER]", player.getName()) + " " + ChatColor.RED + classification.reason();
+        String loggerMessage = configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[MESSAGE]", userMessage).replace("[PLAYER]", player.getName()) + " " + ChatColor.RED + classification.reason();
 
         loggingHelper.info(loggerMessage);
 
@@ -111,6 +112,7 @@ public class ChatGuardHelper {
         // Debug logger message
         loggingHelper.debug("Run strike system on " + playerName);
 
+        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
         ConfigHelper configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
         String action = "NOTHING";
 
@@ -128,15 +130,15 @@ public class ChatGuardHelper {
         // Check if the player has reached the threshold for punishment
         if (strikes >= strikesToKick && strikes < strikesToTempBan) {
             // Player has enough strikes to be kicked
-            executeCommand(configHelper.getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.KICK), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.Player.KICK) + " " + reason);
+            executeCommand(configHelper.getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.KICK), playerName, configHelperLanguage.getString(LangConstants.ChatGuard.Player.KICK) + " " + reason);
             action = "KICK";
         } else if (strikes >= strikesToTempBan && strikes < strikesToBan) {
             // Player has enough strikes to be temporarily banned
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.TEMP_BAN), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.Player.BAN_TEMPORARY) + " " + reason);
+            executeCommand(configHelper.getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.TEMP_BAN), playerName, configHelperLanguage.getString(LangConstants.ChatGuard.Player.BAN_TEMPORARY) + " " + reason);
             action = "TEMP-BAN";
         } else if (strikes >= strikesToBan) {
             // Player has enough strikes to be permanently banned
-            executeCommand(plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.BAN), playerName, plugin.getConfigHelperLanguage().getString(LangConstants.ChatGuard.Player.BAN_PERMANENT) + " " + reason);
+            executeCommand(configHelper.getString(ConfigConstants.ChatGuard.StrikeSystem.Commands.BAN), playerName, configHelperLanguage.getString(LangConstants.ChatGuard.Player.BAN_PERMANENT) + " " + reason);
             action = "BAN";
         }
 
