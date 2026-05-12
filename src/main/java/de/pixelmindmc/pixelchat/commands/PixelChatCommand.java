@@ -126,7 +126,7 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PixelChatCommand.PLUGIN_WEBSITE));
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + description.getWebsite());
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.PixelChatCommand.REPORT_BUGS));
-        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues");
+        sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.WHITE + "https://github.com/PixelMindMC/PixelChatGuardian/issues/");
         sender.sendMessage(LangConstants.PLUGIN_PREFIX);
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
 

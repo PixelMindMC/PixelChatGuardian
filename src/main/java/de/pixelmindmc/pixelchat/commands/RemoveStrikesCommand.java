@@ -30,6 +30,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -90,6 +92,12 @@ public class RemoveStrikesCommand implements CommandExecutor {
         if (playerUUID != null && configHelperPlayerStrikes.contains(playerUUID.toString())) {
             configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
         }
+
+        // Get the current date and time
+        String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // Save the last time when the player strikes have been cleared
+        configHelperPlayerStrikes.set(playerUUID + ".cleared-strikes", currentDate);
 
         // Debug logger message
         loggingHelper.debug(sender.getName() + " removed strikes from the player " + args[0]);

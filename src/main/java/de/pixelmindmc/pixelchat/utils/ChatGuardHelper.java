@@ -151,6 +151,12 @@ public class ChatGuardHelper {
         // Get the current date and time
         String currentDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+        // Check if the player strikes have been cleared previously
+        if (!configHelperPlayerStrikes.getBoolean(playerUUID + ".cleared-strikes")) {
+            // Save the last time when the player strikes have been cleared
+            configHelperPlayerStrikes.set(playerUUID + ".cleared-strikes", "never");
+        }
+
         // Create a new strike entry with reason and date in the strike history
         String strikePath = playerUUID + ".strikeHistory." + currentDate;
         configHelperPlayerStrikes.set(strikePath + ".reason", reason);
