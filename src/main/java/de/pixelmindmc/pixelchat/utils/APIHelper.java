@@ -124,8 +124,12 @@ public class APIHelper {
      * @throws IOException If any issue happens, an exception is thrown
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
-        Map<String, Object> json = Map.of("model", aiModel, "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, sysPrompt + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)}, "response_format", Map.of("type", "json_object"));
-
+        Map<String, Object> json = Map.of(
+            "model", aiModel,
+            "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, sysPrompt + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)},
+            "response_format", Map.of("type", "json_object"),
+            "temperature", 0
+        );
         String jsonInputString = new Gson().toJson(json);
 
         // Debug logger message

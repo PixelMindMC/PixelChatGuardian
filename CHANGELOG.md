@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
   etc.)
 - Plugin no longer crashes on update check failure; logs a warning instead
 - Exception causes are now properly chained rather than stringified
+- A temperature value of 0 is now passed to the AI model for deterministic filtering
 
 ### 🐛 Fixed
 
