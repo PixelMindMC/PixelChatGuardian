@@ -37,12 +37,14 @@ chat formatting, and integrate seamlessly with your existing setup.
    distribution platforms
 2. **Install**: Place the `.jar` file in your server's `plugins/` folder
 3. **Configure**: Open the `config.yml` file located in the `plugins/PixelChatGuardian/` directory
+
 ```yaml
 api:
   endpoint: "https://api.groq.com/openai/v1/chat/completions" # Optionally, specify a different API endpoint
   ai-model: "llama-3.1-8b-instant" #  Optionally, specify a different AI model
   key: "API-KEY" # Replace with your actual API key
 ```
+
 4. **Restart**: Restart your server
 
 ## ⚡ Quick Start for using Groq
@@ -53,8 +55,9 @@ api:
 4. Add it to your `config.yml`
 5. Restart your server
 
-> Please note that the free tier of GroqCloud has request rate limits per minute and per day. See [Rate Limits - GroqDocs](https://console.groq.com/docs/rate-limits/) for details.
-> 
+> Please note that the free tier of GroqCloud has request rate limits per minute and per day.
+> See [Rate Limits - GroqDocs](https://console.groq.com/docs/rate-limits/) for details.
+>
 > Groq is not affiliated with this project or plugin in any way and does not endorse it.
 
 ## 🌐 Supported Languages
@@ -80,7 +83,7 @@ PixelChat Guardian integrates seamlessly with [CarbonChat](https://modrinth.com/
 
 ```yaml
 plugin-support:
-  carbonchat: true  # Tested with CarbonChat 3.0.0-beta.36+
+  carbonchat: true  # Tested with version 3.0.0-beta.37
 ```
 
 ### Other Chat Plugins

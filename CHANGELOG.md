@@ -18,7 +18,8 @@ All notable changes to this project will be documented in this file.
 - Updated the sys prompt for better performance
 - General code quality improvements
 - Updated dependencies to latest compatible versions
-- Improved error logging: exceptions now include full stack traces and contextual information (player name, file path, etc.)
+- Improved error logging: exceptions now include full stack traces and contextual information (player name, file path,
+  etc.)
 - Plugin no longer crashes on update check failure; logs a warning instead
 - Exception causes are now properly chained rather than stringified
 

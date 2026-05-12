@@ -39,7 +39,7 @@ general:
 # Third-party plugin integration settings
 plugin-support:
   # CarbonChat integration support
-  # Tested with version 3.0.0-beta.36
+  # Tested with version 3.0.0-beta.37
   # Default: true
   carbonchat: true
 
