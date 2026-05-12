@@ -47,7 +47,6 @@ public class PixelChatCommand implements CommandExecutor {
     private final @NotNull LoggingHelper loggingHelper;
     private final @NotNull ConfigHelper configHelper;
     private final @NotNull ConfigHelper configHelperPlayerStrikes;
-    private final @NotNull ConfigHelper configHelperLanguage;
 
     /**
      * Constructs a PixelChatCommand object
@@ -59,7 +58,6 @@ public class PixelChatCommand implements CommandExecutor {
         this.loggingHelper = plugin.getLoggingHelper();
         this.configHelper = plugin.getConfigHelper();
         this.configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
-        this.configHelperLanguage = plugin.getConfigHelperLanguage();
     }
 
     /**
@@ -73,6 +71,8 @@ public class PixelChatCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
+
         // Display usage information if no arguments are provided
         if (args.length == 0) {
             sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX) + " " + ChatColor.RESET + configHelperLanguage.getString(LangConstants.Global.INVALID_SYNTAX_USAGE) + label + " <version|reload>");
@@ -99,6 +99,8 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args   The arguments
      */
     private void handleVersionSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args) {
+        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
+
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.Commands.VERSION) && sender.hasPermission(PermissionConstants.Commands.RELOAD) && !sender.hasPermission(PermissionConstants.Commands.VERSION) && !sender.hasPermission(PermissionConstants.Commands.VERSION)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
@@ -144,6 +146,8 @@ public class PixelChatCommand implements CommandExecutor {
      * @param args   The arguments
      */
     private void handleReloadSubcommand(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args) {
+        ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
+
         // Check if the player has the required permission
         if (!sender.hasPermission(PermissionConstants.Commands.RELOAD)) {
             sender.sendMessage(ChatColor.RED + configHelperLanguage.getString(LangConstants.Global.NO_PERMISSION));
@@ -158,13 +162,14 @@ public class PixelChatCommand implements CommandExecutor {
             return;
         }
 
-        // Reload the plugin configurations
-        configHelper.loadConfig();
-        configHelperPlayerStrikes.loadConfig();
-        configHelperLanguage.loadConfig();
+        // Reload all plugin configurations and re-initialize dependent components
+        plugin.reloadPlugin();
 
         // Debug logger message
         loggingHelper.debug("Configuration files successfully reloaded");
+
+        // Re-resolve after reload in case the configured language changed
+        configHelperLanguage = plugin.getConfigHelperLanguage();
 
         // Send a message after successfully reloading the configurations
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + ChatColor.GREEN + configHelperLanguage.getString(LangConstants.PixelChatCommand.RELOAD));
