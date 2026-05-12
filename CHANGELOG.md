@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### ✨ Added
 
-- Minecraft 26.1 compatibility
+- Minecraft 26.1.2 compatibility
 - Added in-game notifications about player strikes
 - More debugging messages
 
