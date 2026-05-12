@@ -116,88 +116,12 @@ public final class PixelChat extends JavaPlugin {
         }
 
         // Migrate config keys from older versions
-        migrateConfig();
+        new ConfigMigrationHelper(this).migrate();
 
         // Reset the strike count of every player if enabled
         if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_ON_RESTART)) {
             resetPlayerStrikesOnServerStart();
         }
-    }
-
-    /**
-     * Migrates configuration keys from older plugin versions to the current format.
-     * This is called once on startup after configs are loaded.
-     * Migrations are skipped entirely when the stored config version already matches the
-     * running plugin version, and only the migration steps relevant to the detected version
-     * range are applied otherwise.
-     */
-    private void migrateConfig() {
-        String pluginVersion = getDescription().getVersion();
-        String configVersion = getConfigHelper().getString(ConfigConstants.CONFIG_VERSION);
-
-        // Config is already at the current version — nothing to migrate
-        if (pluginVersion.equals(configVersion)) return;
-
-        boolean migrated = false;
-
-        // v1.2.0 → v1.3.0: only needed when the stored config version predates 1.3.0
-        if (isConfigVersionOlderThan(configVersion, "1.3.0")) {
-            // chatguard.notify-user (flat) → chatguard.notify.user (nested)
-            if (getConfigHelper().contains("chatguard.notify-user")) {
-                boolean notifyUser = getConfigHelper().getBoolean("chatguard.notify-user");
-                getConfigHelper().set(ConfigConstants.ChatGuard.Notify.USER, notifyUser);
-                getConfigHelper().set("chatguard.notify-user", null);
-                migrated = true;
-            }
-
-            // chatguard.notify.admins is a new key; set default if absent
-            if (!getConfigHelper().contains(ConfigConstants.ChatGuard.Notify.ADMINS)) {
-                getConfigHelper().set(ConfigConstants.ChatGuard.Notify.ADMINS, true);
-                migrated = true;
-            }
-        }
-
-        if (migrated) {
-            getLoggingHelper().info("Configuration migrated to the " + pluginVersion + " format.");
-        }
-    }
-
-    /**
-     * Returns {@code true} if {@code configVersion} is strictly older than {@code targetVersion},
-     * or if {@code configVersion} is {@code null}/empty (pre-dates version tracking).
-     *
-     * @param configVersion The version string stored in the config file
-     * @param targetVersion The version to compare against
-     * @return {@code true} if the config predates the target version
-     */
-    private boolean isConfigVersionOlderThan(String configVersion, @NotNull String targetVersion) {
-        if (configVersion == null || configVersion.isEmpty()) return true;
-
-        String[] configParts = configVersion.split("\\.");
-        String[] targetParts = targetVersion.split("\\.");
-
-        for (int i = 0; i < Math.min(configParts.length, targetParts.length); i++) {
-            try {
-                int configPart = Integer.parseInt(configParts[i]);
-                int targetPart = Integer.parseInt(targetParts[i]);
-                if (configPart < targetPart) return true;
-                if (configPart > targetPart) return false;
-            } catch (NumberFormatException e) {
-                // unparseable version segment — log and assume up-to-date to avoid re-migrating
-                getLoggingHelper().warning("Could not parse config version '" + configVersion + "' for migration check.");
-                return false;
-            }
-        }
-
-        // All shared parts are equal; treat trailing ".0" segments as equal (e.g. "1.3" == "1.3.0")
-        for (int i = Math.min(configParts.length, targetParts.length); i < targetParts.length; i++) {
-            try {
-                if (Integer.parseInt(targetParts[i]) > 0) return true;
-            } catch (NumberFormatException e) {
-                return false;
-            }
-        }
-        return false;
     }
 
     /**
