@@ -115,6 +115,9 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
         }
 
+        // Migrate config keys from older versions
+        new ConfigMigrationHelper(this).migrate();
+
         // Reset the strike count of every player if enabled
         if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_ON_RESTART)) {
             resetPlayerStrikesOnServerStart();
