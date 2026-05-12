@@ -93,7 +93,7 @@ public class StrikeCommand implements CommandExecutor {
         }
 
         // Debug logger message
-        loggingHelper.debug(sender + " striked the player " + args[0] + " with the reason " + args[1]);
+        loggingHelper.debug(sender.getName() + " striked the player " + args[0] + " with the reason " + args[1]);
 
         // Send a message after successfully struck a player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.STRUCK_PLAYER) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");

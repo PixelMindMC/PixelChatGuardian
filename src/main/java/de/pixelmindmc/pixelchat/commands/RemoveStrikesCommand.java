@@ -92,7 +92,7 @@ public class RemoveStrikesCommand implements CommandExecutor {
         }
 
         // Debug logger message
-        loggingHelper.debug(sender + " removed strikes from the player " + args[0]);
+        loggingHelper.debug(sender.getName() + " removed strikes from the player " + args[0]);
 
         // Send a message after successfully remove player strikes from a specific player
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + configHelperLanguage.getString(LangConstants.PixelChatCommand.REMOVED_PLAYER_STRIKES) + " " + ChatColor.RED + ChatColor.BOLD + args[0] + ChatColor.RESET + ".");
