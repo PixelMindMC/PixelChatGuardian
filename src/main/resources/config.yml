@@ -143,7 +143,7 @@ chatguard:
 
   # Message handling configuration
   # Default: CENSOR
-  # Options: Censor, BLOCK
+  # Options: Censor, BLOCK or SILENCE
   message-handling: CENSOR
 
   # Notification settings

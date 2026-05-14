@@ -64,3 +64,4 @@ chatguard:
   admin:
     player-message-blocked: "来自玩家 [player] 的消息 '[message]' 已被屏蔽。原因：" # [player] 将被替换为玩家名称，[message] 为被屏蔽的消息
     player-message-censored: "来自玩家 [player] 的消息 '[message]' 已被审查。原因：" # [player] 将被替换为玩家名称，[message] 为被审查的消息
+    player-message-silenced: "玩家 [player] 的消息 '[message]' 已被静音。原因：" # [player] 将被替换为玩家名称，[message] 被替换为被静音的消息

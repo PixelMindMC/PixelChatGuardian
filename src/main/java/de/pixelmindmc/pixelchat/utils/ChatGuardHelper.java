@@ -52,22 +52,31 @@ public class ChatGuardHelper {
     /**
      * Notifies the player of their message being blocked, logs the block itself, and also applies the strike system
      *
-     * @param player         The player that sent the message
-     * @param userMessage    The message that the user sent
-     * @param classification The classification of the message
-     * @param blockOrCensor  Whether the message should be blocked ({@code true}) or censored ({@code false})
+     * @param player          The player that sent the message
+     * @param userMessage     The message that the user sent
+     * @param classification  The classification of the message
+     * @param messageHandling The message handling mode: "BLOCK", "CENSOR" or "SILENT"
      */
-    public void notifyAndStrikePlayer(@NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, boolean blockOrCensor) {
+    public void notifyAndStrikePlayer(@NotNull Player player, @NotNull String userMessage, @NotNull MessageClassification classification, @NotNull String messageHandling) {
         ConfigHelper configHelperLanguage = plugin.getConfigHelperLanguage();
         String chatGuardPrefix = (configHelper.getBoolean(ConfigConstants.ChatGuard.CustomPrefix.ENABLED) ? configHelper.getString(ConfigConstants.ChatGuard.CustomPrefix.FORMAT) + ChatColor.RESET + " " : LangConstants.PLUGIN_PREFIX);
 
         // Notify player if enabled
-        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.USER)) {
+        if (configHelper.getBoolean(ConfigConstants.ChatGuard.Notify.USER) && !"SILENCE".equals(messageHandling)) {
             // Debug logger message
             loggingHelper.debug("Notify player");
 
-            String playerMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Player.MESSAGE_BLOCKED : LangConstants.ChatGuard.Player.MESSAGE_CENSORED) + " " + ChatColor.RED + classification.reason();
-            player.sendMessage(playerMessage);
+            String langKey = "BLOCK".equals(messageHandling) ? LangConstants.ChatGuard.Player.MESSAGE_BLOCKED : LangConstants.ChatGuard.Player.MESSAGE_CENSORED;
+
+            player.sendMessage(chatGuardPrefix + plugin.getConfigHelperLanguage().getString(langKey) + " " + ChatColor.RED + classification.reason());
+        }
+
+        String langKey;
+        switch (messageHandling) {
+            case "CENSOR" -> langKey = LangConstants.ChatGuard.Admin.MESSAGE_CENSORED;
+            case "SILENCE" -> langKey = LangConstants.ChatGuard.Admin.MESSAGE_SILENCED;
+            // Default includes BLOCK
+            default -> langKey = LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED;
         }
 
         // Notify online admins with the 'pixelchat.strike-notify' permission if enabled
@@ -75,7 +84,7 @@ public class ChatGuardHelper {
             // Debug logger message
             loggingHelper.debug("Notify online admins with the 'pixelchat.strike-notify' permission");
 
-            String adminMessage = chatGuardPrefix + configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
+            String adminMessage = chatGuardPrefix + configHelperLanguage.getString(langKey).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
 
             Collection<? extends Player> onlinePlayers = Bukkit.getOnlinePlayers();
             for (Player admin : onlinePlayers) {
@@ -85,7 +94,7 @@ public class ChatGuardHelper {
             }
         }
 
-        String loggerMessage = configHelperLanguage.getString(blockOrCensor ? LangConstants.ChatGuard.Admin.MESSAGE_BLOCKED : LangConstants.ChatGuard.Admin.MESSAGE_CENSORED).replace("[MESSAGE]", userMessage).replace("[PLAYER]", player.getName()) + " " + ChatColor.RED + classification.reason();
+        String loggerMessage = configHelperLanguage.getString(langKey).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
 
         loggingHelper.info(loggerMessage);
 

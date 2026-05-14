@@ -53,13 +53,15 @@ public class ConfigMigrationHelper {
         String configVersion = configHelper.getString(ConfigConstants.CONFIG_VERSION);
 
         // Config is already at the current version — nothing to migrate
-        if (pluginVersion.equals(configVersion)) return;
+        if (pluginVersion.equals(configVersion)) {
+            return;
+        }
 
         boolean migrated = false;
 
         // v1.2.0 → v1.3.0
         if (isConfigVersionOlderThan(configVersion, "1.3.0")) {
-            migrated |= migrateTo1_3_0();
+            migrated = migrateTo1_3_0();
         }
 
         if (migrated) {
@@ -105,7 +107,9 @@ public class ConfigMigrationHelper {
      * @return {@code true} if the config predates the target version
      */
     private boolean isConfigVersionOlderThan(String configVersion, @NotNull String targetVersion) {
-        if (configVersion == null || configVersion.isEmpty()) return true;
+        if (configVersion == null || configVersion.isEmpty()) {
+            return true;
+        }
 
         String[] configParts = configVersion.split("\\.");
         String[] targetParts = targetVersion.split("\\.");
@@ -114,8 +118,12 @@ public class ConfigMigrationHelper {
             try {
                 int configPart = Integer.parseInt(configParts[i]);
                 int targetPart = Integer.parseInt(targetParts[i]);
-                if (configPart < targetPart) return true;
-                if (configPart > targetPart) return false;
+                if (configPart < targetPart) {
+                    return true;
+                }
+                if (configPart > targetPart) {
+                    return false;
+                }
             } catch (NumberFormatException e) {
                 // unparseable version segment — log and assume up-to-date to avoid re-migrating
                 loggingHelper.warning("Could not parse config version '" + configVersion + "' for migration check.");
@@ -126,7 +134,9 @@ public class ConfigMigrationHelper {
         // All shared parts are equal; treat trailing ".0" segments as equal (e.g. "1.3" == "1.3.0")
         for (int i = Math.min(configParts.length, targetParts.length); i < targetParts.length; i++) {
             try {
-                if (Integer.parseInt(targetParts[i]) > 0) return true;
+                if (Integer.parseInt(targetParts[i]) > 0) {
+                    return true;
+                }
             } catch (NumberFormatException e) {
                 return false;
             }
