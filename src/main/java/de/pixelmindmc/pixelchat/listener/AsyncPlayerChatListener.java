@@ -133,12 +133,12 @@ public class AsyncPlayerChatListener implements Listener {
     }
 
     /**
-     * Checks whether a message should be blocked or censored and takes appropriate actions
+     * Checks whether a message should be blocked, censored or silently moderated and takes appropriate actions
      *
      * @param event   The message event
      * @param message The message to check
      * @param player  The player that sent the message
-     * @return {@code true} if the message has been blocked, {@code false} if it has been allowed through
+     * @return {@code true} if the message has been blocked or silently moderated, {@code false} if it has been allowed through
      */
     private boolean checkIfMessageShouldBeBlocked(@NotNull AsyncPlayerChatEvent event, @NotNull String message, @NotNull Player player) {
         // Debug logger message
@@ -154,16 +154,22 @@ public class AsyncPlayerChatListener implements Listener {
 
         // Check if classification matches any enabled blocking rules
         if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
-            boolean blockOrCensor = "BLOCK".equals(configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING));
-            if (blockOrCensor) {
-                event.setCancelled(true);
-            } else {
-                event.setMessage("*".repeat(message.length()));
+            String messageHandling = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING);
+
+            switch (messageHandling) {
+                case "CENSOR" -> event.setMessage("*".repeat(message.length()));
+                case "SILENCE" -> {
+                    event.setCancelled(true);
+
+                    player.sendMessage(String.format(event.getFormat(), player.getDisplayName(), message));
+                }
+                // Default includes BLOCK
+                default -> event.setCancelled(true);
             }
 
-            chatGuardHelper.notifyAndStrikePlayer(player, message, classification, blockOrCensor);
+            chatGuardHelper.notifyAndStrikePlayer(player, message, classification, messageHandling);
 
-            return true; // Message has been blocked or censored
+            return true;
         }
         return false;
     }

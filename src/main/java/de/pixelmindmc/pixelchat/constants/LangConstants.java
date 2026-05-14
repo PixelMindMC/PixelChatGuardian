@@ -98,6 +98,7 @@ public final class LangConstants {
         public static final class Admin {
             public static final String MESSAGE_BLOCKED = "chatguard.admin.player-message-blocked";
             public static final String MESSAGE_CENSORED = "chatguard.admin.player-message-censored";
+            public static final String MESSAGE_SILENCED = "chatguard.admin.player-message-silenced";
 
             private Admin() {
             }

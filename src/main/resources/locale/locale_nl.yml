@@ -64,3 +64,4 @@ chatguard:
   admin:
     player-message-blocked: "Het bericht '[message]' van speler [player] is geblokkeerd. Reden:" # [player] wordt vervangen door de spelersnaam en [message] door het geblokkeerde bericht
     player-message-censored: "Het bericht '[message]' van speler [player] is gecensureerd. Reden:" # [player] wordt vervangen door de spelersnaam en [message] door het gecensureerde bericht
+    player-message-silenced: "Het bericht '[message]' van speler [player] is gedempt. Reden:" # [player] wordt vervangen door de spelersnaam en [message] door het gedempte bericht

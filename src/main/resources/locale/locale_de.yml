@@ -62,5 +62,6 @@ chatguard:
     ban-permanent: "Du wurdest dauerhaft vom Server gebannt. Grund:"
 
   admin:
-    player-message-blocked: "Die Nachricht '[message]' von Spieler [player] wurde blockiert. Grund:" # [player] wird durch den Spielernamen ersetzt und [message] durch die blockierte Nachricht
-    player-message-censored: "Die Nachricht '[message]' von Spieler [player] wurde zensiert. Grund:" # [player] wird durch den Spielernamen ersetzt und [message] durch die zensierte Nachricht
+    player-message-blocked: "Die Nachricht '[message]' von Spieler [player] wurde blockiert. Grund:" # [player] wird durch den Spielernamen und [message] durch die blockierte Nachricht ersetzt
+    player-message-censored: "Die Nachricht '[message]' von Spieler [player] wurde zensiert. Grund:" # [player] wird durch den Spielernamen und [message] durch die zensierte Nachricht ersetzt
+    player-message-silenced: "Die Nachricht '[message]' von Spieler [player] wurde stummgeschaltet. Grund:" # [player] wird durch den Spielernamen und [message] durch die stummgeschaltete Nachricht ersetzt

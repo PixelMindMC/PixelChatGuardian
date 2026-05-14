@@ -64,3 +64,4 @@ chatguard:
   admin:
     player-message-blocked: "The message '[message]' from player [player] was blocked. Reason:" # [player] will be replaced by the player's name and [message] with the blocked message
     player-message-censored: "The message '[message]' from player [player] was censored. Reason:" # [player] will be replaced by the player's name and [message] with the censored message
+    player-message-silenced: "The message '[message]' from player [player] was silenced. Reason:" # [player] will be replaced by the player's name and [message] with the silenced message

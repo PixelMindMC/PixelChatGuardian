@@ -76,7 +76,7 @@ public class CarbonChatIntegration {
     }
 
     /**
-     * Checks whether a message should be blocked or censored and takes appropriate actions for CarbonChat
+     * Checks whether a message should be blocked, censored or silently moderated and takes appropriate actions for CarbonChat
      *
      * @param event            The CarbonChatEvent
      * @param messageComponent The component to check
@@ -86,10 +86,7 @@ public class CarbonChatIntegration {
         Pattern pattern = Pattern.compile("content=\"(.*?)\"");
         Matcher matcher = pattern.matcher(messageComponent.toString());
 
-        String message = null;
-        if (matcher.find()) {
-            message = matcher.group(1);  // Extracts the content
-        }
+        String message = matcher.group(1);  // Extracts the content
 
         if (message == null) {
             return;
@@ -109,16 +106,24 @@ public class CarbonChatIntegration {
 
         // Check if classification matches any enabled blocking rules
         if (chatGuardHelper.messageMatchesEnabledRule(classification)) {
-            boolean blockOrCensor = "BLOCK".equals(configHelper.getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING));
-            if (blockOrCensor) {
-                event.cancelled(true);
-            } else {
-                event.message(Component.text("*".repeat(message.length())));
-            }
+            String messageHandling = plugin.getConfigHelper().getString(ConfigConstants.ChatGuard.MESSAGE_HANDLING);
 
             Player player = Bukkit.getPlayer(event.sender().uuid());
+
+            switch (messageHandling) {
+                case "CENSOR" -> event.message(Component.text("*".repeat(message.length())));
+                case "SILENCE" -> {
+                    event.cancelled(true);
+                    if (player != null) {
+                        player.sendMessage("<" + player.getName() + "> " + message);
+                    }
+                }
+                // Default includes BLOCK
+                default -> event.cancelled(true);
+            }
+
             if (player != null) {
-                chatGuardHelper.notifyAndStrikePlayer(player, message, classification, blockOrCensor);
+                chatGuardHelper.notifyAndStrikePlayer(player, message, classification, messageHandling);
             }
         }
     }

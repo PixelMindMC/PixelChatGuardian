@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Minecraft 26.1.2 compatibility
 - Added in-game notifications about player strikes
 - More debugging messages
+- Last time player strikes cleared added to the player_strikes.yml file
 
 ### 🔧 Changed
 
@@ -22,7 +23,8 @@ All notable changes to this project will be documented in this file.
   etc.)
 - Plugin no longer crashes on update check failure; logs a warning instead
 - Exception causes are now properly chained rather than stringified
-- Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently updated to the current format (no manual edits required)
+- Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently
+  updated to the current format (no manual edits required)
 - A temperature value of 0 is now passed to the AI model for deterministic filtering
 
 ### 🐛 Fixed

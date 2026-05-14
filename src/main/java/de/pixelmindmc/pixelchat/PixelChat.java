@@ -31,9 +31,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -42,7 +42,7 @@ import java.util.Set;
  */
 public final class PixelChat extends JavaPlugin {
     private final LoggingHelper loggingHelper = new LoggingHelper(this);
-    private String updateChecker;
+    private String updateCheckMessage;
 
     // ConfigHelper instances
     private ConfigHelper configHelper;
@@ -62,6 +62,8 @@ public final class PixelChat extends JavaPlugin {
 
     private APIHelper apiHelper;
     private ChatGuardHelper chatGuardHelper;
+
+    private Map<String, ConfigHelper> languageHelpers;
 
     // Called when the plugin is first enabled
     @Override
@@ -100,6 +102,8 @@ public final class PixelChat extends JavaPlugin {
         configHelperLangSimplifiedChinese = new ConfigHelper(this, "locale/locale_zh-cn.yml");
         configHelperLangTraditionalChinese = new ConfigHelper(this, "locale/locale_zh-tw.yml");
 
+        languageHelpers = Map.of("custom", configHelperLangCustom, "de", configHelperLangGerman, "es", configHelperLangSpanish, "fr", configHelperLangFrench, "nl", configHelperLangDutch, "zh-cn", configHelperLangSimplifiedChinese, "zh-tw", configHelperLangTraditionalChinese);
+
         // Check config versions
         String version = getDescription().getVersion();
         if (!version.equalsIgnoreCase(getConfigHelper().getString(ConfigConstants.CONFIG_VERSION))) {
@@ -110,13 +114,13 @@ public final class PixelChat extends JavaPlugin {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.LANGUAGE_CONFIG_OUTDATED));
         }
 
+        // Migrate config keys from older versions
+        new ConfigMigrationHelper(this).migrate();
+
         // Check if the config file exists for the first time message
         if (!getConfigHelper().getFileExist()) {
             getLoggingHelper().warning(getConfigHelperLanguage().getString(LangConstants.Global.FIRST_TIME_MESSAGE));
         }
-
-        // Migrate config keys from older versions
-        new ConfigMigrationHelper(this).migrate();
 
         // Reset the strike count of every player if enabled
         if (getConfigHelper().getBoolean(ConfigConstants.ChatGuard.StrikeSystem.CLEAR_ON_RESTART)) {
@@ -146,6 +150,9 @@ public final class PixelChat extends JavaPlugin {
 
         // Update the log level from the reloaded config
         loggingHelper.setLogLevel(getConfigHelper().getString(ConfigConstants.General.LOG_LEVEL));
+
+        // Migrate config keys from older versions
+        new ConfigMigrationHelper(this).migrate();
 
         // Re-initialize the API helper so new API key / endpoint / model values take effect
         registerAPIHelper();
@@ -198,32 +205,7 @@ public final class PixelChat extends JavaPlugin {
     public ConfigHelper getConfigHelperLanguage() {
         String language = getConfigHelper().getString(ConfigConstants.General.LANGUAGE);
 
-        switch (language.toLowerCase()) {
-            case "custom" -> {
-                return configHelperLangCustom;
-            }
-            case "de" -> {
-                return configHelperLangGerman;
-            }
-            case "es" -> {
-                return configHelperLangSpanish;
-            }
-            case "fr" -> {
-                return configHelperLangFrench;
-            }
-            case "nl" -> {
-                return configHelperLangDutch;
-            }
-            case "zh-cn" -> {
-                return configHelperLangSimplifiedChinese;
-            }
-            case "zh-tw" -> {
-                return configHelperLangTraditionalChinese;
-            }
-            default -> {
-                return configHelperLangEnglish;
-            }
-        }
+        return languageHelpers.getOrDefault(language.toLowerCase(), configHelperLangEnglish);
     }
 
     /**
@@ -233,15 +215,19 @@ public final class PixelChat extends JavaPlugin {
         // Get all the top-level keys in the config (assuming these are player UUIDs)
         Set<String> playerUUIDs = configHelperPlayerStrikes.getKeys("");
 
+        if (playerUUIDs.isEmpty()) {
+            return;
+        }
+
         // Iterate through each player UUID and reset the strike count
-        for (String playerUUID : playerUUIDs) {
+        for (String uuid : playerUUIDs) {
             // Check if the player has a strikes entry in the config
-            if (configHelperPlayerStrikes.contains(playerUUID + ".strikes")) {
+            if (configHelperPlayerStrikes.contains(uuid + ".strikes")) {
                 // Set the strike count to 0
-                configHelperPlayerStrikes.set(playerUUID + ".strikes", 0);
+                configHelperPlayerStrikes.set(uuid + ".strikes", 0);
 
                 // Debug logger message
-                getLoggingHelper().debug("Reset strikes for player with UUID: " + playerUUID);
+                getLoggingHelper().debug("Reset strikes for player with UUID: " + uuid);
             }
         }
 
@@ -258,7 +244,10 @@ public final class PixelChat extends JavaPlugin {
 
         // Retrieve API key from config
         String apiKey = getConfigHelper().getString(ConfigConstants.API.KEY);
-        getLoggingHelper().debug("API key configured: " + (!apiKey.isEmpty() && !"API-KEY".equals(apiKey)));
+
+        // Check if the API key is valid
+        boolean apiKeyValid = !apiKey.isEmpty() && !"API-KEY".equals(apiKey);
+        getLoggingHelper().debug("API key valid: " + apiKeyValid);
 
         // Check if the Chatguard module is active
         if (!getConfigHelper().getBoolean(ConfigConstants.Modules.CHATGUARD)) {
@@ -317,7 +306,6 @@ public final class PixelChat extends JavaPlugin {
         pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
     }
 
-
     /**
      * Registers commands with their respective executors
      */
@@ -358,25 +346,25 @@ public final class PixelChat extends JavaPlugin {
     /**
      * Checks for updates to the plugin and logs the result
      *
-     * @throws URISyntaxException    If the set URL is invalid
-     * @throws MalformedURLException If the set URL is invalid
+     * @throws URISyntaxException If the set URL is invalid
+     * @throws IOException        If the set URL is invalid
      */
     private void checkForUpdates() throws URISyntaxException, IOException {
         if (getConfig().getBoolean(ConfigConstants.General.CHECK_FOR_UPDATES)) {
             getLoggingHelper().info(getConfigHelperLanguage().getString(LangConstants.Global.CHECKING_FOR_UPDATES));
             String url = "https://api.github.com/repos/PixelMindMC/PixelChatGuardian/releases/latest";
-            updateChecker = new UpdateChecker(this, new URI(url).toURL()).checkForUpdates();
-            getLoggingHelper().info(updateChecker);
+            updateCheckMessage = new UpdateChecker(this, new URI(url).toURL()).checkForUpdates();
+            getLoggingHelper().info(updateCheckMessage);
         }
     }
 
     /**
-     * Retrieves the UpdateChecker instance
+     * Retrieves the update check result message
      *
-     * @return The UpdateChecker instance
+     * @return The update check result message
      */
-    public @NotNull String updateChecker() {
-        return updateChecker;
+    public @NotNull String getUpdateCheckMessage() {
+        return updateCheckMessage;
     }
 
     /**
