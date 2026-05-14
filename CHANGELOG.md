@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 - Exception causes are now properly chained rather than stringified
 - Automatic config migration on startup: upgraded installs from 1.2.0 will have their configuration keys silently
   updated to the current format (no manual edits required)
+- A temperature value of 0 is now passed to the AI model for deterministic filtering
 
 ### 🐛 Fixed
 
