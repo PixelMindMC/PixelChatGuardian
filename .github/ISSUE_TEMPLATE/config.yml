@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Support
+    url: https://discord.gg/hyGpwCp3zq/
+    about: Ask quick questions or get help in our Discord server.
+  - name: Wiki / Documentation
+    url: https://github.com/PixelMindMC/PixelChatGuardian/wiki/
+    about: Read the full plugin documentation here.

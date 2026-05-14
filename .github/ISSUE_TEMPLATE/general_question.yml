@@ -1,0 +1,23 @@
+name: General Question
+description: Ask a question about the plugin (not a bug or feature)
+title: "[Question]: "
+labels: question
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check the [documentation / Wiki](https://github.com/PixelMindMC/PixelChatGuardian/wiki/) and existing issues before asking.
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      description: What would you like to know?
+      placeholder: "How do I configure ..."
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Anything that helps us understand your question (setup details, what you've tried, etc.)

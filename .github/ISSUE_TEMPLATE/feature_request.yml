@@ -1,0 +1,38 @@
+name: Feature Request
+description: Suggest a new feature or capability
+title: "[Feature]: "
+labels: enhancement
+type: Feature
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We love new ideas! Please describe the feature you’d like to see.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Related problem
+      description: Is your feature request related to a problem? Please describe it.
+      placeholder: "My request is related to the problem ..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Desired solution
+      description: A clear, concise description of what you want to happen.
+      placeholder: "Add a command, feature, setting that ..."
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you thought of other ways to achieve this? What did you consider?
+      placeholder: "I tried using a separate plugin, but ..."
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Screenshots, examples from other plugins or anything else that helps explain the request.

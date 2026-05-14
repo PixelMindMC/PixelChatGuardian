@@ -1,0 +1,38 @@
+name: Enhancement
+description: Suggest an improvement to an **existing** feature
+title: "[Enhancement]: "
+labels: enhancement
+type: Feature
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help us make existing features even better!
+  - type: textarea
+    id: current-feature
+    attributes:
+      label: Which feature do you want to improve?
+      description: Name the feature and describe how it currently works.
+      placeholder: "e.g., The /example command only supports ..."
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Proposed improvement
+      description: What would you like to change or add? Be specific.
+      placeholder: "Add the support for ..."
+    validations:
+      required: true
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      description: How would this improvement help users?
+      placeholder: "It would give server staff more flexibility when moderating."
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: Any other details, screenshots, or examples?
