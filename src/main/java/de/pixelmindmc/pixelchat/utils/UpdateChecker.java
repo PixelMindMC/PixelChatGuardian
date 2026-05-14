@@ -22,7 +22,6 @@ import com.google.gson.JsonParser;
 import de.pixelmindmc.pixelchat.PixelChat;
 import de.pixelmindmc.pixelchat.constants.LangConstants;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Math;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,8 +37,10 @@ public class UpdateChecker {
     private final @NotNull ConfigHelper configHelperLanguage;
     private final @NotNull URL url;
 
+    private static final String DOWNLOAD_URL = "https://modrinth.com/plugin/pixelchatguardian/";
+
     /**
-     * Constructs a UpdateChecker object
+     * Constructs an UpdateChecker object
      *
      * @param plugin The plugin instance
      * @param apiUrl The URL pointing to the GitHub API endpoint for checking updates
@@ -55,7 +56,7 @@ public class UpdateChecker {
      * Fetches the latest release version from the GitHub API
      *
      * @return The JSON response of the request
-     * @throws IOException If any issue happens, an exception is thrown
+     * @throws IOException If an I/O error occurs while contacting the GitHub API
      */
     private JsonObject getLatestReleaseFromGitHub() throws IOException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -72,6 +73,7 @@ public class UpdateChecker {
             }
             in.close();
 
+            connection.disconnect();
             return JsonParser.parseString(response.toString()).getAsJsonObject();
         } else {
             throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES) + " " + responseCode);
@@ -79,7 +81,7 @@ public class UpdateChecker {
     }
 
     /**
-     * Checks for updates to the plugin
+     * Checks for plugin updates by querying the GitHub API for the latest release
      *
      * @return A string denoting whether the plugin has an update available or not
      */
@@ -92,11 +94,11 @@ public class UpdateChecker {
             boolean isPreRelease = latestRelease.get("prerelease").getAsBoolean();
 
             if (!isPreRelease && isNewerVersion(currentVersion, latestVersion)) {
-                return configHelperLanguage.getString(LangConstants.Global.UPDATE_AVAILABLE) + " https://modrinth.com/plugin/pixelchatguardian/";
+                return configHelperLanguage.getString(LangConstants.Global.UPDATE_AVAILABLE) + " " + DOWNLOAD_URL;
             } else {
                 return configHelperLanguage.getString(LangConstants.Global.NO_UPDATE_AVAILABLE);
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new IOException(configHelperLanguage.getString(LangConstants.Global.UNABLE_TO_CHECK_FOR_UPDATES), e);
         }
     }
@@ -106,13 +108,13 @@ public class UpdateChecker {
      *
      * @param currentVersion The current version string
      * @param latestVersion  The latest version string
-     * @return A boolean that indicates whether the last version is newer than the current version
+     * @return True if the latest version is newer than the current version, false otherwise
      */
     private boolean isNewerVersion(@NotNull String currentVersion, @NotNull String latestVersion) {
         String[] currentParts = currentVersion.split("\\.");
         String[] latestParts = latestVersion.split("\\.");
 
-        for (int i = 0; i < Math.min(currentParts.length, latestParts.length); i++) {
+        for (int i = 0; i < java.lang.Math.min(currentParts.length, latestParts.length); i++) {
             int currentPart = Integer.parseInt(currentParts[i]);
             int latestPart = Integer.parseInt(latestParts[i]);
 
@@ -123,7 +125,7 @@ public class UpdateChecker {
             }
         }
 
-        // If versions are the same length and no difference was found
+        // All corresponding numeric parts are equal; consider longer version newer.
         return currentParts.length < latestParts.length; // Newer if latest has more sub-parts
     }
 }

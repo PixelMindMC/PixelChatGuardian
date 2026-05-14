@@ -14,7 +14,7 @@ chat formatting, and integrate seamlessly with your existing setup.
 - **Smart Filtering**: Uses AI models to detect and filter inappropriate content
 - **Multi-Language Support**: Automatically moderates messages in multiple languages
 - **Configurable Rules**: Control what gets filtered (offensive language, personal info, websites, etc.)
-- **Flexible Actions**: Choose to censor or block messages entirely
+- **Flexible Actions**: Choose to censor, block or silence messages
 - **Strike System**: Automatic punishment system with kick/ban thresholds
 
 ### 💬 Enhanced Chat Experience
