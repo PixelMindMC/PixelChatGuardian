@@ -164,7 +164,7 @@ public class AsyncPlayerChatListener implements Listener {
                     player.sendMessage(String.format(event.getFormat(), player.getDisplayName(), message));
                 }
                 // Default includes BLOCK
-                default ->  event.setCancelled(true);
+                default -> event.setCancelled(true);
             }
 
             chatGuardHelper.notifyAndStrikePlayer(player, message, classification, messageHandling);

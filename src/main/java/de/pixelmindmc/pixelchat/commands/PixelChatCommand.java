@@ -133,8 +133,8 @@ public class PixelChatCommand implements CommandExecutor {
         sender.sendMessage(LangConstants.PLUGIN_PREFIX + headerFooter);
 
         // Send a message when an update is available
-        if (!plugin.updateChecker().equals(LangConstants.Global.NO_UPDATE_AVAILABLE)) {
-            sender.sendMessage(LangConstants.PLUGIN_PREFIX + plugin.updateChecker());
+        if (!plugin.getUpdateCheckMessage().equals(LangConstants.Global.NO_UPDATE_AVAILABLE)) {
+            sender.sendMessage(LangConstants.PLUGIN_PREFIX + plugin.getUpdateCheckMessage());
         }
     }
 
