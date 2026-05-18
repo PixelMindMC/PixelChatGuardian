@@ -27,10 +27,7 @@ import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -77,8 +74,10 @@ public class APIHelper {
                 return processResponse(jsonResponse);
             } else {
                 String errorResponse = decodeResponse(connection);
-                throw new MessageClassificationException("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
+                throw createHttpException(responseCode, errorResponse);
             }
+        } catch (MessageClassificationException e) {
+            throw e; //Re-raise previously thrown exception
         } catch (IOException e) {
             throw new MessageClassificationException("Failed to classify message due to an IO issue.", e);
         } catch (URISyntaxException e) {
@@ -86,6 +85,28 @@ public class APIHelper {
         } catch (Exception e) {
             throw new MessageClassificationException("Failed to classify message due to an unexpected error.", e);
         }
+    }
+
+    /**
+     * Creates a MessageClassificationException based on the HTTP response code and error response
+     *
+     * @param responseCode The response code returned from the API
+     * @param errorResponse The JSON-string error response from the API
+     * @return A MessageClassificationException with the appropriate message
+     */
+    private @NotNull MessageClassificationException createHttpException(int responseCode, @NotNull String errorResponse) {
+        JsonObject jsonObject = JsonParser.parseString(errorResponse).getAsJsonObject();
+        String apiErrorCode = jsonObject.getAsJsonObject("error").get("code").getAsString();
+
+        if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED && "invalid_api_key".equals(apiErrorCode)) {
+            return new MessageClassificationException("Invalid API key. Please check your configuration.");
+        }
+
+        if (responseCode == HttpURLConnection.HTTP_NOT_FOUND && "model_not_found".equals(apiErrorCode)) {
+            return new MessageClassificationException("Model not found. Please check your configuration.");
+        }
+
+        return new MessageClassificationException("HTTP error code: " + responseCode + ", Error message: " + errorResponse);
     }
 
     /**
@@ -169,7 +190,15 @@ public class APIHelper {
      */
     private @NotNull String decodeResponse(@NotNull HttpURLConnection connection) throws IOException {
         StringBuilder response = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+        InputStream stream;
+
+        try {
+            stream = connection.getInputStream();
+        } catch (IOException _) {
+            stream = connection.getErrorStream();
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
             String responseLine;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
