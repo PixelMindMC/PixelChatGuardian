@@ -94,7 +94,7 @@ public class ChatGuardHelper {
             }
         }
 
-        String loggerMessage = configHelperLanguage.getString(langKey).replace("[message]", ChatColor.GRAY + userMessage + ChatColor.RESET).replace("[player]", ChatColor.RED + player.getName() + ChatColor.RESET) + " " + ChatColor.RED + classification.reason();
+        String loggerMessage = configHelperLanguage.getString(langKey).replace("[message]", userMessage).replace("[player]", player.getName()) + " " + classification.reason();
 
         loggingHelper.info(loggerMessage);
 
