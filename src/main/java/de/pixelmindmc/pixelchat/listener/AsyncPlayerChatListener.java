@@ -43,7 +43,6 @@ import java.util.Map;
 public class AsyncPlayerChatListener implements Listener {
     private final @NotNull PixelChat plugin;
     private final @NotNull LoggingHelper loggingHelper;
-    private final @NotNull ConfigHelper configHelper;
     private final @NotNull ChatGuardHelper chatGuardHelper;
     private boolean emojiEnabled = false;
     private boolean chatCodesEnabled = false;
@@ -60,7 +59,7 @@ public class AsyncPlayerChatListener implements Listener {
     public AsyncPlayerChatListener(@NotNull PixelChat plugin) {
         this.plugin = plugin;
         this.loggingHelper = plugin.getLoggingHelper();
-        this.configHelper = plugin.getConfigHelper();
+        @NotNull ConfigHelper configHelper = plugin.getConfigHelper();
         this.chatGuardHelper = plugin.getChatGuardHelper();
         @NotNull ConfigHelper configHelperEmojiList = plugin.getConfigHelperEmojiList();
         @NotNull ConfigHelper configHelperChatCodesList = plugin.getConfigHelperChatCodesList();

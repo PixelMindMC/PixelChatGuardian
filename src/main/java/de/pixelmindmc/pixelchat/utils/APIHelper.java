@@ -90,7 +90,7 @@ public class APIHelper {
     /**
      * Creates a MessageClassificationException based on the HTTP response code and error response
      *
-     * @param responseCode The response code returned from the API
+     * @param responseCode  The response code returned from the API
      * @param errorResponse The JSON-string error response from the API
      * @return A MessageClassificationException with the appropriate message
      */
@@ -136,10 +136,10 @@ public class APIHelper {
      */
     private void sendRequest(@NotNull HttpURLConnection connection, @NotNull String message) throws IOException {
         Map<String, Object> json = Map.of(
-            "model", configHelper.getString(ConfigConstants.API.MODEL),
-            "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, configHelper.getString(ConfigConstants.API.SYSTEM_PROMPT) + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)},
-            "response_format", Map.of("type", "json_object"),
-            "temperature", 0
+                "model", configHelper.getString(ConfigConstants.API.MODEL),
+                "messages", new Map[]{Map.of("role", "system", APIConstants.General.CONTENT, configHelper.getString(ConfigConstants.API.SYSTEM_PROMPT) + "Language: " + configHelper.getString(ConfigConstants.General.LANGUAGE)), Map.of("role", "user", APIConstants.General.CONTENT, message)},
+                "response_format", Map.of("type", "json_object"),
+                "temperature", 0
         );
         String jsonInputString = new Gson().toJson(json);
 

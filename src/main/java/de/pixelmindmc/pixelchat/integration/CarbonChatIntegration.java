@@ -23,18 +23,15 @@ import de.pixelmindmc.pixelchat.constants.PermissionConstants;
 import de.pixelmindmc.pixelchat.exceptions.MessageClassificationException;
 import de.pixelmindmc.pixelchat.model.MessageClassification;
 import de.pixelmindmc.pixelchat.utils.ChatGuardHelper;
-import de.pixelmindmc.pixelchat.utils.ConfigHelper;
 import de.pixelmindmc.pixelchat.utils.LoggingHelper;
 import net.draycia.carbon.api.CarbonChatProvider;
 import net.draycia.carbon.api.event.events.CarbonChatEvent;
 import net.draycia.carbon.api.users.CarbonPlayer;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Handles integration with CarbonChat
@@ -42,7 +39,6 @@ import java.util.regex.Pattern;
 public class CarbonChatIntegration {
     private final @NotNull PixelChat plugin;
     private final @NotNull LoggingHelper loggingHelper;
-    private final @NotNull ConfigHelper configHelper;
     private final @NotNull ChatGuardHelper chatGuardHelper;
 
     /**
@@ -53,7 +49,6 @@ public class CarbonChatIntegration {
     public CarbonChatIntegration(@NotNull PixelChat plugin) {
         this.plugin = plugin;
         this.loggingHelper = plugin.getLoggingHelper();
-        this.configHelper = plugin.getConfigHelper();
         this.chatGuardHelper = plugin.getChatGuardHelper();
     }
 
@@ -82,13 +77,9 @@ public class CarbonChatIntegration {
      * @param messageComponent The component to check
      */
     private void checkIfMessageShouldBeBlocked(@NotNull CarbonChatEvent event, @NotNull Component messageComponent) {
-        // Regular expression to extract the content
-        Pattern pattern = Pattern.compile("content=\"(.*?)\"");
-        Matcher matcher = pattern.matcher(messageComponent.toString());
+        String message = PlainTextComponentSerializer.plainText().serialize(messageComponent);
 
-        String message = matcher.group(1);  // Extracts the content
-
-        if (message == null) {
+        if (message.isEmpty()) {
             return;
         }
 

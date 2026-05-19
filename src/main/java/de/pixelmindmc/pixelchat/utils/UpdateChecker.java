@@ -33,11 +33,10 @@ import java.net.URL;
  * A utility class for checking updates for the plugin by querying the GitHub API
  */
 public class UpdateChecker {
+    private static final String DOWNLOAD_URL = "https://modrinth.com/plugin/pixelchatguardian/";
     private final @NotNull PixelChat plugin;
     private final @NotNull ConfigHelper configHelperLanguage;
     private final @NotNull URL url;
-
-    private static final String DOWNLOAD_URL = "https://modrinth.com/plugin/pixelchatguardian/";
 
     /**
      * Constructs an UpdateChecker object

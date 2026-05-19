@@ -124,7 +124,7 @@ public class ConfigMigrationHelper {
                 if (configPart > targetPart) {
                     return false;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException _) {
                 // unparseable version segment — log and assume up-to-date to avoid re-migrating
                 loggingHelper.warning("Could not parse config version '" + configVersion + "' for migration check.");
                 return false;
@@ -137,7 +137,7 @@ public class ConfigMigrationHelper {
                 if (Integer.parseInt(targetParts[i]) > 0) {
                     return true;
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException _) {
                 return false;
             }
         }

@@ -45,8 +45,6 @@ import java.util.UUID;
 public class PixelChatCommand implements CommandExecutor {
     private final @NotNull PixelChat plugin;
     private final @NotNull LoggingHelper loggingHelper;
-    private final @NotNull ConfigHelper configHelper;
-    private final @NotNull ConfigHelper configHelperPlayerStrikes;
 
     /**
      * Constructs a PixelChatCommand object
@@ -56,8 +54,6 @@ public class PixelChatCommand implements CommandExecutor {
     public PixelChatCommand(@NotNull PixelChat plugin) {
         this.plugin = plugin;
         this.loggingHelper = plugin.getLoggingHelper();
-        this.configHelper = plugin.getConfigHelper();
-        this.configHelperPlayerStrikes = plugin.getConfigHelperPlayerStrikes();
     }
 
     /**
